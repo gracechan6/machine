@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
+    <color name="darkgreen">#006400</color>
+    <color name="blue">#0000ff</color>
+    <color name="poolblue">#00B2EE</color>
+    <color name="lightgreen">#7CCD7C</color>
+    <color name="grey_toolbar">#F1F1F1</color>
+    <color name="green_word">#138446</color>
+    <color name="bgtv_hint_lightblue">#D3EFFB</color>
+    <color name="tv_hint_lightblue">#65B4D7</color>
+
+
+</resources>
