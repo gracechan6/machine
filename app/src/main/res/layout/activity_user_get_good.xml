@@ -79,7 +79,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="输入取件码"
                 android:textColorHint="@color/tv_hint_lightblue"
-                android:id="@+id/textView"
+                android:id="@+id/edt_getGoodCode"
                 android:layout_gravity="center_horizontal"
                 android:drawableLeft="@drawable/icon_message"
                 android:drawablePadding="20dp"

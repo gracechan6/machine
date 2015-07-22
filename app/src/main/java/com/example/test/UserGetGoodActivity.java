@@ -1,5 +1,7 @@
 package com.example.test;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,7 +13,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class UserGetGoodActivity extends ActionBarActivity {
@@ -20,11 +25,42 @@ public class UserGetGoodActivity extends ActionBarActivity {
     private TextView mTitle;
     private TextView mback,mexit;
 
+    private Button get_good;
+    private EditText edt_getGoodCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_get_good);
         initToolBar();
+
+
+        BroadcastReceiver mReceiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+            }
+        };
+
+        edt_getGoodCode= (EditText) findViewById(R.id.edt_getGoodCode);
+        get_good= (Button) findViewById(R.id.get_good);
+        get_good.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String code=edt_getGoodCode.getText().toString();
+                if(code==null || code.length()==0) {
+                    Toast.makeText(UserGetGoodActivity.this, "请填写取件码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                /*从服务器后台查找是否存在该取件码，存在则返回true 否则提示不存在该取件码。*/
+            }
+        });
+    }
+    /*直接扫描二维码*/
+    protected void scancode()
+    {
+
     }
 
     protected void initToolBar() {

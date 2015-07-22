@@ -34,9 +34,42 @@ public class UserPutSizeActivity extends ActionBarActivity {
         lly_large.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*选取大尺寸快件柜*/
+                /*选取大尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
+
             }
         });
+
+        lly_medium= (LinearLayout) findViewById(R.id.lly_medium);
+        lly_medium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取中尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
+
+            }
+        });
+
+        lly_small= (LinearLayout) findViewById(R.id.lly_small);
+        lly_small.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取小尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
+
+            }
+        });
+    }
+    /*size代表尺寸 1大 2中 3小 服务器端获取信息生成二维码，之后打印*/
+    protected void getCodetoPrint(int size){
+
+        /*从服务器获取信息*/
+
+
+
+        /*打印*/
+
+
+        Intent intent = new Intent(UserPutSizeActivity.this, UserPutEndActivity.class);
+        startActivity(intent);
+
     }
 
     protected void initToolBar()

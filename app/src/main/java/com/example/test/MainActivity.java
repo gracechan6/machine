@@ -42,5 +42,17 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+   /* 页面上设计一个二维码扫描，然后用户直接通过这个扫描寄件二维码*/
+    protected void scanCode()
+    {
+        /*扫描二维码后从服务器获取二维码信息，判断正确与否，正确直接进入选取柜子的页面*/
+
+
+//        成功
+//        Intent intent = new Intent(UserPutGoodActivity.this, UserPutSizeActivity.class);
+//        startActivity(intent);
+
+
+    }
 
 }

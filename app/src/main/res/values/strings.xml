@@ -31,4 +31,5 @@
     <string name="title_activity_delivery_put_good">DeliveryPutGoodActivity</string>
     <string name="title_activity_delivery_put_size">DeliveryPutSizeActivity</string>
     <string name="title_activity_delivery_get_good">DeliveryGetGoodActivity</string>
+    <string name="title_activity_broadcast">BroadcastActivity</string>
 </resources>
