@@ -34,7 +34,7 @@ public class UserPutEndActivity extends ActionBarActivity {
 
     /*注意此时要根据客户选择的柜子，打印好码单后随机打开一个柜子*/
     protected void openCabinet(int size){
-
+        return;
     }
 
     protected void initToolBar() {

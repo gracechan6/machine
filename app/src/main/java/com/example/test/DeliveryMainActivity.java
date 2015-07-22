@@ -32,6 +32,14 @@ public class DeliveryMainActivity extends ActionBarActivity {
         lly_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*从服务端获取该快件柜属于操作快递员的所有快件柜编号,并打开相应的快件柜*/
+
+
+
+
+
+
+                //以上操作成功后进入取件提示页面
                 Intent intent=new Intent(DeliveryMainActivity.this,DeliveryGetGoodActivity.class);
                 startActivity(intent);
             }

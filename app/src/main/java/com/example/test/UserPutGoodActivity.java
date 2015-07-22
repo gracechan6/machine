@@ -26,18 +26,14 @@ public class UserPutGoodActivity extends ActionBarActivity {
         setContentView(R.layout.activity_user_put_good);
         initToolBar();
 
-        if(scanCode())
-        {
-            Intent intent = new Intent(UserPutGoodActivity.this, UserPutSizeActivity.class);
-            startActivity(intent);
-        }
 
-    }
+        /*静态广播,针对直接扫描二维码从服务器获取寄件信息*/
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_EDIT);
+        sendBroadcast(intent);
+        /*扫描成功则进入UserPutSizeActivity 选择尺寸*/
 
-    /*扫描二维码，扫描成功返回true ，页面跳转至下一页 选择适当的快件柜*/
-    protected Boolean scanCode(){
 
-        return true;
     }
 
     protected void initToolBar()

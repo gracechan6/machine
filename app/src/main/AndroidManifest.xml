@@ -10,11 +10,11 @@
         <activity
             android:name=".MainActivity"
             android:label="速宝快递" >
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".UserMainActivity"
@@ -55,14 +55,6 @@
         <activity
             android:name=".DeliveryGetGoodActivity"
             android:label="@string/title_activity_delivery_get_good" >
-        </activity>
-
-        <activity android:name=".BroadcastActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!-- 注册Receiver -->

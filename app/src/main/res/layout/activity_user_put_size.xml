@@ -34,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:id="@+id/lly_large">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -64,7 +65,8 @@
             android:orientation="vertical"
             android:layout_marginLeft="200dp"
             android:layout_marginTop="26px"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:id="@+id/lly_medium">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -94,7 +96,8 @@
             android:orientation="vertical"
             android:layout_marginLeft="200dp"
             android:layout_marginTop="51px"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:id="@+id/lly_small">
 
             <ImageView
                 android:layout_width="wrap_content"

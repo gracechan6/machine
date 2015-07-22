@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class DeliveryPutGoodActivity extends ActionBarActivity {
@@ -23,6 +25,7 @@ public class DeliveryPutGoodActivity extends ActionBarActivity {
     private TextView mback,mexit;
 
     private Button btnPut_good;
+    private EditText edt_expId,edt_tel;
 
 
     @Override
@@ -32,14 +35,36 @@ public class DeliveryPutGoodActivity extends ActionBarActivity {
 
         initToolBar();
 
+        edt_expId= (EditText) findViewById(R.id.edt_expId);
+        edt_tel= (EditText) findViewById(R.id.edt_tel);
         btnPut_good= (Button) findViewById(R.id.btnPut_good);
-        btnPut_good.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(DeliveryPutGoodActivity.this,DeliveryPutSizeActivity.class);
-                startActivity(intent);
+        btnPut_good.setOnClickListener(new put_goodListener());
+    }
+    /*输入完快递单号以及收件人手机号后点击完成产生的事件*/
+    public class put_goodListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            String expId=edt_expId.getText().toString();
+            String tel=edt_tel.getText().toString();
+            if(expId==null || expId.length()==0) {
+                Toast.makeText(DeliveryPutGoodActivity.this, "请输入正确的快件单号", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+            if(tel==null || tel.length()==0) {
+                Toast.makeText(DeliveryPutGoodActivity.this, "请输入收件人手机号", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            /*把数据传入服务器核实获取货物信息的正确性，验证正确后进入下一个界面*/
+
+
+
+
+
+            Intent intent=new Intent(DeliveryPutGoodActivity.this,DeliveryPutSizeActivity.class);
+            startActivity(intent);
+        }
     }
 
     protected void initToolBar() {

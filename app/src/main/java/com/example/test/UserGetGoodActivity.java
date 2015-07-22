@@ -34,44 +34,36 @@ public class UserGetGoodActivity extends ActionBarActivity {
         setContentView(R.layout.activity_user_get_good);
         initToolBar();
 
-
+        /*静态广播,针对直接扫描二维码从服务器获取取件信息*/
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_EDIT);
         sendBroadcast(intent);
 
+
         edt_getGoodCode= (EditText) findViewById(R.id.edt_getGoodCode);
         get_good= (Button) findViewById(R.id.get_good);
-        get_good.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String code=edt_getGoodCode.getText().toString();
-                if(code==null || code.length()==0) {
-                    Toast.makeText(UserGetGoodActivity.this, "请填写取件码", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                /*从服务器后台查找是否存在该取件码，存在则返回true 否则提示不存在该取件码。*/
-            }
-        });
+        get_good.setOnClickListener(new get_goodListener());
     }
 
 
-    /*直接扫描二维码*/
-    protected void scancode()
-    {
-
-    }
-
-    protected View.OnClickListener get_goodListener=new View.OnClickListener() {
+    class get_goodListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             String code=edt_getGoodCode.getText().toString();
             if(code==null || code.length()==0) {
-                Toast.makeText(UserGetGoodActivity.this, "请填写取件码", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserGetGoodActivity.this, "请正确填写取件码", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-                /*从服务器后台查找是否存在该取件码，存在则返回true 否则提示不存在该取件码。*/
+            /*从服务器后台查找是否存在该取件码，存在则打开相应柜子，返回true
+                                            否则提示不存在该取件码。*/
+
+
+
+            /*成功之后操作跳转至成功页面*/
+            Intent intent = new Intent(UserGetGoodActivity.this, UserGetGoodByCodeOkActivity.class);
+            startActivity(intent);
+
         }
     }
 

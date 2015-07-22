@@ -59,6 +59,9 @@ public class UserPutSizeActivity extends ActionBarActivity {
 
             }
         });
+
+
+        getCodetoPrint(size);
     }
     /*size代表尺寸 1大 2中 3小 服务器端获取信息生成二维码，之后打印*/
     protected void getCodetoPrint(int size){
@@ -128,6 +131,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserPutSizeActivity.this, UserPutEndActivity.class);
+                intent.putExtra("size",0);
                 startActivity(intent);
             }
         });

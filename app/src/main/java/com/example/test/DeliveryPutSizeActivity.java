@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -20,11 +21,64 @@ public class DeliveryPutSizeActivity extends ActionBarActivity {
     private TextView mTitle;
     private TextView mback,mexit;
 
+    private LinearLayout lly_large,lly_medium,lly_small;
+    private int size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_put_size);
         initToolBar();
+
+        lly_large= (LinearLayout) findViewById(R.id.lly_large);
+        lly_large.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取大尺寸快件柜*/
+                size=1;
+
+                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
+                getCodetoPrint(size);
+            }
+        });
+
+        lly_medium= (LinearLayout) findViewById(R.id.lly_medium);
+        lly_medium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取中尺寸快件柜*/
+                size = 2;
+
+
+
+                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
+                getCodetoPrint(size);
+            }
+        });
+
+        lly_small= (LinearLayout) findViewById(R.id.lly_small);
+        lly_small.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取小尺寸快件柜*/
+                size = 3;
+
+
+                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
+                getCodetoPrint(size);
+
+            }
+        });
+
+
+    }
+
+    /*size代表尺寸 1大 2中 3小 服务器随机打开相应尺寸的柜子*/
+    protected void getCodetoPrint(int size){
+
+
+        /*打开柜子成功后，退出当前页面*/
+        finish();
     }
 
     protected void initToolBar() {
