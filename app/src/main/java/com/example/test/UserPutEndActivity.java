@@ -25,6 +25,16 @@ public class UserPutEndActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_put_end);
         initToolBar();
+
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        /*注意此时要根据客户选择的柜子，打印好码单后随机打开一个柜子*/
+        openCabinet(bundle.getInt("size"));
+    }
+
+    /*注意此时要根据客户选择的柜子，打印好码单后随机打开一个柜子*/
+    protected void openCabinet(int size){
+
     }
 
     protected void initToolBar() {

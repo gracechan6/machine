@@ -23,6 +23,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
     private TextView mback,mexit;
 
     private LinearLayout lly_large,lly_medium,lly_small;
+    private int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,13 @@ public class UserPutSizeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_user_put_size);
         initToolBar();
 
+
         lly_large= (LinearLayout) findViewById(R.id.lly_large);
         lly_large.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*选取大尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
-
+                size=1;
             }
         });
 
@@ -44,7 +46,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 /*选取中尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
-
+                size=2;
             }
         });
 
@@ -53,6 +55,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 /*选取小尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
+                size=3;
 
             }
         });
@@ -68,6 +71,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
 
 
         Intent intent = new Intent(UserPutSizeActivity.this, UserPutEndActivity.class);
+        intent.putExtra("size",size);
         startActivity(intent);
 
     }
