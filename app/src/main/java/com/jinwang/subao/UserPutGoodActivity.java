@@ -1,4 +1,4 @@
-package com.example.test;
+package com.jinwang.subao;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,74 +8,29 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class UserPutSizeActivity extends ActionBarActivity {
-
+public class UserPutGoodActivity extends ActionBarActivity {
 
     private Toolbar mToolBar;
     private TextView mTitle;
     private TextView mback,mexit;
 
-    private LinearLayout lly_large,lly_medium,lly_small;
-    private int size;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_put_size);
+        setContentView(R.layout.activity_user_put_good);
         initToolBar();
 
 
-        lly_large= (LinearLayout) findViewById(R.id.lly_large);
-        lly_large.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*选取大尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
-                size=1;
-            }
-        });
+        /*静态广播,针对直接扫描二维码从服务器获取寄件信息*/
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_EDIT);
+        sendBroadcast(intent);
+        /*扫描成功则进入UserPutSizeActivity 选择尺寸*/
 
-        lly_medium= (LinearLayout) findViewById(R.id.lly_medium);
-        lly_medium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*选取中尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
-                size=2;
-            }
-        });
-
-        lly_small= (LinearLayout) findViewById(R.id.lly_small);
-        lly_small.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*选取小尺寸快件柜之后，去服务器端获取信息生成二维码，之后打印*/
-                size=3;
-
-            }
-        });
-
-
-        getCodetoPrint(size);
-    }
-    /*size代表尺寸 1大 2中 3小 服务器端获取信息生成二维码，之后打印*/
-    protected void getCodetoPrint(int size){
-
-        /*从服务器获取信息*/
-
-
-
-        /*打印*/
-
-
-        Intent intent = new Intent(UserPutSizeActivity.this, UserPutEndActivity.class);
-        intent.putExtra("size",size);
-        startActivity(intent);
 
     }
 
@@ -98,7 +53,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
         mback.setTextColor(Color.GRAY);
         mback.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         Drawable drawable=getResources().getDrawable(R.drawable.icon_back);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         mback.setCompoundDrawables(drawable, null, null, null);
 
         mback.setText(getString(R.string.app_back));
@@ -108,7 +63,7 @@ public class UserPutSizeActivity extends ActionBarActivity {
         mback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserPutSizeActivity.this, UserPutGoodActivity.class);
+                Intent intent = new Intent(UserPutGoodActivity.this, UserMainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -120,23 +75,21 @@ public class UserPutSizeActivity extends ActionBarActivity {
         mexit.setTextColor(Color.GRAY);
         mexit.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         drawable=getResources().getDrawable(R.drawable.icon_close);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        mexit.setCompoundDrawables(drawable, null, null, null);
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+        mexit.setCompoundDrawables(drawable,null,null,null);
 
-        mexit.setText(getString(R.string.app_exit));
+        mexit.setText("寄件");
         mToolBar.addView(mexit, lp);
 
 
         mexit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserPutSizeActivity.this, UserPutEndActivity.class);
-                intent.putExtra("size",0);
+                Intent intent = new Intent(UserPutGoodActivity.this, UserPutSizeActivity.class);
                 startActivity(intent);
             }
         });
 
 
     }
-
 }

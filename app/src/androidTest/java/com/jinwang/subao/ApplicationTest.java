@@ -1,4 +1,4 @@
-package com.example.test;
+package com.jinwang.subao;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
