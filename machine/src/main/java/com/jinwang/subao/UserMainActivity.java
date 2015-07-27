@@ -19,30 +19,50 @@ public class UserMainActivity extends ActionBarActivity {
     private TextView mTitle;
     private TextView mback;
 
-    private LinearLayout llyUserPut,llyUserGet;
+//    private LinearLayout llyUserPut,llyUserGet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
         initToolBar();
-        llyUserPut= (LinearLayout) findViewById(R.id.lly_put);
-        llyUserPut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserMainActivity.this, UserPutGoodActivity.class);
-                startActivity(intent);
-            }
-        });
+//        llyUserPut= (LinearLayout) findViewById(R.id.lly_put);
+//        llyUserPut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(UserMainActivity.this, UserPutGoodActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        llyUserGet= (LinearLayout) findViewById(R.id.lly_get);
+//        llyUserGet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(UserMainActivity.this, UserGetGoodActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+    }
 
-        llyUserGet= (LinearLayout) findViewById(R.id.lly_get);
-        llyUserGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserMainActivity.this, UserGetGoodActivity.class);
-                startActivity(intent);
-            }
-        });
+    /**
+     * 显示用户取件界面
+     * @param view 被点击的View
+     */
+    public void showUserGetGoodActivity(View view)
+    {
+        Intent intent = new Intent(UserMainActivity.this, UserGetGoodActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * 显示用户寄件界面
+     * @param view 被点击的View
+     */
+    public void showUserPutGoodActivity(View view)
+    {
+        Intent intent = new Intent(UserMainActivity.this, UserPutGoodActivity.class);
+        startActivity(intent);
     }
 
 
@@ -80,9 +100,6 @@ public class UserMainActivity extends ActionBarActivity {
                 finish();
             }
         });
-
-
-
 
     }
 }

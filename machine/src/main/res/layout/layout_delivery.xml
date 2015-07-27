@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_main_white">
+
+        <TextView
+            android:id="@+id/editText"
+            style="@style/textview_item_style"
+            android:drawableTop="@drawable/circle_delivery"
+            android:text="我是快递员"
+            android:textColor="@color/darkgreen"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2"
+            android:layout_gravity="center"
+            android:text="我要投件/揽件"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp"/>
+
+    </LinearLayout>

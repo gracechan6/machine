@@ -1,0 +1,128 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main_grey"
+    android:gravity="center"
+    android:onClick="hideSoftKeyborad"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.jinwang.subao.UserGetGoodActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:text="@string/get_good_2way"
+            android:textColor="@color/poolblue"
+            android:textSize="40sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/bg_main_white"
+                android:drawableBottom="@drawable/get_tdcode"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:paddingBottom="70dp"
+                android:paddingLeft="100dp"
+                android:paddingRight="100dp"
+                android:paddingTop="70dp"
+                android:text="扫描取件二维码"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="30sp" />
+
+            <TextView
+                style="@style/textview_item_style"
+                android:drawableTop="@drawable/text_get_good_icon"
+                android:padding="50dp"
+                android:text="取件码取件"
+                android:textColor="#000000" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@drawable/bg_main_white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="50dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="输入取件信息"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="30sp" />
+
+                <EditText
+                    android:id="@+id/edt_getGoodCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/bgtv_hint_lightblue"
+                    android:drawableLeft="@drawable/icon_message"
+                    android:drawablePadding="20dp"
+                    android:gravity="center|left"
+                    android:hint="输入取件码"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/tv_hint_lightblue"
+                    android:textColorHint="@color/tv_hint_lightblue" />
+
+                <Button
+                    android:id="@+id/get_good"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/btn_bg_blue340_42"
+                    android:text="取 件"
+                    android:textSize="25dp" />
+
+
+            </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

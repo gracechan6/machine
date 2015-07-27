@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jinwang.subao" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.NoActionBar" >
+
+        <!-- 主界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:name="com.jinwang.subao.MainActivity"
+            android:label="速宝快递" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 用户主界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:name="com.jinwang.subao.UserMainActivity" >
+        </activity>
+
+        <!-- 快递员主界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:name="com.jinwang.subao.DeliveryMainActivity" >
+        </activity>
+
+        <!-- 用户寄件界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:name="com.jinwang.subao.UserPutGoodActivity"
+            android:label="@string/title_activity_user_put_good" >
+        </activity>
+
+        <!-- 用户选择箱格大小界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:name="com.jinwang.subao.UserPutSizeActivity"
+            android:label="@string/title_activity_user_put_size" >
+        </activity>
+
+        <!-- 用户寄件结束界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:name="com.jinwang.subao.UserPutEndActivity"
+            android:label="@string/title_activity_user_put_end" >
+        </activity>
+
+        <!-- 用户取件扫码界面禁用软键盘 -->
+        <activity
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"
+            android:name="com.jinwang.subao.UserGetGoodActivity"
+            android:label="@string/title_activity_user_get_good" >
+        </activity>
+
+
+        <activity
+            android:name="com.jinwang.subao.UserGetGoodByCodeOkActivity"
+            android:label="@string/title_activity_user_get_good_by_code_ok" >
+        </activity>
+
+
+        <activity
+            android:name="com.jinwang.subao.DeliveryPutGoodActivity"
+            android:label="@string/title_activity_delivery_put_good" >
+        </activity>
+
+
+        <activity
+            android:name="com.jinwang.subao.DeliveryPutSizeActivity"
+            android:label="@string/title_activity_delivery_put_size" >
+        </activity>
+
+
+        <activity
+            android:name="com.jinwang.subao.DeliveryGetGoodActivity"
+            android:label="@string/title_activity_delivery_get_good" >
+        </activity>
+
+        <!-- 注册Receiver -->
+        <receiver android:name="com.jinwang.subao.StaticReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"></action>
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

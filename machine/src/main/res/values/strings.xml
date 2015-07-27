@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">速宝快递</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_user_main">UserMainActivityActivity</string>
+    <string name="title_activity_delivert_main">DelivertMainActivity</string>
+    <string name="put">我要寄件</string>
+    <string name="put_goods">我要寄件提供用户自主寄件功能，只有使\n用“速宝”App的用户才能使用该功能。</string>
+    <string name="get_good">用户取件提供用户自主取件功能。终端通\n过扫描“速宝”APP取件二维码或是输入手\n机号和取件码，打开相应的快件柜取件。</string>
+    <string name="app_back">&#160;返回</string>
+    <string name="app_exit">&#160;退出</string>
+    <string name="title_activity_user_put_good">UserPutGoodActivity</string>
+    <string name="td_code">请在扫描窗口扫描“速宝”APP的寄件二维码</string>
+    <string name="td_code_1">在“速宝”APP中编辑好寄件信息并\n付款，生成寄件二维码</string>
+    <string name="td_code_2">用“速宝”终端扫描APP中的寄件二\n维码</string>
+    <string name="td_code_3">扫描完成后选择快件柜，并在快件上贴上打印的快递单，放入快件柜完成寄件</string>
+    <string name="title_activity_user_put_size">UserPutSizeActivity</string>
+    <string name="put_size">请根据快件尺寸选择相应的快件柜</string>
+    <string name="cabinet_large">大尺寸快件柜</string>
+    <string name="cabinet_mediun">中尺寸快件柜</string>
+    <string name="cabinet_small">小尺寸快件柜</string>
+    <string name="wh_80_80">80cm * 80cm</string>
+    <string name="wh_60_60">60cm * 60cm</string>
+    <string name="wh_40_40">40cm * 40cm</string>
+    <string name="title_activity_user_put_end">UserPutEndActivity</string>
+    <string name="express">请把打印出的快递单贴到快件上\n将快件放入开启的快递柜中完成寄件</string>
+    <string name="title_activity_user_get_good">UserGetGoodActivity</string>
+    <string name="get_good_2way">扫描“速宝”APP的取件二维码或是输入取件手机号\n和取件码，打开相应的快件柜取走快件。</string>
+    <string name="title_activity_user_get_good_by_code_ok">UserGetGoodByCodeOkActivity</string>
+    <string name="title_activity_delivery_put_good">DeliveryPutGoodActivity</string>
+    <string name="title_activity_delivery_put_size">DeliveryPutSizeActivity</string>
+    <string name="title_activity_delivery_get_good">DeliveryGetGoodActivity</string>
+    <string name="title_activity_broadcast">BroadcastActivity</string>
+</resources>

@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="#292830"
-    android:minHeight="?actionBarSize"
+    android:minHeight="60dp"
     android:id="@+id/toolbar">
 
 </android.support.v7.widget.Toolbar>

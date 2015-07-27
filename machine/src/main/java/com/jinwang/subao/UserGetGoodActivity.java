@@ -1,18 +1,24 @@
 package com.jinwang.subao;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jinwang.subao.thread.CheckSoftInputThread;
 
 
 public class UserGetGoodActivity extends ActionBarActivity {
@@ -39,6 +45,42 @@ public class UserGetGoodActivity extends ActionBarActivity {
         edt_getGoodCode= (EditText) findViewById(R.id.edt_getGoodCode);
         get_good= (Button) findViewById(R.id.get_good);
         get_good.setOnClickListener(new get_goodListener());
+
+        //test for request force
+        TextView tv = new TextView(this);
+        tv.setFocusable(true);
+        tv.setFocusableInTouchMode(true);
+
+        tv.requestFocus();
+
+        getWindow().getDecorView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (m.isActive())
+                    {
+                        Log.i(getClass().getSimpleName(), "White space Clicked");
+                        m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+            }
+        });
+
+    }
+
+    /**
+     * 隐藏软键盘
+     * @param view
+     */
+    public void hideSoftKeyborad(View view)
+    {
+        InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+     //   m.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+       if (m.isActive())
+        {
+            Log.i(getClass().getSimpleName(), "White space Clicked");
+            m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 

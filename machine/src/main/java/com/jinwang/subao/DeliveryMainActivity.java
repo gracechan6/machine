@@ -19,14 +19,14 @@ public class DeliveryMainActivity extends ActionBarActivity {
     private TextView mTitle;
     private TextView mback;
 
-    private LinearLayout lly_get,lly_put;
+    private View lly_get,lly_put;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_main);
         initToolBar();
 
-        lly_get= (LinearLayout) findViewById(R.id.lly_get);
+        lly_get= findViewById(R.id.lly_get);
         lly_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +43,7 @@ public class DeliveryMainActivity extends ActionBarActivity {
             }
         });
 
-        lly_put= (LinearLayout) findViewById(R.id.lly_put);
+        lly_put= findViewById(R.id.lly_put);
         lly_put.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
