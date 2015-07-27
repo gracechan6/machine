@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jinwang.subao" >
+    package="com.example.test" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
         <activity
-            android:name="com.jinwang.subao.MainActivity"
+            android:name=".MainActivity"
             android:label="速宝快递" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,48 +17,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.jinwang.subao.UserMainActivity"
+            android:name=".UserMainActivity"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.DeliveryMainActivity"
+            android:name=".DeliveryMainActivity"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.UserPutGoodActivity"
+            android:name=".UserPutGoodActivity"
             android:label="@string/title_activity_user_put_good" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.UserPutSizeActivity"
+            android:name=".UserPutSizeActivity"
             android:label="@string/title_activity_user_put_size" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.UserPutEndActivity"
+            android:name=".UserPutEndActivity"
             android:label="@string/title_activity_user_put_end" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.UserGetGoodActivity"
+            android:name=".UserGetGoodActivity"
             android:label="@string/title_activity_user_get_good" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.UserGetGoodByCodeOkActivity"
+            android:name=".UserGetGoodByCodeOkActivity"
             android:label="@string/title_activity_user_get_good_by_code_ok" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.DeliveryPutGoodActivity"
+            android:name=".DeliveryPutGoodActivity"
             android:label="@string/title_activity_delivery_put_good" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.DeliveryPutSizeActivity"
+            android:name=".DeliveryPutSizeActivity"
             android:label="@string/title_activity_delivery_put_size" >
         </activity>
         <activity
-            android:name="com.jinwang.subao.DeliveryGetGoodActivity"
+            android:name=".DeliveryGetGoodActivity"
             android:label="@string/title_activity_delivery_get_good" >
         </activity>
 
         <!-- 注册Receiver -->
-        <receiver android:name="com.jinwang.subao.StaticReceiver">
+        <receiver android:name=".StaticReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"></action>
             </intent-filter>
