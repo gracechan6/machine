@@ -10,7 +10,7 @@ public class PushConfig {
 
     public static final int PUSH_PORT = 9999;
 
-    public static final String SERVER_NAME = "SERRVER_NAME";
+    public static final String SERVER_NAME = "SERVER_NAME";
 
     public static final String DEFAULT_PRE_NAME = "defaultAccount";
     public static final int SERVER_PORT = 9966;

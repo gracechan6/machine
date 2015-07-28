@@ -9,6 +9,7 @@ import android.view.View;
 import com.jinwang.subao.R;
 import com.jinwang.subao.activity.delivery.DeliveryMainActivity;
 import com.jinwang.subao.activity.user.UserMainActivity;
+import com.jinwang.subao.service.OnlineService;
 import com.jinwang.yongbao.device.Device;
 
 
@@ -60,6 +61,9 @@ public class MainActivity extends SubaoBaseActivity {
         //modify end
 
         sendBroadcast(new Intent("com.android.action.display_navigationbar"));
+
+        //启动在线服务
+        startOnlienService();
     }
 
     /**
@@ -90,6 +94,13 @@ public class MainActivity extends SubaoBaseActivity {
 //        Intent intent=new Intent();
 //        intent.setClass(MainActivity.this,DeliveryMainActivity.class);
 //        startActivity(intent);
+    }
+
+    private void startOnlienService()
+    {
+        Intent startSrv = new Intent(this, OnlineService.class);
+        startSrv.putExtra("CMD", "RESET");
+        this.startService(startSrv);
     }
 
     private StringBuffer loginUUID = new StringBuffer();
