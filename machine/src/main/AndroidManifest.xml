@@ -10,9 +10,10 @@
 
         <!-- 主界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name="com.jinwang.subao.MainActivity"
-            android:label="速宝快递" >
+            android:name=".activity.MainActivity"
+            android:label="速宝快递"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,74 +23,76 @@
 
         <!-- 用户主界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name="com.jinwang.subao.UserMainActivity" >
+            android:name=".activity.user.UserMainActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
 
         <!-- 快递员主界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name="com.jinwang.subao.DeliveryMainActivity" >
+            android:name=".activity.delivery.DeliveryMainActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
 
         <!-- 用户寄件界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name="com.jinwang.subao.UserPutGoodActivity"
-            android:label="@string/title_activity_user_put_good" >
+            android:name=".activity.user.UserPutGoodActivity"
+            android:label="@string/title_activity_user_put_good"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
 
         <!-- 用户选择箱格大小界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name="com.jinwang.subao.UserPutSizeActivity"
-            android:label="@string/title_activity_user_put_size" >
+            android:name=".activity.user.UserPutSizeActivity"
+            android:label="@string/title_activity_user_put_size"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
 
         <!-- 用户寄件结束界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:name="com.jinwang.subao.UserPutEndActivity"
-            android:label="@string/title_activity_user_put_end" >
+            android:name=".activity.user.UserPutEndActivity"
+            android:label="@string/title_activity_user_put_end"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
 
         <!-- 用户取件扫码界面禁用软键盘 -->
         <activity
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"
-            android:name="com.jinwang.subao.UserGetGoodActivity"
-            android:label="@string/title_activity_user_get_good" >
+            android:name=".activity.user.UserGetGoodActivity"
+            android:label="@string/title_activity_user_get_good"
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" >
         </activity>
-
-
         <activity
-            android:name="com.jinwang.subao.UserGetGoodByCodeOkActivity"
+            android:name=".activity.user.UserGetGoodByCodeOkActivity"
             android:label="@string/title_activity_user_get_good_by_code_ok" >
         </activity>
-
-
         <activity
-            android:name="com.jinwang.subao.DeliveryPutGoodActivity"
+            android:name=".activity.delivery.DeliveryPutGoodActivity"
             android:label="@string/title_activity_delivery_put_good" >
         </activity>
-
-
         <activity
-            android:name="com.jinwang.subao.DeliveryPutSizeActivity"
+            android:name=".activity.delivery.DeliveryPutSizeActivity"
             android:label="@string/title_activity_delivery_put_size" >
         </activity>
-
-
         <activity
-            android:name="com.jinwang.subao.DeliveryGetGoodActivity"
+            android:name=".activity.delivery.DeliveryGetGoodActivity"
             android:label="@string/title_activity_delivery_get_good" >
         </activity>
 
         <!-- 注册Receiver -->
-        <receiver android:name="com.jinwang.subao.StaticReceiver">
+        <receiver android:name=".StaticReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.EDIT"></action>
+                <action android:name="android.intent.action.EDIT" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.delivery.DeliveryLoginActivity"
+            android:label="@string/title_activity_delivery_login"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name=".activity.user.UserGetGoodByCode"
+            android:label="@string/title_activity_user_get_good_by_code" >
+        </activity>
     </application>
 
 </manifest>

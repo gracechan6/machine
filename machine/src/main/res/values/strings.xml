@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">速宝快递</string>
+    <string name="app_name">速宝柜机</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -32,4 +32,12 @@
     <string name="title_activity_delivery_put_size">DeliveryPutSizeActivity</string>
     <string name="title_activity_delivery_get_good">DeliveryGetGoodActivity</string>
     <string name="title_activity_broadcast">BroadcastActivity</string>
+    <string name="title_activity_delivery_login">DeliveryLoginActivity</string>
+    <string name="title_activity_user_get_good_by_code">UserGetGoodByCode</string>
+
+    <!-- 提示用户登录 -->
+    <string name="text_prompt_login">您还没有登录，请扫描您的身份二维码</string>
+
+    <string name="text_error">错误</string>
+
 </resources>

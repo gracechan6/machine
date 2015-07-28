@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.jinwang.subao.DeliveryMainActivity"
+    tools:context="com.jinwang.subao.activity.delivery.DeliveryMainActivity"
     android:background="@drawable/bg_main">
 
     <include layout="@layout/layout_toolbar"
@@ -48,4 +48,11 @@
                 android:focusableInTouchMode="false"
                 android:id="@+id/lly_put" />
         </LinearLayout>
-    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/inputArea"
+        android:background="#00000000"
+        android:textColor="#00000000" />
+</LinearLayout>
