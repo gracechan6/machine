@@ -25,6 +25,11 @@ public class DeliveryGetGoodActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_get_good);
         initToolBar();
+
+        /*
+        服务端获取所有该快递员的待取快件，打开所有箱格，更新箱格状态
+        注意：网络获取时应该有提示信息：ProgressDialog或是ProgressBar这种
+         */
     }
 
     protected void initToolBar() {

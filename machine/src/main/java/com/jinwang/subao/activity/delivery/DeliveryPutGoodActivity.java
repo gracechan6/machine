@@ -19,12 +19,21 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 
 public class DeliveryPutGoodActivity extends SubaoBaseActivity {
 
+    /**
+     * 快件编号
+     */
+    public static final String GOOD_NUM = "GOOD_NUM";
+    /**
+     * 用户电话号码
+     */
+    public static final String USER_TEL = "USER_TEL";
 
     private Toolbar mToolBar;
     private TextView mTitle;
     private TextView mback,mexit;
 
     private Button btnPut_good;
+
     private EditText edt_expId,edt_tel;
 
 
@@ -47,11 +56,12 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
         public void onClick(View v) {
             String expId=edt_expId.getText().toString();
             String tel=edt_tel.getText().toString();
-            if(expId==null || expId.length()==0) {
+
+            if(expId.length()==0) {
                 Toast.makeText(DeliveryPutGoodActivity.this, "请输入正确的快件单号", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(tel==null || tel.length()==0) {
+            if(tel.length()==0) {
                 Toast.makeText(DeliveryPutGoodActivity.this, "请输入收件人手机号", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -59,10 +69,12 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
             /*把数据传入服务器核实获取货物信息的正确性，验证正确后进入下一个界面*/
 
 
-
-
-
             Intent intent=new Intent(DeliveryPutGoodActivity.this,DeliveryPutSizeActivity.class);
+
+            //传递快件单号和电话号码给下一界面
+            //传递快件单号和电话号码给下一界面
+            intent.putExtra(GOOD_NUM, expId);
+            intent.putExtra(USER_TEL, tel);
             startActivity(intent);
         }
     }

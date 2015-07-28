@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.util.DeviceUtil;
+
+import java.util.Map;
 
 
 public class DeliveryPutSizeActivity extends ActionBarActivity {
@@ -29,6 +32,22 @@ public class DeliveryPutSizeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_put_size);
         initToolBar();
+
+        //7/28/15 add by michael
+        // 箱格使用信息同步到客户端，客户端可以直接获取箱格使用情况
+        // 获取箱格使用情况，然后显示有界面，有几个大的，几个小的，几个中的
+
+        try {
+            Map<Integer, Integer> large = DeviceUtil.getLargeUnusedGridsList(this);
+            Map<Integer, Integer> mid = DeviceUtil.getMidUnusedGridsList(this);
+            Map<Integer, Integer> small = DeviceUtil.getSmallUnusedGridsList(this);
+
+            //显示在界面使用情况
+        } catch (Exception e) {
+            e.printStackTrace();
+            //不会出现此异常
+        }
+        //--end
 
         lly_large= (LinearLayout) findViewById(R.id.lly_large);
         lly_large.setOnClickListener(new View.OnClickListener() {
@@ -70,12 +89,23 @@ public class DeliveryPutSizeActivity extends ActionBarActivity {
             }
         });
 
+        // 15/7/28 add by michael, 获取快件柜使用情况
 
     }
 
+
     /*size代表尺寸 1大 2中 3小 服务器随机打开相应尺寸的柜子*/
+
+    /**
+     * 从服务端获取适当大小的空柜子编号
+     * @param size
+     */
     protected void getCodetoPrint(int size){
 
+        String expId = getIntent().getStringExtra(DeliveryPutGoodActivity.GOOD_NUM);
+        String tel = getIntent().getStringExtra(DeliveryPutGoodActivity.USER_TEL);
+
+        //服务端提交数据
 
         /*打开柜子成功后，退出当前页面*/
         finish();

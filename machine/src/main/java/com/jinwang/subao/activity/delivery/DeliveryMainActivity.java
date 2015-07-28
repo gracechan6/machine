@@ -124,7 +124,10 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
      */
     private void verifyCode(String code)
     {
-
+        /*
+         * 服务端验证是否正确，正确后提示登录成功，可以进行其它操作
+         * 记住，退出按钮是进行退出到主界面，如果有登录，有退出登录
+         */
     }
 
     // 15/7/27 add by michael, 启动禁用系统软件盘线程

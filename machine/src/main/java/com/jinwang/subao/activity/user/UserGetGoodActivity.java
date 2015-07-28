@@ -1,6 +1,7 @@
 package com.jinwang.subao.activity.user;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.activity.MainActivity;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
@@ -29,7 +31,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         setContentView(R.layout.activity_user_get_good);
         initToolBar();
 
-        // 15/7/27 add by michael, 从键盘输入取件码
+        // 15/7/27 add by michael, 输入取件码（从扫码器读入，扫码器就是一个输入设备）
         inputArea = (EditText) findViewById(R.id.inputArea);
 
         inputArea.addTextChangedListener(new TextWatcher() {
@@ -48,9 +50,11 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                 String text = inputArea.getText().toString();
                 text = text.trim();
 
+                //因为键盘输入无法知道录入何时完成，设置^为结束符，读到^认为结束
                 String lastOne = text.substring(text.length() - 1);
                 if (lastOne.equals(SysConfig.LAST_CHAR))
                 {
+                    //去掉结束符
                     text = text.substring(0, text.length() - 1);
                     Log.i(getClass().getSimpleName(), "End text: " + text);
 
@@ -84,7 +88,17 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
      */
     private void verifyCode(String code)
     {
+        //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
+        //服务端验证。。。
 
+
+
+        //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
+
+        //最后关闭该页面，回到首页面
+//        Intent intent = new Intent(this, MainActivity.class);
+//
+//        startActivity(intent);
     }
 
     // 15/7/27 add by michael, 启动禁用系统软件盘线程

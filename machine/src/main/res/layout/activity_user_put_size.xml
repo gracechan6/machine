@@ -19,23 +19,24 @@
         android:layout_height="wrap_content"
         android:text="@string/put_size"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:textSize="40sp"
         android:textColor="@color/green_word"/>
     <LinearLayout
         android:layout_below="@id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:id="@+id/lly_large">
+            android:id="@+id/lly_large"
+            android:layout_weight="1.0">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -60,13 +61,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="200dp"
-            android:layout_marginTop="26px"
-            android:gravity="center_horizontal"
-            android:id="@+id/lly_medium">
+            android:gravity="center_horizontal|bottom"
+            android:id="@+id/lly_medium"
+            android:layout_weight="1.0">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -91,13 +91,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="200dp"
-            android:layout_marginTop="51px"
-            android:gravity="center_horizontal"
-            android:id="@+id/lly_small">
+            android:gravity="center_horizontal|bottom"
+            android:id="@+id/lly_small"
+            android:layout_weight="1.0">
 
             <ImageView
                 android:layout_width="wrap_content"

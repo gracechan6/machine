@@ -19,23 +19,26 @@
         android:layout_height="wrap_content"
         android:text="@string/put_size"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:textSize="40sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/darker_gray"
+        android:padding="10dp" />
     <LinearLayout
         android:layout_below="@id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:gravity="bottom">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:id="@+id/lly_large">
+            android:id="@+id/lly_large"
+            android:layout_weight="1.0">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -48,25 +51,24 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cabinet_large"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
             <TextView
-                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/wh_80_80"
                 android:textSize="20sp"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="@android:color/darker_gray"
+                android:paddingTop="20dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="200dp"
-            android:layout_marginTop="26px"
             android:gravity="center_horizontal"
-            android:id="@+id/lly_medium">
+            android:id="@+id/lly_medium"
+            android:layout_weight="1.0">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -79,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cabinet_mediun"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
             <TextView
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
@@ -91,13 +93,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="200dp"
-            android:layout_marginTop="51px"
             android:gravity="center_horizontal"
-            android:id="@+id/lly_small">
+            android:id="@+id/lly_small"
+            android:layout_weight="1.0">
 
             <ImageView
                 android:layout_width="wrap_content"

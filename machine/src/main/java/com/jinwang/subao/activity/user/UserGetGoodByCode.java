@@ -36,6 +36,13 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         String codeS = code.getText().toString().trim();
 
         //其它判断
+
+        //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
+        //服务端验证。。。
+
+
+
+        //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
     }
 
     private void openGrid()

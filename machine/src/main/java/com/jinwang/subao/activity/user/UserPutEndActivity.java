@@ -12,9 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.activity.SubaoBaseActivity;
 
 
-public class UserPutEndActivity extends ActionBarActivity {
+public class UserPutEndActivity extends SubaoBaseActivity {
 
     private Toolbar mToolBar;
     private TextView mTitle;
