@@ -19,6 +19,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.widget.Toast;
 
+import com.jinwang.subao.config.PushConfig;
 import com.jinwang.subao.receiver.TickAlarmReceiver;
 import com.jinwang.subao.util.Util;
 
@@ -32,6 +33,8 @@ public class OnlineService extends Service {
 	protected PendingIntent tickPendIntent;
 	protected TickAlarmReceiver tickAlarmReceiver = new TickAlarmReceiver();
 	WakeLock wakeLock;
+
+	MyTcpClient tcpClient;
 	
 	public class MyTcpClient extends TCPClientBase {
 
@@ -86,7 +89,9 @@ public class OnlineService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		this.setTickAlarm();
-		
+
+		resetClient();
+
 		PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 		wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "OnlineService");
 	}
@@ -108,6 +113,8 @@ public class OnlineService extends Service {
 		if(cmd.equals("RESET")){
 			if(wakeLock != null && wakeLock.isHeld() == false){
 				wakeLock.acquire();
+
+				resetClient();
 			}
 		}
 		if(cmd.equals("TOAST")){
@@ -124,6 +131,32 @@ public class OnlineService extends Service {
 		if(wakeLock != null && wakeLock.isHeld() == true){
 			wakeLock.release();
 		}
+	}
+
+	/**
+	 * 终端重置
+	 */
+	protected void resetClient(){
+		SharedPreferences account = this.getSharedPreferences(PushConfig.DEFAULT_PRE_NAME,Context.MODE_PRIVATE);
+		String serverIp = PushConfig.SERVER_IP;
+		int serverPort = PushConfig.SERVER_PORT;
+		int pushPort = PushConfig.PUSH_PORT;
+
+		String userName = account.getString(PushConfig.USER_NAME, "");
+
+
+		if(this.tcpClient != null){
+			try{tcpClient.stop();}catch(Exception e){}
+		}
+		try{
+			tcpClient = new MyTcpClient(Util.md5Byte(userName), 1, serverIp, serverPort);
+			tcpClient.setHeartbeatInterval(50);
+			tcpClient.start();
+
+		}catch(Exception e){
+			Toast.makeText(this.getApplicationContext(), "操作失败："+e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+		Toast.makeText(this.getApplicationContext(), "ddpush：终端重置", Toast.LENGTH_LONG).show();
 	}
 	
 	protected void setTickAlarm(){
