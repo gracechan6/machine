@@ -24,6 +24,7 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         code = (EditText) findViewById(R.id.code);
 
         initToolBar();
+        this.setTitle(getString(R.string.title_user_get));
     }
 
     /**
@@ -38,7 +39,7 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         //其它判断
 
         //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
-        //服务端验证。。。
+        //服务端验证
 
 
 

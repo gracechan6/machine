@@ -68,7 +68,7 @@
                 android:paddingLeft="100dp"
                 android:paddingRight="100dp"
                 android:paddingTop="70dp"
-                android:text="扫描取件二维码"
+                android:text="@string/get_good_scanCode"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="30sp" />
 
@@ -76,7 +76,7 @@
                 style="@style/textview_item_style"
                 android:drawableTop="@drawable/text_get_good_icon"
                 android:padding="50dp"
-                android:text="取件码取件"
+                android:text="@string/get_good_useCode"
                 android:textColor="#000000"
                 android:onClick="showGetGoodByCode"
                 android:clickable="true" />

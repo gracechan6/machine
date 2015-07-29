@@ -16,19 +16,11 @@
 
     <TextView
         android:layout_below="@id/toolbar"
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/express"
-        android:layout_centerHorizontal="true"
+        style="@style/textview_item_style"
+        android:text="@string/express_single"
         android:textSize="40sp"
-        android:textColor="@color/green_word"/>
-
-    <ImageView
-        android:layout_below="@id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/put_good"/>
+        android:textColor="@color/green_word"
+        android:drawableBottom="@drawable/put_good"/>
 
 
 

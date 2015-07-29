@@ -14,15 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:gravity="center"
-        >
+        android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="在打开的快件柜中完成取件"
+            android:text="@string/delivery_get_good"
             android:textSize="30sp"
-            android:textColor="@android:color/darker_gray"
-            />
+            android:textColor="@android:color/darker_gray"/>
     </LinearLayout>
 
 </RelativeLayout>

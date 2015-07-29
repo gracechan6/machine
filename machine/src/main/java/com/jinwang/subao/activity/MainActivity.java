@@ -21,7 +21,7 @@ public class MainActivity extends SubaoBaseActivity {
         super.onCreate(savedInstanceState);
 
         //初始化单片机
-        Device.uartInit();
+        //Device.uartInit();
 
         setContentView(R.layout.activity_main);
 
