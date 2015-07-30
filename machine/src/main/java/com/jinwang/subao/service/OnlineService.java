@@ -142,14 +142,14 @@ public class OnlineService extends Service {
 		int serverPort = PushConfig.SERVER_PORT;
 		int pushPort = PushConfig.PUSH_PORT;
 
-		String userName = account.getString(PushConfig.USER_NAME, "");
+		String userName = PushConfig.SERVER_NAME;
 
 
 		if(this.tcpClient != null){
 			try{tcpClient.stop();}catch(Exception e){}
 		}
 		try{
-			tcpClient = new MyTcpClient(Util.md5Byte(userName), 1, serverIp, serverPort);
+			tcpClient = new MyTcpClient(Util.md5Byte("abc"), 1, serverIp, serverPort);
 			tcpClient.setHeartbeatInterval(50);
 			tcpClient.start();
 
@@ -167,7 +167,7 @@ public class OnlineService extends Service {
 		requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);  
 		//小米2s的MIUI操作系统，目前最短广播间隔为5分钟，少于5分钟的alarm会等到5分钟再触发！2014-04-28
 		long triggerAtTime = System.currentTimeMillis();
-		int interval = 300 * 1000;  
+		int interval = 120 * 1000;
 		alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtTime, interval, tickPendIntent);
 	}
 	

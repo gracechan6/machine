@@ -30,13 +30,9 @@ public class TickAlarmReceiver extends BroadcastReceiver {
 
 		// 推送服务端能用消息，确保连接，服务端处理该请求
 		try {
-			Pusher pusher = new Pusher(PushConfig.SERVER_IP,PushConfig.PUSH_PORT, 1000*5);
-			boolean result = pusher.push0x10Message(StringUtil.md5Byte(PushConfig.SERVER_NAME));
-
-			if (!result)
-			{
-				Toast.makeText(context, "Connect server error!", Toast.LENGTH_LONG).show();
-			}
+			String uuid = StringUtil.md5(PushConfig.SERVER_NAME);
+			System.out.println(uuid);
+			new Thread(new send0x10Task(context, PushConfig.SERVER_IP, PushConfig.PUSH_PORT, StringUtil.hexStringToByteArray(uuid))).start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,6 +41,24 @@ public class TickAlarmReceiver extends BroadcastReceiver {
 		Intent startSrv = new Intent(context, OnlineService.class);
 		startSrv.putExtra("CMD", "TICK");
 		context.startService(startSrv);
+	}
+
+	class send0x10Task implements Runnable{
+		private Context context;
+		private String serverIp;
+		private int port;
+		private byte[] uuid;
+
+		public send0x10Task(Context context, String serverIp, int port, byte[] uuid){
+			this.context = context;
+			this.serverIp = serverIp;
+			this.port = port;
+			this.uuid = uuid;
+		}
+
+		public void run(){
+			//调用服务端同步在线接口，告诉服务端在线状态
+		}
 	}
 
 }
