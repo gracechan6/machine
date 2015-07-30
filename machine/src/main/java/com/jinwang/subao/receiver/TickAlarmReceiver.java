@@ -30,7 +30,7 @@ public class TickAlarmReceiver extends BroadcastReceiver {
 
 		// 推送服务端能用消息，确保连接，服务端处理该请求
 		try {
-			Pusher pusher = new Pusher(PushConfig.SERVER_IP,PushConfig.PORT, 1000*5);
+			Pusher pusher = new Pusher(PushConfig.SERVER_IP,PushConfig.PUSH_PORT, 1000*5);
 			boolean result = pusher.push0x10Message(StringUtil.md5Byte(PushConfig.SERVER_NAME));
 
 			if (!result)
