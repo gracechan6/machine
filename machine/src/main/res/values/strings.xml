@@ -39,5 +39,6 @@
     <string name="text_prompt_login">您还没有登录，请扫描您的身份二维码</string>
 
     <string name="text_error">错误</string>
+    <string name="title_activity_manager">Manager</string>
 
 </resources>
