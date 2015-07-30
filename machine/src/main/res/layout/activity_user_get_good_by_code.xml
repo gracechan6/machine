@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="输入取件信息"
+                    android:text="@string/input_get_good_detail"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="30sp" />
 
@@ -52,7 +52,7 @@
                     android:id="@+id/last4_tel"
                     android:layout_marginTop="50dp"
                     android:background="@color/bgtv_hint_lightblue"
-                    android:hint="手机号码后四位"
+                    android:hint="@string/input_tel_last4"
                     android:paddingLeft="20dp"
                     android:paddingRight="5dp"
                     android:textColor="@color/tv_hint_lightblue"
@@ -69,7 +69,7 @@
                     android:drawableLeft="@drawable/icon_message"
                     android:drawablePadding="20dp"
                     android:gravity="center|left"
-                    android:hint="输入取件码"
+                    android:hint="@string/input_code"
                     android:paddingLeft="20dp"
                     android:paddingTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -83,7 +83,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="50dp"
                     android:background="@drawable/btn_bg_blue340_42"
-                    android:text="取 件"
+                    android:text="@string/getgood"
                     android:textSize="25dp" />
 
 

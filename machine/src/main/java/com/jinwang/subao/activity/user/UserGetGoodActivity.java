@@ -30,6 +30,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_get_good);
         initToolBar();
+        this.setTitle(getString(R.string.title_user_get));
 
         // 15/7/27 add by michael, 输入取件码（从扫码器读入，扫码器就是一个输入设备）
         inputArea = (EditText) findViewById(R.id.inputArea);

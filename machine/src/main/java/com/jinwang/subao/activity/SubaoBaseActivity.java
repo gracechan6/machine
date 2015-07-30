@@ -65,11 +65,19 @@ public class SubaoBaseActivity extends AppCompatActivity
     }
 
     /**
+     * 取消右标题
+     */
+    protected void cancelExit()
+    {
+        this.mToolBar.removeView(mexit);
+    }
+
+    /**
      * 初始化导航栏
      */
     protected void initToolBar() {
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
-        mToolBar.setBackgroundColor(Color.parseColor("#F1F1F1"));
+        //mToolBar.setBackgroundColor(Color.parseColor("#F1F1F1"));
 
         //设置标题
         Toolbar.LayoutParams lp = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
@@ -77,7 +85,7 @@ public class SubaoBaseActivity extends AppCompatActivity
         mTitle = new TextView(this);
         mTitle.setTextColor(Color.GRAY);
         mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        mTitle.setText("我要取件");
+        //mTitle.setText("我要取件");
         mToolBar.addView(mTitle, lp);
         lp = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.LEFT;

@@ -23,7 +23,7 @@
             android:layout_height="42dp"
             android:layout_marginTop="90px"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="输入快件单号"
+            android:hint="@string/input_expressSingle"
             android:textColorHint="@color/tv_hint_lightblue"
             android:id="@+id/edt_expId"
             android:layout_gravity="center_horizontal"
@@ -38,7 +38,7 @@
             android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="可通过扫描快件单号完成填写"
+            android:text="@string/UCanScanExpressSingle"
             android:textSize="20sp"
             android:textColor="@android:color/darker_gray"/>
 
@@ -47,7 +47,7 @@
             android:layout_height="42dp"
             android:layout_marginTop="20px"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="输入收件人手机号"
+            android:hint="@string/input_tel"
             android:textColorHint="@color/tv_hint_lightblue"
             android:id="@+id/edt_tel"
             android:layout_gravity="center_horizontal"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg_blue340_42"
             android:id="@+id/btnPut_good"
-            android:text="完 成"
+            android:text="@string/finish"
             android:textSize="25dp"
             android:layout_gravity="center_horizontal" />
 

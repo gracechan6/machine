@@ -16,11 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
-        android:text="扫描成功，请在开启的快件柜完成取件"
+        android:text="@string/scanOk"
         android:layout_centerHorizontal="true"
         android:textSize="40sp"
         android:textColor="@color/poolblue"/>
-
-
 
 </RelativeLayout>
