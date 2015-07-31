@@ -2,6 +2,7 @@ package com.jinwang.subao.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.jinwang.yongbao.device.Device;
 
@@ -94,7 +95,7 @@ public class DeviceUtil {
     }
 
     /**
-     * 设置箱格的大小\n
+     * 设置箱格的大小
      * 箱格编号按 板子号_箱格号_size 组成，获取时再进行分割\n
      * 如2号板子， 3号箱子， 2_3_size
      *
@@ -116,7 +117,7 @@ public class DeviceUtil {
     }
 
     /**
-     * 获取箱格的大小\n
+     * 获取箱格的大小
      *
      * @param context   应用上下文
      * @param boardNum  板子编号
@@ -223,6 +224,55 @@ public class DeviceUtil {
                 if (0 ==ret[3]) {
                     result.put(board, grid);
                 }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 获取所胡箱格的状态
+     *
+     * @param boardCount 板子总数
+     *
+     * @return  板子_箱号，状态
+     */
+    public static Map<String, Integer> getAllGridState(int boardCount)
+    {
+        Map<String, Integer> result = new HashMap<>();
+
+        //首先打开所有可用箱格
+//        for (int board = 1; board <= boardCount; board++)
+//        {
+//            for (int grid = 1; grid <= PER_BOARD_GRID_NUM; grid++)
+//            {
+//                Log.i("DeviceUtil", "Open grid: " + board + "_" + grid);
+//                Device.openGrid(board, grid, new int[5]);
+//            }
+//        }
+
+        //打开完成后，获取锁的状态如果还为“关”，则锁不能使用
+        for (int board = 1; board <= boardCount; board++)
+        {
+            for (int grid = 1; grid <= PER_BOARD_GRID_NUM; grid++)
+            {
+                String key = board + "_" + grid;
+
+                int[] rets = new int[5];
+
+                Device.getDoorState(board, grid, rets);
+                //可用，锁状态为打开
+                if (0 != rets[3])
+                {
+                    result.put(key, GRID_STATUS_USEABLE);
+                }
+                //锁未连接
+                else
+                {
+                    result.put(key, GRID_STATUS_UNKOWN);
+                }
+
+                Log.i("DeviceUtil", "Grid state: " + board + "_" + grid + " state: " + result.get(key));
             }
         }
 

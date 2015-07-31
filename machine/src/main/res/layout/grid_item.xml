@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#abcefa"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <Button
+        android:id="@+id/open"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="25"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <CheckBox
+            android:id="@+id/checkboxBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="大" />
+
+        <CheckBox
+            android:id="@+id/checkboxMid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中" />
+
+        <CheckBox
+            android:id="@+id/checkBoxSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小" />
+    </LinearLayout>
+
+</LinearLayout>

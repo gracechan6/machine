@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.jinwang.subao.config.PushConfig;
@@ -64,6 +65,7 @@ public class OnlineService extends Service {
 				return;
 			}
 			if(message.getCmd() == 16){// 0x10 通用推送信息
+                Log.i(getClass().getSimpleName(), "收到通用推送消息");
 			}
 			if(message.getCmd() == 17){// 0x11 分组推送信息
 				long msg = ByteBuffer.wrap(message.getData(), 5, 8).getLong();
@@ -154,9 +156,10 @@ public class OnlineService extends Service {
 			tcpClient.start();
 
 		}catch(Exception e){
-			Toast.makeText(this.getApplicationContext(), "操作失败："+e.getMessage(), Toast.LENGTH_LONG).show();
+			Log.e(getClass().getSimpleName(), "操作失败: " + e.getMessage());
 		}
-		Toast.makeText(this.getApplicationContext(), "ddpush：终端重置", Toast.LENGTH_LONG).show();
+
+		Log.i(getClass().getSimpleName(), "ddpush：终端重置 ");
 	}
 	
 	protected void setTickAlarm(){

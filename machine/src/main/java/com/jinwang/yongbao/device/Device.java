@@ -26,9 +26,10 @@ public class Device {
 
 	/**
 	 * 获取箱格门的状态
-	 * @param boardID
-	 * @param LockID
-	 * @param retInfo
+	 * @param boardID	板子编号
+	 * @param LockID	锁编号
+	 * @param retInfo	结果
+	 *
 	 * @return
 	 */
 	public static native int getDoorState(int boardID, int LockID, int[] retInfo);
