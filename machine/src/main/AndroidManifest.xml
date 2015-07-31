@@ -126,6 +126,10 @@
             android:name=".activity.ManagerActivity"
             android:label="@string/title_activity_manager" >
         </activity>
+        <activity
+            android:name=".activity.SplashActivity"
+            android:label="@string/title_activity_splash" >
+        </activity>
     </application>
 
 </manifest>

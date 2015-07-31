@@ -92,6 +92,7 @@
     <!--toast出错提示-->
     <string name="input_Right_expressSingle">请输入正确的快件单号</string>
     <string name="input_Right_tel">请输入收件人手机号</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 
 

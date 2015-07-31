@@ -7,6 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:id="@+id/container"
     tools:context="com.jinwang.subao.activity.ManagerActivity">
 
     <GridView
@@ -19,11 +20,29 @@
 
     </GridView>
 
-    <Button
-        android:id="@+id/commit"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="提交"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.5">
+
+        <Spinner
+            android:id="@+id/boardCount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:background="#ff00ff"
+            android:gravity="center">
+
+        </Spinner>
+
+        <Button
+            android:id="@+id/commit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="提交"
+            android:layout_weight="1.0"
+            android:onClick="commitConfig" />
+    </LinearLayout>
 
 </LinearLayout>

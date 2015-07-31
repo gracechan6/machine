@@ -1,1 +1,1 @@
-include ':test', ':machine', ':pushclient'
+include ':machine', ':pushclient', ':test'

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.entity.LockGrid;
@@ -25,25 +30,95 @@ import com.jinwang.yongbao.device.Device;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * created by michael, 15/30/7
- *
+ * <p/>
  * 管理员界面，主要功能：配置箱格
  */
-public class ManagerActivity extends AppCompatActivity {
+public class ManagerActivity extends SubaoBaseActivity {
+    //根布局
+    private ViewGroup rootView;
+    private View progressBar;
+
+    private int boardCount = 0;
+
+    //板子数量选择器
+    private Spinner boardSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
 
+        rootView = (ViewGroup) findViewById(R.id.container);
+
+        boardSpinner = (Spinner) findViewById(R.id.boardCount);
+        boardSpinner.setAdapter(new SimpleAdapter(this, getBoardCountData(), R.layout.textview, new String[]{"num"}, new int[]{R.id.textView}));
+
+        boardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(getClass().getSimpleName(), "On item selected: " + position);
+
+                if (0 == position)
+                {
+                    return;
+                }
+
+                getLockStateTask.execute(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i(getClass().getSimpleName(), "On nothing selected");
+            }
+        });
         GridView gridView = (GridView) findViewById(R.id.grid);
         gridView.setAdapter(adapter);
 
-        getLockStateTask.execute(2);
+//        getLockStateTask.execute(1);
+    }
+
+    /**
+     * 板子个数选择数据
+     * 目前最多10块板子
+     *
+     * @return
+     */
+    private List<Map<String, Object>> getBoardCountData()
+    {
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        Map<String, Object> item = new HashMap<>();
+        item.put("num", "请选择板子数量");
+        result.add(item);
+
+        for (int i = 1; i <= 10; i++)
+        {
+            item = new HashMap<>();
+            item.put("num", i + "块板子");
+
+            result.add(item);
+        }
+
+        return result;
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //如果板子数量为0，提示选择板子数
+        if (0 == boardCount)
+        {
+            Toast.makeText(this, "请选择板子数量", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -57,8 +132,7 @@ public class ManagerActivity extends AppCompatActivity {
     private BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
-            if (null != gridList)
-            {
+            if (null != gridList) {
                 return gridList.size();
             }
 
@@ -77,25 +151,21 @@ public class ManagerActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (null == convertView)
-            {
+            if (null == convertView) {
                 convertView = getLayoutInflater().inflate(R.layout.grid_table_row, null);
             }
             final LockGrid grid = (LockGrid) getItem(position);
 
             //如果箱格状态为不可用，设置不可操作
-            if (DeviceUtil.GRID_STATUS_UNKOWN == grid.getGridState())
-            {
+            if (DeviceUtil.GRID_STATUS_UNKOWN == grid.getGridState()) {
                 convertView.findViewById(R.id.gridItem).setBackgroundColor(Color.GRAY);
-            }
-            else
-            {
+            } else {
                 convertView.findViewById(R.id.gridItem).setBackgroundColor(Color.BLUE);
             }
 
             //开箱按钮
             Button open = (Button) convertView.findViewById(R.id.open);
-            open.setText(grid.getBoardID()+ "_" + grid.getGridID());
+            open.setText(grid.getBoardID() + "_" + grid.getGridID());
             open.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -115,10 +185,11 @@ public class ManagerActivity extends AppCompatActivity {
             size2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                    {
+                    if (isChecked) {
                         if (size0.isChecked()) size0.setChecked(false);
                         if (size1.isChecked()) size1.setChecked(false);
+
+                        grid.setGridSize(DeviceUtil.GRID_SIZE_LARGE);
                     }
                 }
             });
@@ -126,10 +197,11 @@ public class ManagerActivity extends AppCompatActivity {
             size1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                    {
+                    if (isChecked) {
                         if (size0.isChecked()) size0.setChecked(false);
                         if (size2.isChecked()) size2.setChecked(false);
+
+                        grid.setGridSize(DeviceUtil.GRID_SIZE_MID);
                     }
                 }
             });
@@ -137,10 +209,11 @@ public class ManagerActivity extends AppCompatActivity {
             size0.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                    {
+                    if (isChecked) {
                         if (size1.isChecked()) size1.setChecked(false);
                         if (size2.isChecked()) size2.setChecked(false);
+
+                        grid.setGridSize(DeviceUtil.GRID_SIZE_SMALL);
                     }
                 }
             });
@@ -162,16 +235,10 @@ public class ManagerActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            ProgressBar progressBar = new ProgressBar(ManagerActivity.this);
+            progressBar = getLayoutInflater().inflate(R.layout.progress_view, null);
 
-            /*测试屏幕属性*/
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int width = dm.widthPixels;//宽度
-//        int height = dm.heightPixels ;//高度
-//
-//        Log.i(getClass().getSimpleName(), "Height: " + height + "Width: " + width);
-            progressBar.setMinimumHeight();
+    //        rootView.addView(progressBar);
+            rootView.addView(progressBar, 900, 600);
         }
 
         @Override
@@ -180,8 +247,7 @@ public class ManagerActivity extends AppCompatActivity {
 
             gridList = new ArrayList<>();
             //设置
-            for (String key : stringIntegerMap.keySet())
-            {
+            for (String key : stringIntegerMap.keySet()) {
                 LockGrid grid = new LockGrid();
                 String[] ss = key.split("_");
                 grid.setBoardID(Integer.valueOf(ss[0]));
@@ -196,13 +262,11 @@ public class ManagerActivity extends AppCompatActivity {
                 @Override
                 public int compare(LockGrid lhs, LockGrid rhs) {
                     if (lhs.getBoardID() > rhs.getBoardID() ||
-                            lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() > rhs.getGridID())
-                    {
+                            lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() > rhs.getGridID()) {
                         return 1;
                     }
                     if (lhs.getBoardID() < rhs.getBoardID() ||
-                            lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() < rhs.getGridID())
-                    {
+                            lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() < rhs.getGridID()) {
                         return -1;
                     }
 
@@ -211,8 +275,28 @@ public class ManagerActivity extends AppCompatActivity {
             });
 
             adapter.notifyDataSetChanged();
+
+
+            rootView.removeView(progressBar);
         }
     };
+
+    /**
+     * 提交箱格配置
+     * @param view
+     */
+    public void commitConfig(View view)
+    {
+        for (LockGrid grid : gridList)
+        {
+            Log.i(getClass().getSimpleName(), "Grid: " + grid.getBoardID()
+                    + "_" + grid.getGridID() + " Size: " + grid.getGridSize());
+
+            //更新本地
+            DeviceUtil.setGridSize(this, grid.getBoardID(), grid.getGridID(), grid.getGridSize());
+            DeviceUtil.updateGridState(this, grid.getBoardID(), grid.getGridID(), grid.getGridState());
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
