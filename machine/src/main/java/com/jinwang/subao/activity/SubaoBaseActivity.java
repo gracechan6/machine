@@ -12,8 +12,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.RecordVar;
 import com.jinwang.subao.thread.CheckSoftInputThread;
 
 /**
@@ -72,6 +74,29 @@ public class SubaoBaseActivity extends AppCompatActivity
         this.mToolBar.removeView(mexit);
     }
 
+    protected boolean BeCancelLogin()
+    {
+        mexit.setText(getString(R.string.app_exit_login));
+        mexit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BackToExit();
+            }
+        });
+        return true;
+    }
+
+    protected void BackToExit()
+    {
+        new RecordVar().setShowUnlogin(true);
+        mexit.setText(getString(R.string.app_exit));
+        mexit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoMainActivity();
+            }
+        });
+    }
     /**
      * 初始化导航栏
      */

@@ -14,10 +14,17 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <ProgressBar android:id="@+id/progress_horizontal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:visibility="invisible"/>
 
     <LinearLayout
         style="@style/lly_outermost_style"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/progress_horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -49,6 +56,12 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:id="@+id/inputArea"
+        android:background="#00000000"
+        android:textColor="#00000000" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/mUUIDvalidate"
         android:background="#00000000"
         android:textColor="#00000000" />
 </LinearLayout>
