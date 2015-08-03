@@ -23,6 +23,8 @@
     <string name="app_back">&#160;返回</string>
     <string name="app_exit">&#160;退出</string>
     <string name="title_delivery">速宝快递员</string>
+    <string name="app_exit_login">退出登录</string>
+
 
     <!--主页-->
     <string name="app_user">我是速宝用户</string>
@@ -93,6 +95,11 @@
     <string name="input_Right_expressSingle">请输入正确的快件单号</string>
     <string name="input_Right_tel">请输入收件人手机号</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+    
+    <!--链接服务器出错-->
+    <string name="server_link_fail">服务器请求出错</string>
+
 
 
 
