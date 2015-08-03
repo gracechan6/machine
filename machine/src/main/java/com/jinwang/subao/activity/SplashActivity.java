@@ -45,14 +45,33 @@ public class SplashActivity extends AppCompatActivity {
             return;
         }
 
+        String terminalID = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID);
+        String terminalPass = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_PASSWORD);
+
         final AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
+
+        //账号和密码已经保存，直接登录
+        if (null != terminalID && null != terminalPass && 0 < terminalID.length() && 0 < terminalPass.length())
+        {
+            Map<String, String> params = new HashMap<>();
+            params.put("Mobilephone", terminalID);
+            params.put("Password", terminalPass);
+            params.put("OperationType", "A");
+
+            Log.i(getClass().getSimpleName(), "Terminal ID: " + terminalID + " Pass: " + terminalPass);
+
+            login(client, new RequestParams(params));
+
+            return;
+        }
+
+
 
         //首次启动服务端注册该设备
         //获取设备编号
-        client.post(SystemConfig.URL_GET_CLIENT_ACOUNT, new JsonHttpResponseHandler() {
+        client.post(SystemConfig.URL_GET_CLIENT_ACOUNT, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
 
                 Log.i(getClass().getSimpleName(), "Response: " + response.toString());
 
@@ -63,51 +82,7 @@ public class SplashActivity extends AppCompatActivity {
                         SharedPreferenceUtil.saveData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID, response.getString(TERMINAL_NO));
                         SharedPreferenceUtil.saveData(getApplicationContext(), SystemConfig.KEY_DEVICE_PASSWORD, response.getString(DEVICE_PASSWORD));
 
-                        //注册
-                        Map<String, String> params = new HashMap<>();
-                        params.put("Mobilephone", SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID));
-                        params.put("Password", SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_PASSWORD));
-                        params.put("Role", "Group0006");
-
-                        register(client, new RequestParams(params));
-                    }
-                    else
-                    {
-                        String error = response.getString("errMsg");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-
-                Log.i(getClass().getSimpleName(), "Response: " + statusCode);
-            }
-        });
-    }
-
-    /**
-     * 服务端注册
-     */
-    private void register(final AsyncHttpClient client, final RequestParams params)
-    {
-
-        //注册
-        client.post(SystemConfig.URL_REGISTER, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-                Log.i(getClass().getSimpleName(), "Response: " + response.toString());
-
-                try {
-                    if (response.getBoolean("success"))
-                    {
-                        //注册成功后登录
-                        //保存首次运行标志
+                        //登录
                         Map<String, String> params = new HashMap<>();
                         params.put("Mobilephone", SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID));
                         params.put("Password", SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_PASSWORD));
@@ -115,6 +90,11 @@ public class SplashActivity extends AppCompatActivity {
 
                         login(client, new RequestParams(params));
                     }
+                    else
+                    {
+                        String error = response.getString("errMsg");
+                        Log.e(getClass().getSimpleName(), "Register error: " +  error);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -122,7 +102,6 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
 
                 Log.i(getClass().getSimpleName(), "Response: " + statusCode);
             }
@@ -132,10 +111,9 @@ public class SplashActivity extends AppCompatActivity {
     public void login(AsyncHttpClient client, RequestParams params)
     {
         //登录
-        client.post(SystemConfig.URL_LOGIN, new JsonHttpResponseHandler() {
+        client.post(SystemConfig.URL_LOGIN, params, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
 
                 Log.i(getClass().getSimpleName(), "Response: " + response.toString());
 
@@ -143,7 +121,8 @@ public class SplashActivity extends AppCompatActivity {
                     if (response.getBoolean("success"))
                     {
                         //保存登录UUID
-                        SharedPreferenceUtil.saveData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID, response.getString("mUuid"));
+                        JSONObject jsonObject = response.getJSONArray("returnData").getJSONObject(0);
+                        SharedPreferenceUtil.saveData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID, jsonObject.getString("mUuid"));
                         //保存首次运行标志
                         SharedPreferenceUtil.saveData(getApplicationContext(), FIRST_RUN_FLAG, true);
 

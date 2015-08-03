@@ -27,4 +27,8 @@ public class SystemConfig {
     //=================System Role config
     public static final String SYSTEM_ROLE = "Group0006";
     //================================
+
+    //=================Data encoding
+    public static final String SERVER_CHAR_SET = "GBK";
+    //================================
 }
