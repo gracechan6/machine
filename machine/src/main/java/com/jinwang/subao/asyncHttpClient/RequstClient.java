@@ -28,20 +28,20 @@ public class RequstClient {
      　　*/
     public static void post(String url, RequestParams params,
                             JsonHttpResponseHandler handler) {
-        System.out.println("进入post");
+        //System.out.println("进入post");
         mClient.post(url, params, handler);
     }
     public static void get(String url, AsyncHttpResponseHandler handler) {
     }
     public static void get(String url, RequestParams params,
                            AsyncHttpResponseHandler handler) {
-        System.out.println("进入get");
+        //System.out.println("进入get");
         mClient.get(url, params, handler);
     }
 
     public static void get(String url, RequestParams params,
                            JsonHttpResponseHandler handler) {
-        System.out.println("进入get Jason");
+        //System.out.println("进入get Jason");
         mClient.get(url, params, handler);
     }
 }

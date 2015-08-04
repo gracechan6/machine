@@ -13,14 +13,14 @@ public class StaticReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        /*�ļ���ά��ɨ��
-            ɨ��ɹ������UserPutSizeActivity ѡ��ߴ�*/
+        /*寄件二维码扫描
+            扫描成功则进入UserPutSizeActivity 选择尺寸*/
 
 
-        /*�û�ȡ��ͨ��ɨ���ά�룬��֤ͨ�����Ӧ����*/
+        /*用户取件通过扫描二维码，验证通过打开相应柜子*/
 
 
-        /*��ǰapk�Ƿ���Ҫ����*/
+        /*当前apk是否需要更新*/
 
     }
 

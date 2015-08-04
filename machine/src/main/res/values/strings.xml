@@ -1,21 +1,4 @@
 <resources>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_user_main">UserMainActivityActivity</string>
-    <string name="title_activity_delivert_main">DelivertMainActivity</string>
-    <string name="title_activity_user_put_good">UserPutGoodActivity</string>
-    <string name="title_activity_user_put_size">UserPutSizeActivity</string>
-    <string name="title_activity_user_put_end">UserPutEndActivity</string>
-    <string name="title_activity_user_get_good">UserGetGoodActivity</string>
-    <string name="title_activity_user_get_good_by_code_ok">UserGetGoodByCodeOkActivity</string>
-    <string name="title_activity_delivery_put_good">DeliveryPutGoodActivity</string>
-    <string name="title_activity_delivery_put_size">DeliveryPutSizeActivity</string>
-    <string name="title_activity_delivery_get_good">DeliveryGetGoodActivity</string>
-    <string name="title_activity_broadcast">BroadcastActivity</string>
-    <string name="title_activity_delivery_login">DeliveryLoginActivity</string>
-    <string name="title_activity_user_get_good_by_code">UserGetGoodByCode</string>
-
-
     <!--导航栏-->
     <string name="app_name">速宝柜机</string>
     <string name="title_user_put">我要寄件</string>
@@ -25,13 +8,11 @@
     <string name="title_delivery">速宝快递员</string>
     <string name="app_exit_login">退出登录</string>
 
-
     <!--主页-->
     <string name="app_user">我是速宝用户</string>
     <string name="app_delivery">我是快递员</string>
     <string name="user_get_put">我要存件/取件</string>
     <string name="delivery_get_put">我要投件/揽件</string>
-
 
     <!--用户主页-->
     <string name="put_goods">我要寄件提供用户自主寄件功能，只有使\n用“速宝”App的用户才能使用该功能。</string>
@@ -85,7 +66,6 @@
     <string name="input_tel">输入收件人手机号</string>
     <string name="finish">完&#160;成</string>
 
-
     <!-- 提示用户登录 -->
     <string name="text_prompt_login">您还没有登录，请扫描您的身份二维码</string>
     <string name="text_error">错误</string>
@@ -94,14 +74,37 @@
     <!--toast出错提示-->
     <string name="input_Right_expressSingle">请输入正确的快件单号</string>
     <string name="input_Right_tel">请输入收件人手机号</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="error_noReturn">服务器端无数据返回</string>
+    <string name="error_last4Tel">请准确输入手机号码后4位</string>
+    <string name="error_rightPackageNo">请准确输入取件码</string>
+    <string name="error_Nogood">暂无可取件</string>
+    <string name="error_NoSuitableSize">暂无该尺寸箱格空余，请选其他尺寸</string>
 
-    
+
     <!--链接服务器出错-->
     <string name="server_link_fail">服务器请求出错</string>
 
 
 
+
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_user_main">UserMainActivityActivity</string>
+    <string name="title_activity_delivert_main">DelivertMainActivity</string>
+    <string name="title_activity_user_put_good">UserPutGoodActivity</string>
+    <string name="title_activity_user_put_size">UserPutSizeActivity</string>
+    <string name="title_activity_user_put_end">UserPutEndActivity</string>
+    <string name="title_activity_user_get_good">UserGetGoodActivity</string>
+    <string name="title_activity_user_get_good_by_code_ok">UserGetGoodByCodeOkActivity</string>
+    <string name="title_activity_delivery_put_good">DeliveryPutGoodActivity</string>
+    <string name="title_activity_delivery_put_size">DeliveryPutSizeActivity</string>
+    <string name="title_activity_delivery_get_good">DeliveryGetGoodActivity</string>
+    <string name="title_activity_broadcast">BroadcastActivity</string>
+    <string name="title_activity_delivery_login">DeliveryLoginActivity</string>
+    <string name="title_activity_user_get_good_by_code">UserGetGoodByCode</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 
 
