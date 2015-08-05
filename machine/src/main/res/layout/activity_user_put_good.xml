@@ -11,9 +11,24 @@
 
     <include layout="@layout/layout_toolbar"
         android:id="@id/toolbar"/>
+    <ProgressBar android:id="@+id/progress_horizontal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:visibility="invisible"/>
+    <TextView
+        android:layout_below="@id/progress_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:id="@+id/TD_code"
+        android:background="#00000000"
+        android:textColor="#00000000" />
 
     <TextView
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/TD_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_title"

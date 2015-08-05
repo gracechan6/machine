@@ -15,6 +15,11 @@ public class SystemConfig {
     public static final String URL_LOGIN = URL_BASE + "/ybpt/web/ybmobile/MobileLogin_Login.action";
     public static final String URL_GET_CLIENT_ACOUNT = URL_BASE + "/ybpt/web/ybmobile/TerminalDevice_produceTerminalNo.action";
     public static final String URL_REGISTER = URL_BASE + "/ybpt/web/ybmobile/MobileReg_Register.action";
+    public static final String URL_MUUID_VALIDATE = URL_BASE + "/ybpt/web/ybmobile/TerminalDevice_checkTerminalMuuid.action";
+    public static final String URL_GET_ALLCABINETS = URL_BASE + "/ybpt/web/ybmobile/ExpressPerson_updateStatus.action";
+    public static final String URL_GET_USERCABINET = URL_BASE + "/ybpt/web/ybmobile/MobilePackageInfo_takePackage.action";
+    public static final String URL_PUT_USERCABINET = URL_BASE + "/ybpt/web/ybmobile/PackageStatus_checkWaitSend.action";
+
     //================================
 
     //=================Constant config

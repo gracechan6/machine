@@ -13,7 +13,7 @@ public class RequstClient {
     static {
         mClient.setTimeout(20000);
     }
-    public static void post(String url, AsyncHttpResponseHandler handler) {
+    public static void post(String url, JsonHttpResponseHandler handler) {
         post(url, null, handler);
     }
     /**
@@ -27,7 +27,7 @@ public class RequstClient {
      　　* 数据加载句柄对象
      　　*/
     public static void post(String url, RequestParams params,
-                            AsyncHttpResponseHandler handler) {
+                            JsonHttpResponseHandler handler) {
         //System.out.println("进入post");
         mClient.post(url, params, handler);
     }

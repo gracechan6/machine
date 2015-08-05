@@ -9,18 +9,20 @@
 
     <include layout="@layout/layout_toolbar"
         android:id="@+id/toolbar"/>
-
-    <LinearLayout
+    <ProgressBar android:id="@+id/progress_horizontal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:visibility="invisible"/>
+    <TextView
+        android:layout_below="@id/progress_horizontal"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delivery_get_good"
-            android:textSize="30sp"
-            android:textColor="@android:color/darker_gray"/>
-    </LinearLayout>
-
+        android:text="@string/delivery_get_good"
+        android:textSize="30sp"
+        android:textColor="@android:color/darker_gray"/>
 </RelativeLayout>

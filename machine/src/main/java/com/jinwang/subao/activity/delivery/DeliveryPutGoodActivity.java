@@ -21,10 +21,7 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
      * 用户电话号码
      */
     public static final String USER_TEL = "USER_TEL";
-
-
     private Button btnPut_good;
-
     private EditText edt_expId,edt_tel;
 
 
@@ -49,21 +46,16 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
             String expId=edt_expId.getText().toString();
             String tel=edt_tel.getText().toString();
 
-            if(expId.length()==0) {
+            if(expId==null || expId.length()==0) {
                 Toast.makeText(DeliveryPutGoodActivity.this, getString(R.string.input_Right_expressSingle), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(tel.length()==0) {
+            if(tel==null || tel.length()==0) {
                 Toast.makeText(DeliveryPutGoodActivity.this, getString(R.string.input_Right_tel), Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            /*把数据传入服务器核实获取货物信息的正确性，验证正确后进入下一个界面*/
-
-
             Intent intent=new Intent(DeliveryPutGoodActivity.this,DeliveryPutSizeActivity.class);
 
-            //传递快件单号和电话号码给下一界面
             //传递快件单号和电话号码给下一界面
             intent.putExtra(GOOD_NUM, expId);
             intent.putExtra(USER_TEL, tel);

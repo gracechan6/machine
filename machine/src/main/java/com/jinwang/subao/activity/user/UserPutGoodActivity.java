@@ -17,13 +17,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.activity.delivery.DeliveryPutSizeActivity;
+import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
+import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
+import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.yongbao.device.Device;
+import com.loopj.android.http.RequestParams;
 
 
 public class UserPutGoodActivity extends SubaoBaseActivity {
@@ -32,13 +39,20 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
 
     //7/28/15 add by michael, 寄件码从扫描器读入
     private EditText inputArea;
+    //隐藏的文本框
+    private TextView td_code;
+    private ProgressBar progress_horizontal;
+    private String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_put_good);
 
-
+        td_code= (TextView) findViewById(R.id.TD_code);
+        td_code.addTextChangedListener(new textChanges());
+        progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
+        //test
         TextView lly_outermost= (TextView) findViewById(R.id.tv_title);
         lly_outermost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,11 +89,9 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
                     //去掉结束符
                     text = text.substring(0, text.length() - 1);
                     Log.i(getClass().getSimpleName(), "End text: " + text);
-
                     //验证取件码
                     verifyCode(text);
                 }
-
                 //          Log.i(getClass().getSimpleName(), "End text: " + inputArea.getText());
             }
         });
@@ -137,14 +149,59 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
     private void verifyCode(String code)
     {
         //首先去服务端验证取件码，验证通过后打开选择选择箱格界面传递寄件码
-        // 然后打开对应的箱子
+        // 然后打开对应的箱子--错误了 先去选择箱格界面
+        this.code=code;
+        progress_horizontal.setVisibility(View.VISIBLE);
+        String url= SystemConfig.URL_PUT_USERCABINET;
+        RequestParams param = new RequestParams();
+        param.put("PackageUuid", code);
+        //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
+        param.put("TerminalMuuid", "A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+        new SubaoHttpClient(url,param).connect(td_code,
+                progress_horizontal,
+                getString(R.string.server_link_fail),
+                "PutMyPackage");
 
-        //打开选择箱格界面
+
+        /*//打开选择箱格界面
         Intent intent = new Intent(this, UserPutSizeActivity.class);
-
         intent.putExtra(USER_PUT_CODE, code);
-
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
+    /*监控隐藏(TextView)的内容变化情况*/
+    protected class textChanges implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {// getString(R.string.error_noReturn)
+            if (td_code.getText().toString() == null || td_code.getText().toString().length() == 0) {
+                Toast.makeText(UserPutGoodActivity.this, getString(R.string.error_noReturn), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String[] result = td_code.getText().toString().trim().split(";");
+            String success[] = result[0].split(":");
+            if (success[0].equals("success") && success[1].equals("false")) {
+                String errMsg[] = result[1].split(":");
+                Toast.makeText(UserPutGoodActivity.this, errMsg[1], Toast.LENGTH_SHORT).show();
+            } else {
+                progress_horizontal.setProgress(progress_horizontal.getProgress() - progress_horizontal.getProgress());
+                progress_horizontal.setVisibility(View.INVISIBLE);
+                String packStage[]=result[1].split(":");
+                if(Integer.parseInt(packStage[1])==0)
+                {
+                    //打开选择箱格界面
+                    Intent intent = new Intent(UserPutGoodActivity.this, UserPutSizeActivity.class);
+                    intent.putExtra(USER_PUT_CODE, code);
+                    startActivity(intent);
+                }
+            }
+        }
+    }
 }

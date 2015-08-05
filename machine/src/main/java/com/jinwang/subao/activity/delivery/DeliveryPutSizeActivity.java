@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.yongbao.device.Device;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 
 public class DeliveryPutSizeActivity extends SubaoBaseActivity {
@@ -77,8 +81,6 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             @Override
             public void onClick(View v) {
                 /*选取小尺寸快件柜*/
-
-
                 /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
                 getCodetoPrint(0);
 
@@ -96,15 +98,83 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
      * 从服务端获取适当大小的空柜子编号
      * @param size
      */
-    protected void getCodetoPrint(int size){
+    private void getCodetoPrint(int size){
 
         String expId = getIntent().getStringExtra(DeliveryPutGoodActivity.GOOD_NUM);
         String tel = getIntent().getStringExtra(DeliveryPutGoodActivity.USER_TEL);
-
         //服务端提交数据
 
-        /*打开柜子成功后，退出当前页面*/
-        finish();
-    }
+        Iterator iter=null;
+        int randomNum=-1;
 
+        switch(size)
+        {
+            case 2:{
+                try {
+                    Map<Integer, Integer> large = DeviceUtil.getLargeUnusedGridsList(DeliveryPutSizeActivity.this);
+                    if(large.size()==0)
+                        Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_NoSuitableSize),Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        Random random = new Random();
+                        randomNum=random.nextInt(large.size())+1;
+                        iter = large.entrySet().iterator();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;}
+            case 1:{
+                try {
+                    Map<Integer, Integer> mid = DeviceUtil.getMidUnusedGridsList(DeliveryPutSizeActivity.this);
+                    if(mid.size()==0)
+                        Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_NoSuitableSize),Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        Random random = new Random();
+                        randomNum=random.nextInt(mid.size())+1;
+                        iter = mid.entrySet().iterator();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;}
+            case 0:{
+                try {
+                    Map<Integer, Integer> small = DeviceUtil.getSmallUnusedGridsList(DeliveryPutSizeActivity.this);
+                    if(small.size()==0)
+                        Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_NoSuitableSize),Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        Random random = new Random();
+                        randomNum=random.nextInt(small.size())+1;
+                        iter = small.entrySet().iterator();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;}
+        }
+        /*打开柜子成功后，退出当前页面*/
+        int bid=0,cid=0;
+        int i=0;
+        if(iter!=null){
+            while (iter.hasNext()) {
+                i++;
+                Map.Entry entry = (Map.Entry) iter.next();
+                if(i==randomNum)
+                {
+                    bid=Integer.parseInt(String.valueOf(entry.getKey()));
+                    cid=Integer.parseInt(String.valueOf(entry.getValue()));
+                    break;
+                }
+            }
+        }
+        if(i==randomNum)
+        {
+            Device.openGrid(bid, cid, new int[10]);//打开对应箱格
+            DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
+            finish();
+        }
+    }
 }

@@ -226,12 +226,11 @@ public class DeviceUtil {
                 }
             }
         }
-
         return result;
     }
 
     /**
-     * 获取所胡箱格的状态
+     * 获取所有箱格的状态
      *
      * @param boardCount 板子总数
      *
