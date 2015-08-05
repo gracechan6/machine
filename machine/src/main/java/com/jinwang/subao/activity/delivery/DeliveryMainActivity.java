@@ -18,6 +18,7 @@ import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
+import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.loopj.android.http.RequestParams;
 
 
@@ -129,6 +130,10 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         RequestParams param = new RequestParams();
         param.put("Muuid",mUUID);
         //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
+        String tid= SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID);
+        String id=SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_ID);
+        String pwd=SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_PASSWORD);
+
         param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
         flag=2;
         new SubaoHttpClient(url,param).connect(mUUIDvalidate,

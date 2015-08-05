@@ -62,7 +62,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             public void onClick(View v) {
                 /*选取大尺寸快件柜*/
                 /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
-                getCodetoPrint(2);
+                getCodetoPrint(DeviceUtil.GRID_SIZE_LARGE);
             }
         });
 
@@ -72,7 +72,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             public void onClick(View v) {
                 /*选取中尺寸快件柜*/
                 /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
-                getCodetoPrint(1);
+                getCodetoPrint(DeviceUtil.GRID_SIZE_MID);
             }
         });
 
@@ -82,7 +82,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             public void onClick(View v) {
                 /*选取小尺寸快件柜*/
                 /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
-                getCodetoPrint(0);
+                getCodetoPrint(DeviceUtil.GRID_SIZE_SMALL);
 
             }
         });
@@ -103,13 +103,12 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         String expId = getIntent().getStringExtra(DeliveryPutGoodActivity.GOOD_NUM);
         String tel = getIntent().getStringExtra(DeliveryPutGoodActivity.USER_TEL);
         //服务端提交数据
-
         Iterator iter=null;
         int randomNum=-1;
 
         switch(size)
         {
-            case 2:{
+            case DeviceUtil.GRID_SIZE_LARGE:{
                 try {
                     Map<Integer, Integer> large = DeviceUtil.getLargeUnusedGridsList(DeliveryPutSizeActivity.this);
                     if(large.size()==0)
@@ -124,7 +123,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
                     e.printStackTrace();
                 }
                 break;}
-            case 1:{
+            case DeviceUtil.GRID_SIZE_MID:{
                 try {
                     Map<Integer, Integer> mid = DeviceUtil.getMidUnusedGridsList(DeliveryPutSizeActivity.this);
                     if(mid.size()==0)
@@ -139,7 +138,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
                     e.printStackTrace();
                 }
                 break;}
-            case 0:{
+            case DeviceUtil.GRID_SIZE_SMALL:{
                 try {
                     Map<Integer, Integer> small = DeviceUtil.getSmallUnusedGridsList(DeliveryPutSizeActivity.this);
                     if(small.size()==0)
@@ -172,9 +171,12 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         }
         if(i==randomNum)
         {
-            Device.openGrid(bid, cid, new int[10]);//打开对应箱格
-            DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
-            finish();
+            if(Device.openGrid(bid, cid, new int[10])==0) {//如果成功打开箱格
+                DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
+                finish();
+            }
+            else
+                Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_OpenCabinet),Toast.LENGTH_SHORT).show();
         }
     }
 }

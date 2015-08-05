@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.activity.SubaoBaseActivity;
@@ -52,8 +53,13 @@ public class DeliveryGetGoodActivity extends SubaoBaseActivity {
             bid = Integer.parseInt(boardId[1]);
             cid = Integer.parseInt(cabintNo[1]);
             //test.append("borard:" + bid + "cabinetid:" + cid + "\n");
-            Device.openGrid(bid, cid, new int[10]);//打开对应箱格
-            DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
+            if(Device.openGrid(bid, cid, new int[10])==0) {//如果成功打开箱格
+                DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
+                finish();
+            }
+            else
+                Toast.makeText(DeliveryGetGoodActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
+
             progress_horizontal.setProgress(progress_horizontal.getProgress() + rate);
         }
         progress_horizontal.setProgress(100);

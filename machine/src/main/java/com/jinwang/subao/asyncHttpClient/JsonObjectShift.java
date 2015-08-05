@@ -97,7 +97,7 @@ public class JsonObjectShift {
                             str+="cabinetNo:"+oj.getString("cabinetNo")+";";
                             str+="boardId:"+oj.getString("boardId")+";packageEquipment:";
                             if(oj.has("packageEquipment"))
-                                str+=oj.getString("packageEquipment");
+                                str+="packageEquipment"+oj.getString("packageEquipment");
                         }
                     }
                 }

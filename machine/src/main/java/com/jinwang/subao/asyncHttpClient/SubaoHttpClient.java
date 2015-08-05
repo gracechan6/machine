@@ -3,6 +3,7 @@ package com.jinwang.subao.asyncHttpClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jinwang.subao.config.SystemConfig;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
@@ -30,7 +31,7 @@ public class SubaoHttpClient{
         RequstClient.post(
                 url,
                 param,
-                new JsonHttpResponseHandler() {
+                new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
                     @Override
                     public void onStart() {
                         super.onStart();

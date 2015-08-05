@@ -79,6 +79,8 @@
     <string name="error_rightPackageNo">请准确输入取件码</string>
     <string name="error_Nogood">暂无可取件</string>
     <string name="error_NoSuitableSize">暂无该尺寸箱格空余，请选其他尺寸</string>
+    <string name="error_OpenCabinet">打开箱格失败</string>
+
 
 
     <!--链接服务器出错-->
