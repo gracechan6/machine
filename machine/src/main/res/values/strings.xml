@@ -81,6 +81,9 @@
     <string name="error_NoSuitableSize">暂无该尺寸箱格空余，请选其他尺寸</string>
     <string name="error_OpenCabinet">打开箱格失败</string>
 
+    <!--toast出错提示-->
+    <string name="succ_operate">操作成功</string>
+
 
 
     <!--链接服务器出错-->

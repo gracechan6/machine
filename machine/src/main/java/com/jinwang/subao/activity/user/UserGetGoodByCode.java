@@ -17,6 +17,7 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.yongbao.device.Device;
 import com.loopj.android.http.RequestParams;
 
@@ -75,7 +76,7 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
     }
 
     /**
-     * 服务端验证取件码，验证通过后打开取件
+     * 服务端验证取件码，验证通过后打开取件->接口28普通用户取件（手机号后4位+取件码）
      * @param code
      */
     private void verifyCode(String code,String last4Tel)
@@ -87,12 +88,12 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         RequestParams param = new RequestParams();
         param.put("LastFour",last4Tel);
         param.put("PackageNumber",code);
-        //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
-        param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
-        new SubaoHttpClient(url,param).connect(td_code,
-                progress_horizontal,
-                getString(R.string.server_link_fail),
-                "getMyPackageByTelCode");
+        param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
+        //param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+        new SubaoHttpClient(url,param).connect( td_code,
+                                                progress_horizontal,
+                                                getString(R.string.server_link_fail),
+                                                "getMyPackageByTelCode");
         //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
 
         //最后关闭该页面，回到首页面
@@ -133,9 +134,9 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
                         int bid,cid;
                         bid = Integer.parseInt(boardId[1]);
                         cid = Integer.parseInt(cabintNo[1]);
-                        //Device.openGrid(bid, cid, new int[10]);//打开对应箱格
+                        Device.openGrid(bid, cid, new int[10]);//打开对应箱格
                         //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
-                        //DeviceUtil.updateGridState(UserGetGoodByCode.this, bid, cid, 0);
+                        DeviceUtil.updateGridState(UserGetGoodByCode.this, bid, cid, 0);
                         finish();
                     }
                 }

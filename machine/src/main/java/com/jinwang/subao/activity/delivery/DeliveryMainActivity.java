@@ -134,7 +134,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         String id=SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_ID);
         String pwd=SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_PASSWORD);
 
-        param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+        param.put("TerminalMuuid","20CD52A9-AD1D-2BFA-B28A-59E5A3B1902C");//test
         flag=2;
         new SubaoHttpClient(url,param).connect(mUUIDvalidate,
                                                progress_horizontal,
@@ -177,12 +177,13 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                     Toast.makeText(DeliveryMainActivity.this, getString(R.string.error_noReturn), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                result = mUUIDvalidate.getText().toString().trim().split(",");
+                result = mUUIDvalidate.getText().toString().trim().split(":");
                 if (result[0].equals("errMsg") || result[0].equals("success") && result[1].equals("false"))
                     Toast.makeText(DeliveryMainActivity.this, result[1], Toast.LENGTH_SHORT).show();
                 else {
                     progress_horizontal.setProgress(progress_horizontal.getProgress() - progress_horizontal.getProgress());
                     progress_horizontal.setVisibility(View.INVISIBLE);
+                    SystemConfig.VALUE_MuuidValue=mUUID;
                     if (BeCancelLogin()) {
                         mexit.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -198,6 +199,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                                 if (s.toString().trim().equals(getString(R.string.app_exit))) {
                                     if (new RecordVar().isShowUnlogin()) {
                                         mUUID = null;
+                                        SystemConfig.VALUE_MuuidValue=mUUID;
                                         new RecordVar().setShowUnlogin(false);
                                     }
                                 }

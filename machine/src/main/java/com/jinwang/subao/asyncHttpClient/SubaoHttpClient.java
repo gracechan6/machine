@@ -46,7 +46,8 @@ public class SubaoHttpClient{
                         //System.out.println(incident);
                         //System.out.println("进入json-onsuccess");
                         switch (incident){
-                            case "mUUIDvalidate":{
+                            case "mUUIDvalidate":
+                            case "updateCabStatus":{
                                 textView.setText(new JsonObjectShift(response).MUUIDValidate());
                                 break;
                             }
@@ -60,6 +61,11 @@ public class SubaoHttpClient{
                                 textView.setText(new JsonObjectShift(response).PackageUuidVal());
                                 break;
                             }
+                            case "updateCabStatusUser":{
+                                textView.setText(new JsonObjectShift(response).updateCabStatus());
+                                break;
+                            }
+
 
                         }
                         //Log.i("test",response.toString()+"success_g");
