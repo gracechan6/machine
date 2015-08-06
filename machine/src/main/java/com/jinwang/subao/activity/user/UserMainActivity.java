@@ -9,31 +9,12 @@ import com.jinwang.subao.R;
 
 public class UserMainActivity extends ActionBarActivity {
 
-
-//    private LinearLayout llyUserPut,llyUserGet;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
         this.setTitle(getString(R.string.app_name));
-//        llyUserPut= (LinearLayout) findViewById(R.id.lly_put);
-//        llyUserPut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(UserMainActivity.this, UserPutGoodActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        llyUserGet= (LinearLayout) findViewById(R.id.lly_get);
-//        llyUserGet.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(UserMainActivity.this, UserGetGoodActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+
     }
 
     /**

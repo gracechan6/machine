@@ -110,6 +110,7 @@
     <string name="title_activity_delivery_login">DeliveryLoginActivity</string>
     <string name="title_activity_user_get_good_by_code">UserGetGoodByCode</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_update_version">UpdateVersionActivity</string>
 
 
 

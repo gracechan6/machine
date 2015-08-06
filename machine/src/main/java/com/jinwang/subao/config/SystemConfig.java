@@ -21,7 +21,7 @@ public class SystemConfig {
     public static final String URL_PUT_USERCABINET = URL_BASE + "/ybpt/web/ybmobile/PackageStatus_checkWaitSend.action";//接口二十七: 根据寄件码获取寄件信息
     public static final String URL_PUT_DELIVERYCABINET = URL_BASE + "/ybpt/web/ybmobile/ExpressPerson_courierDelivery.action";//接口二十五: 快递员投递快件
     public static final String URL_PUT_USERCABSIZE = URL_BASE + "/ybpt/web/ybmobile/MobilePackageInfo_setPackageState.action";//接口二十六—->接口十二：快递寄件选完箱子点确定(也叫普通用户投件接口)
-
+    public static final String URL_UPDATE_TERMINALVERSION = URL_BASE + "/ybpt/web/ybmobile/EquipmentAndrod_updateSysVersion.action";//接口二十九: 更新设备终端版本
 
     //================================
 
@@ -34,7 +34,7 @@ public class SystemConfig {
 
     //=================System Role config
     public static final String SYSTEM_ROLE = "Group0006";
-    public static final String SYSTEM_MANAGER_MUUID = "root";
+    public static final String SYSTEM_MANAGER_MUUID="root";
 
     //================================
 
@@ -52,10 +52,17 @@ public class SystemConfig {
     public static final String KEY_ReceivePhone = "ReceivePhone";
     public static final String KEY_BoxUuid = "BoxUuid";
     public static final String KEY_BoxType = "BoxType";
+    public static final String KEY_SysVersion= "SysVersion";
+    public static final String KEY_EquipmentMuuid = "EquipmentMuuid";
 
     public static  String VALUE_MuuidValue=null ;
 
     //public static final String KEY_ = "";
+
+    //================================
+
+    //=================System Version
+    public static String SYSTEM_VERSION ;
 
     //================================
 }

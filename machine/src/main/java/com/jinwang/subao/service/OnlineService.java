@@ -1,5 +1,6 @@
 package com.jinwang.subao.service;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 
 import org.ddpush.im.util.DateTimeUtil;
@@ -15,16 +16,23 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.jinwang.subao.AutoInstall;
+import com.jinwang.subao.R;
+import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.PushConfig;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.receiver.TickAlarmReceiver;
+import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.subao.util.Util;
+import com.loopj.android.http.RequestParams;
 
 /**
  * created by michael, 7/28/15
@@ -32,7 +40,6 @@ import com.jinwang.subao.util.Util;
  * 保证设备在线服务
  */
 public class OnlineService extends Service {
-	
 	protected PendingIntent tickPendIntent;
 	protected TickAlarmReceiver tickAlarmReceiver = new TickAlarmReceiver();
 	WakeLock wakeLock;
@@ -78,6 +85,34 @@ public class OnlineService extends Service {
 				String str = null;
 				try{
 					str = new String(message.getData(),5,message.getContentLength(), SystemConfig.SERVER_CHAR_SET);
+					JSONObject jsonObject=new JSONObject(str);
+					if(jsonObject.getInt("type")==0){
+						JSONObject data=new JSONObject(jsonObject.getString("data"));
+						String url=data.getString("url");
+						String version=data.getString("version");
+						SystemConfig.SYSTEM_VERSION=version;
+
+						//服务器端下载新版本
+						//String folderName = ConstantConfig.EXTERNAL_FILE_PATH
+						String EXTERNAL_FILE_PATH = Environment.getExternalStorageDirectory().getPath()
+								+ "/JWApk";
+						String fileName="new.apk";
+						new SubaoHttpClient(url).getNewVersion(EXTERNAL_FILE_PATH+fileName);
+
+						//安装版本  //重新启动新版本
+						AutoInstall.setUrl(EXTERNAL_FILE_PATH+fileName);
+						AutoInstall.install(OnlineService.this);
+
+						//去服务器端更新本地新版本
+						String httpUrl=SystemConfig.URL_UPDATE_TERMINALVERSION;
+						RequestParams param = new RequestParams();
+						param.put(SystemConfig.KEY_EquipmentMuuid,SharedPreferenceUtil.getStringData(OnlineService.this, SystemConfig.KEY_DEVICE_ID));
+						param.put(SystemConfig.KEY_SysVersion,SystemConfig.SYSTEM_VERSION);
+						param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(OnlineService.this, SystemConfig.KEY_DEVICE_MUUID));
+						//param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+						if(new SubaoHttpClient(url,param).updateServerVersion())
+							Toast.makeText(OnlineService.this,"新版本信息已经更新至服务器",Toast.LENGTH_SHORT).show();
+					}
 
                     JSONObject jsonObject = new JSONObject(str);
                     int type = jsonObject.getInt("type");
@@ -98,10 +133,12 @@ public class OnlineService extends Service {
 				}catch(Exception e){
 					str = Util.convert(message.getData(), 5, message.getContentLength());
 				}
+
 			}
 		}
 
 	}
+
 
 	public OnlineService() {
 	}
