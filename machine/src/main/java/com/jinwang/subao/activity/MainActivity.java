@@ -60,8 +60,6 @@ public class MainActivity extends SubaoBaseActivity {
 //        });
         //modify end
 
-        sendBroadcast(new Intent("com.android.action.display_navigationbar"));
-
         //启动在线服务
         startOnlienService();
     }

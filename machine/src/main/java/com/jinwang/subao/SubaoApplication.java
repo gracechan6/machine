@@ -1,6 +1,7 @@
 package com.jinwang.subao;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 import com.jinwang.yongbao.device.Device;
@@ -30,6 +31,8 @@ public class SubaoApplication extends Application
         //初始化单片机
         Log.i(getClass().getSimpleName(), "Init uart");
         Device.uartInit();
+
+        sendBroadcast(new Intent("com.android.action.hide_navigationbar"));
     }
 
     @Override

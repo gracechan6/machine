@@ -21,6 +21,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.jinwang.subao.config.PushConfig;
+import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.receiver.TickAlarmReceiver;
 import com.jinwang.subao.util.Util;
 
@@ -75,7 +76,8 @@ public class OnlineService extends Service {
 				//具体信息待宝
 				String str = null;
 				try{
-					str = new String(message.getData(),5,message.getContentLength(), "UTF-8");
+					str = new String(message.getData(),5,message.getContentLength(), SystemConfig.SERVER_CHAR_SET);
+					
 				}catch(Exception e){
 					str = Util.convert(message.getData(), 5, message.getContentLength());
 				}
