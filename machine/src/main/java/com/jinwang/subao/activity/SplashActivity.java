@@ -40,6 +40,8 @@ public class SplashActivity extends AppCompatActivity {
 
         if (SharedPreferenceUtil.getBooleanData(this, FIRST_RUN_FLAG))
         {
+            Log.i(getClass().getSimpleName(), "Terminal MUUID: " + SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID));
+
             startMainActivity();
 
             return;
