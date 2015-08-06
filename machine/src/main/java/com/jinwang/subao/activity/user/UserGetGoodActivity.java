@@ -22,6 +22,7 @@ import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
 import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.yongbao.device.Device;
 import com.loopj.android.http.RequestParams;
 
@@ -100,7 +101,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
     }
 
     /**
-     * 服务端验证取件码，验证通过后打开取件
+     * 服务端验证取件码，验证通过后打开取件->接口28普通用户取件（扫码）
      * @param code
      */
     private void verifyCode(String code)
@@ -111,8 +112,8 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         String url= SystemConfig.URL_GET_USERCABINET;
         RequestParams param = new RequestParams();
         param.put("PackageUuid",code);
-        //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
-        param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+        param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
+        //param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
         new SubaoHttpClient(url,param).connect(td_code,
                 progress_horizontal,
                 getString(R.string.server_link_fail),

@@ -3,6 +3,7 @@ package com.jinwang.subao.asyncHttpClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jinwang.subao.config.SystemConfig;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
@@ -30,7 +31,7 @@ public class SubaoHttpClient{
         RequstClient.post(
                 url,
                 param,
-                new JsonHttpResponseHandler() {
+                new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -45,7 +46,8 @@ public class SubaoHttpClient{
                         //System.out.println(incident);
                         //System.out.println("进入json-onsuccess");
                         switch (incident){
-                            case "mUUIDvalidate":{
+                            case "mUUIDvalidate":
+                            case "updateCabStatus":{
                                 textView.setText(new JsonObjectShift(response).MUUIDValidate());
                                 break;
                             }
@@ -59,6 +61,11 @@ public class SubaoHttpClient{
                                 textView.setText(new JsonObjectShift(response).PackageUuidVal());
                                 break;
                             }
+                            case "updateCabStatusUser":{
+                                textView.setText(new JsonObjectShift(response).updateCabStatus());
+                                break;
+                            }
+
 
                         }
                         //Log.i("test",response.toString()+"success_g");

@@ -48,22 +48,10 @@ public class JsonObjectShift {
     public String MUUIDValidate() {
         String str="";
         try {
-            if(obj.has("success")) str+="success,"+obj.getString("success");
+            if(obj.has("success")) str+="success:"+obj.getString("success");
 
             if(obj.has("errMsg"))
-                str+="errMsg,"+obj.getString("errMsg");
-            /*if(obj.has("errMsg")){
-                String utf="";
-                try {
-                    byte[] bs = obj.getString("errMsg").getBytes("GBK");
-                    utf= new String(bs, "UTF-8");
-                           *//* URLEncoder.encode(new String(obj.getString("errMsg").getBytes()),"UTF-8");*//*
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                str+="errMsg:"+utf+";";
-            }*/
-
+                str+="errMsg:"+obj.getString("errMsg");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -97,7 +85,7 @@ public class JsonObjectShift {
                             str+="cabinetNo:"+oj.getString("cabinetNo")+";";
                             str+="boardId:"+oj.getString("boardId")+";packageEquipment:";
                             if(oj.has("packageEquipment"))
-                                str+=oj.getString("packageEquipment");
+                                str+="packageEquipment"+oj.getString("packageEquipment");
                         }
                     }
                 }
@@ -123,4 +111,22 @@ public class JsonObjectShift {
 
         return str;
     }
+
+    public String updateCabStatus() {
+        String str="";
+        try {
+            if(obj.has("success")) str+="success:"+obj.getString("success")+";";
+
+            if(obj.has("errMsg"))
+                str+="errMsg:"+obj.getString("errMsg")+";";
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return str;
+    }
+
+
+
 }

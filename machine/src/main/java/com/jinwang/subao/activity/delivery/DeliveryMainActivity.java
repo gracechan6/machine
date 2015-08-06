@@ -18,6 +18,7 @@ import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
+import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.loopj.android.http.RequestParams;
 
 
@@ -129,7 +130,11 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         RequestParams param = new RequestParams();
         param.put("Muuid",mUUID);
         //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
-        param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+        String tid= SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID);
+        String id=SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_ID);
+        String pwd=SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_PASSWORD);
+
+        param.put("TerminalMuuid","20CD52A9-AD1D-2BFA-B28A-59E5A3B1902C");//test
         flag=2;
         new SubaoHttpClient(url,param).connect(mUUIDvalidate,
                                                progress_horizontal,
@@ -172,12 +177,13 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                     Toast.makeText(DeliveryMainActivity.this, getString(R.string.error_noReturn), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                result = mUUIDvalidate.getText().toString().trim().split(",");
+                result = mUUIDvalidate.getText().toString().trim().split(":");
                 if (result[0].equals("errMsg") || result[0].equals("success") && result[1].equals("false"))
                     Toast.makeText(DeliveryMainActivity.this, result[1], Toast.LENGTH_SHORT).show();
                 else {
                     progress_horizontal.setProgress(progress_horizontal.getProgress() - progress_horizontal.getProgress());
                     progress_horizontal.setVisibility(View.INVISIBLE);
+                    SystemConfig.VALUE_MuuidValue=mUUID;
                     if (BeCancelLogin()) {
                         mexit.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -193,6 +199,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                                 if (s.toString().trim().equals(getString(R.string.app_exit))) {
                                     if (new RecordVar().isShowUnlogin()) {
                                         mUUID = null;
+                                        SystemConfig.VALUE_MuuidValue=mUUID;
                                         new RecordVar().setShowUnlogin(false);
                                     }
                                 }
