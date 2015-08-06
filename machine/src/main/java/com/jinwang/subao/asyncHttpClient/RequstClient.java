@@ -3,6 +3,8 @@ package com.jinwang.subao.asyncHttpClient;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.BinaryHttpResponseHandler;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 public class RequstClient {
@@ -43,5 +45,14 @@ public class RequstClient {
                            JsonHttpResponseHandler handler) {
         //System.out.println("进入get Jason");
         mClient.get(url, params, handler);
+    }
+
+    public static void get(String url, BinaryHttpResponseHandler bHandler)   //下载数据使用，会返回byte数据
+    {
+        mClient.get(url, bHandler);
+    }
+    public static void get(String url, FileAsyncHttpResponseHandler bHandler)   //下载数据使用，会返回byte数据
+    {
+        mClient.get(url, bHandler);
     }
 }

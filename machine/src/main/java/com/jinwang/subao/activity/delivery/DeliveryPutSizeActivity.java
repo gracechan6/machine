@@ -207,7 +207,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
     }
 
     /**
-     * 服务端验证取件码，验证通过后打开取件
+     * 服务端验证取件码，验证通过后打开取件-->接口25
      * @param bid cid
      */
     private void updateServerData(int bid,int cid)
