@@ -241,14 +241,14 @@ public class DeviceUtil {
         Map<String, Integer> result = new HashMap<>();
 
         //首先打开所有可用箱格
-//        for (int board = 1; board <= boardCount; board++)
-//        {
-//            for (int grid = 1; grid <= PER_BOARD_GRID_NUM; grid++)
-//            {
-//                Log.i("DeviceUtil", "Open grid: " + board + "_" + grid);
-//                Device.openGrid(board, grid, new int[5]);
-//            }
-//        }
+        for (int board = 1; board <= boardCount; board++)
+        {
+            for (int grid = 1; grid <= PER_BOARD_GRID_NUM; grid++)
+            {
+                Log.i("DeviceUtil", "Open grid: " + board + "_" + grid);
+                Device.openGrid(board, grid, new int[5]);
+            }
+        }
 
         //打开完成后，获取锁的状态如果还为“关”，则锁不能使用
         for (int board = 1; board <= boardCount; board++)

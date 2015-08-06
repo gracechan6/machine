@@ -296,6 +296,8 @@ public class ManagerActivity extends SubaoBaseActivity {
             DeviceUtil.setGridSize(this, grid.getBoardID(), grid.getGridID(), grid.getGridSize());
             DeviceUtil.updateGridState(this, grid.getBoardID(), grid.getGridID(), grid.getGridState());
         }
+
+        finish();
     }
 
     @Override

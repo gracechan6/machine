@@ -77,7 +77,7 @@ public class OnlineService extends Service {
 				String str = null;
 				try{
 					str = new String(message.getData(),5,message.getContentLength(), SystemConfig.SERVER_CHAR_SET);
-					
+
 				}catch(Exception e){
 					str = Util.convert(message.getData(), 5, message.getContentLength());
 				}

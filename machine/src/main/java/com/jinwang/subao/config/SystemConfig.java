@@ -34,6 +34,8 @@ public class SystemConfig {
 
     //=================System Role config
     public static final String SYSTEM_ROLE = "Group0006";
+    public static final String SYSTEM_MANAGER_MUUID = "root";
+
     //================================
 
     //=================Data encoding
