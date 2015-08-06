@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import org.ddpush.im.util.DateTimeUtil;
 import org.ddpush.im.v1.client.appuser.Message;
 import org.ddpush.im.v1.client.appuser.TCPClientBase;
+import org.json.JSONObject;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -77,6 +78,22 @@ public class OnlineService extends Service {
 				String str = null;
 				try{
 					str = new String(message.getData(),5,message.getContentLength(), SystemConfig.SERVER_CHAR_SET);
+
+                    JSONObject jsonObject = new JSONObject(str);
+                    int type = jsonObject.getInt("type");
+                    if (0 == type)
+                    {
+                        JSONObject update = jsonObject.getJSONObject("data");
+                        String url = update.getString("url");
+                        String version = update.getString("version");
+
+
+                        //download
+                        //update
+                        // 启动
+
+                        //更新版本
+                    }
 
 				}catch(Exception e){
 					str = Util.convert(message.getData(), 5, message.getContentLength());

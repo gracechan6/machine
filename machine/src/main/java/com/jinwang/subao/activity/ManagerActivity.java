@@ -69,7 +69,61 @@ public class ManagerActivity extends SubaoBaseActivity {
                     return;
                 }
 
-                getLockStateTask.execute(position);
+                new AsyncTask<Integer, Integer, Map<String, Integer>>() {
+                    @Override
+                    protected Map<String, Integer> doInBackground(Integer... params) {
+                        return DeviceUtil.getAllGridState(params[0]);
+                    }
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+
+                        progressBar = getLayoutInflater().inflate(R.layout.progress_view, null);
+
+                        //        rootView.addView(progressBar);
+                        rootView.addView(progressBar, 900, 600);
+                    }
+
+                    @Override
+                    protected void onPostExecute(Map<String, Integer> stringIntegerMap) {
+                        super.onPostExecute(stringIntegerMap);
+
+                        gridList = new ArrayList<>();
+                        //设置
+                        for (String key : stringIntegerMap.keySet()) {
+                            LockGrid grid = new LockGrid();
+                            String[] ss = key.split("_");
+                            grid.setBoardID(Integer.valueOf(ss[0]));
+                            grid.setGridID(Integer.valueOf(ss[1]));
+                            grid.setGridState(stringIntegerMap.get(key));
+
+                            gridList.add(grid);
+                        }
+
+                        //按板址址排序
+                        Collections.sort(gridList, new Comparator<LockGrid>() {
+                            @Override
+                            public int compare(LockGrid lhs, LockGrid rhs) {
+                                if (lhs.getBoardID() > rhs.getBoardID() ||
+                                        lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() > rhs.getGridID()) {
+                                    return 1;
+                                }
+                                if (lhs.getBoardID() < rhs.getBoardID() ||
+                                        lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() < rhs.getGridID()) {
+                                    return -1;
+                                }
+
+                                return 0;
+                            }
+                        });
+
+                        adapter.notifyDataSetChanged();
+
+
+                        rootView.removeView(progressBar);
+                    }
+                }.execute(position);
             }
 
             @Override
@@ -219,65 +273,6 @@ public class ManagerActivity extends SubaoBaseActivity {
             });
 
             return convertView;
-        }
-    };
-
-    /**
-     * 获取锁状态异步任务
-     */
-    private AsyncTask<Integer, Integer, Map<String, Integer>> getLockStateTask = new AsyncTask<Integer, Integer, Map<String, Integer>>() {
-        @Override
-        protected Map<String, Integer> doInBackground(Integer... params) {
-            return DeviceUtil.getAllGridState(params[0]);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressBar = getLayoutInflater().inflate(R.layout.progress_view, null);
-
-    //        rootView.addView(progressBar);
-            rootView.addView(progressBar, 900, 600);
-        }
-
-        @Override
-        protected void onPostExecute(Map<String, Integer> stringIntegerMap) {
-            super.onPostExecute(stringIntegerMap);
-
-            gridList = new ArrayList<>();
-            //设置
-            for (String key : stringIntegerMap.keySet()) {
-                LockGrid grid = new LockGrid();
-                String[] ss = key.split("_");
-                grid.setBoardID(Integer.valueOf(ss[0]));
-                grid.setGridID(Integer.valueOf(ss[1]));
-                grid.setGridState(stringIntegerMap.get(key));
-
-                gridList.add(grid);
-            }
-
-            //按板址址排序
-            Collections.sort(gridList, new Comparator<LockGrid>() {
-                @Override
-                public int compare(LockGrid lhs, LockGrid rhs) {
-                    if (lhs.getBoardID() > rhs.getBoardID() ||
-                            lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() > rhs.getGridID()) {
-                        return 1;
-                    }
-                    if (lhs.getBoardID() < rhs.getBoardID() ||
-                            lhs.getBoardID() == rhs.getBoardID() && lhs.getGridID() < rhs.getGridID()) {
-                        return -1;
-                    }
-
-                    return 0;
-                }
-            });
-
-            adapter.notifyDataSetChanged();
-
-
-            rootView.removeView(progressBar);
         }
     };
 
