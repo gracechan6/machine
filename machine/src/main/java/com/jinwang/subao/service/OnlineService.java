@@ -3,6 +3,7 @@ package com.jinwang.subao.service;
 import java.io.File;
 import java.nio.ByteBuffer;
 
+import org.apache.http.Header;
 import org.ddpush.im.util.DateTimeUtil;
 import org.ddpush.im.v1.client.appuser.Message;
 import org.ddpush.im.v1.client.appuser.TCPClientBase;
@@ -26,12 +27,14 @@ import android.widget.Toast;
 
 import com.jinwang.subao.AutoInstall;
 import com.jinwang.subao.R;
-import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
+import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.config.PushConfig;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.receiver.TickAlarmReceiver;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.subao.util.Util;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /**
@@ -97,21 +100,23 @@ public class OnlineService extends Service {
 						String EXTERNAL_FILE_PATH = Environment.getExternalStorageDirectory().getPath()
 								+ "/JWApk";
 						String fileName="new.apk";
-						new SubaoHttpClient(url).getNewVersion(EXTERNAL_FILE_PATH+fileName);
+						AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
+						client.get(url, new FileAsyncHttpResponseHandler(new File(EXTERNAL_FILE_PATH+fileName)) {
+							@Override
+							public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+								file.delete();
+								Toast.makeText(getApplicationContext(), getString(R.string.error_versionDown), Toast.LENGTH_LONG).show();
+							}
 
-						//安装版本  //重新启动新版本
-						AutoInstall.setUrl(EXTERNAL_FILE_PATH+fileName);
-						AutoInstall.install(OnlineService.this);
+							@Override
+							public void onSuccess(int statusCode, Header[] headers, File file) {
+								//安装版本  //重新启动新版本
 
-						//去服务器端更新本地新版本
-						String httpUrl=SystemConfig.URL_UPDATE_TERMINALVERSION;
-						RequestParams param = new RequestParams();
-						param.put(SystemConfig.KEY_EquipmentMuuid,SharedPreferenceUtil.getStringData(OnlineService.this, SystemConfig.KEY_DEVICE_ID));
-						param.put(SystemConfig.KEY_SysVersion,SystemConfig.SYSTEM_VERSION);
-						param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(OnlineService.this, SystemConfig.KEY_DEVICE_MUUID));
-						//param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
-						if(new SubaoHttpClient(url,param).updateServerVersion())
-							Toast.makeText(OnlineService.this,"新版本信息已经更新至服务器",Toast.LENGTH_SHORT).show();
+							}
+						});
+
+
+
 					}
 				}catch(Exception e){
 					str = Util.convert(message.getData(), 5, message.getContentLength());

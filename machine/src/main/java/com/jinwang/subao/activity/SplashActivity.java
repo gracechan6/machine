@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.SubaoApplication;
@@ -149,6 +150,39 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void startMainActivity()
     {
+        //服务器端更新本地新版本
+        if(SystemConfig.SYSTEM_VERSION!=null) {
+            String url = SystemConfig.URL_UPDATE_TERMINALVERSION;
+            RequestParams param = new RequestParams();
+            param.put(SystemConfig.KEY_EquipmentMuuid, SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID));
+            param.put(SystemConfig.KEY_SysVersion, SystemConfig.SYSTEM_VERSION);
+            param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID));
+
+            AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
+            client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.i(getClass().getSimpleName(), "Response: " + response.toString());
+                    try {
+                        boolean success = response.getBoolean("success");
+                        //成功，跳转至相应页面
+                        if (success){
+                            Log.i(getClass().getSimpleName(), getString(R.string.succ_operate) );
+                        } else {
+                            Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
 

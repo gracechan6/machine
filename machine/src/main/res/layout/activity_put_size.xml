@@ -64,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="25"
                 android:textSize="30sp"
+                android:text="0"
                 android:id="@+id/tv_large"/>
 
         </LinearLayout>
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="25"
+                android:text="0"
                 android:textSize="30sp"
                 android:id="@+id/tv_medium"/>
 
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="25"
+                android:text="0"
                 android:textSize="30sp"
                 android:id="@+id/tv_small"/>
 

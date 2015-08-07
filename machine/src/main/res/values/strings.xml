@@ -83,6 +83,8 @@
     <string name="error_System">系统错误</string>
     <string name="error_packStage">该包裹已经寄出</string>
     <string name="error_mexitUpdate">导航栏退出按钮更新失败</string>
+    <string name="error_versionDown">下载新版本失败</string>
+
 
     <!--toast出错提示-->
     <string name="succ_operate">操作成功</string>

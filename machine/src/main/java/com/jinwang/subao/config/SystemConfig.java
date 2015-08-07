@@ -66,7 +66,7 @@ public class SystemConfig {
     //================================
 
     //=================System Version
-    public static String SYSTEM_VERSION ;
+    public static String SYSTEM_VERSION=null ;
 
     //================================
 }

@@ -50,7 +50,38 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
 
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
 
+        lly_large= (LinearLayout) findViewById(R.id.lly_large);
+        lly_large.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取大尺寸快件柜*/
+                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
+                OpenCabinet(DeviceUtil.GRID_SIZE_LARGE);
+            }
+        });
+        lly_large.setClickable(false);
 
+        lly_medium= (LinearLayout) findViewById(R.id.lly_medium);
+        lly_medium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取中尺寸快件柜*/
+                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
+                OpenCabinet(DeviceUtil.GRID_SIZE_MID);
+            }
+        });
+        lly_medium.setClickable(false);
+        lly_small= (LinearLayout) findViewById(R.id.lly_small);
+        lly_small.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*选取小尺寸快件柜*/
+                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
+                OpenCabinet(DeviceUtil.GRID_SIZE_SMALL);
+
+            }
+        });
+        lly_small.setClickable(false);
         //7/28/15 add by michael
         // 箱格使用信息同步到客户端，客户端可以直接获取箱格使用情况
         // 获取箱格使用情况，然后显示有界面，有几个大的，几个小的，几个中的
@@ -65,9 +96,18 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             tv_medium= (TextView) findViewById(R.id.tv_medium);
             tv_small= (TextView) findViewById(R.id.tv_small);
 
-            tv_large.setText(large.size());
-            tv_medium.setText(mid.size());
-            tv_small.setText(small.size());
+            if(large.size()>0){
+                tv_large.setText(large.size());
+                lly_large.setClickable(true);
+            }
+            if(large.size()>0){
+                tv_medium.setText(mid.size());
+                lly_medium.setClickable(true);
+            }
+            if(large.size()>0){
+                tv_small.setText(small.size());
+                lly_small.setClickable(true);
+            }
             /*界面展示各个箱格目前可用情况end*/
 
             //显示在界面使用情况
@@ -77,36 +117,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         }
         //--end
 
-        lly_large= (LinearLayout) findViewById(R.id.lly_large);
-        lly_large.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*选取大尺寸快件柜*/
-                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
-                OpenCabinet(DeviceUtil.GRID_SIZE_LARGE);
-            }
-        });
 
-        lly_medium= (LinearLayout) findViewById(R.id.lly_medium);
-        lly_medium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*选取中尺寸快件柜*/
-                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
-                OpenCabinet(DeviceUtil.GRID_SIZE_MID);
-            }
-        });
-
-        lly_small= (LinearLayout) findViewById(R.id.lly_small);
-        lly_small.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*选取小尺寸快件柜*/
-                /*选好快件柜尺寸后，传送给服务器，服务器随机打开相应尺寸的柜子*/
-                OpenCabinet(DeviceUtil.GRID_SIZE_SMALL);
-
-            }
-        });
 
         // 15/7/28 add by michael, 获取快件柜使用情况
 
@@ -134,9 +145,10 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_LARGE:{
                 try {
                     Map<Integer, Integer> large = DeviceUtil.getLargeUnusedGridsList(DeliveryPutSizeActivity.this);
-                    if(large.size()==0)
-                        Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_NoSuitableSize),Toast.LENGTH_SHORT).show();
-                    else
+                    if(large.size()==0) {
+                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        lly_large.setClickable(false);
+                    }else
                     {
                         Random random = new Random();
                         randomNum=random.nextInt(large.size())+1;
@@ -151,9 +163,10 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_MID:{
                 try {
                     Map<Integer, Integer> mid = DeviceUtil.getMidUnusedGridsList(DeliveryPutSizeActivity.this);
-                    if(mid.size()==0)
-                        Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_NoSuitableSize),Toast.LENGTH_SHORT).show();
-                    else
+                    if(mid.size()==0) {
+                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        lly_medium.setClickable(false);
+                    }else
                     {
                         Random random = new Random();
                         randomNum=random.nextInt(mid.size())+1;
@@ -168,9 +181,10 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_SMALL:{
                 try {
                     Map<Integer, Integer> small = DeviceUtil.getSmallUnusedGridsList(DeliveryPutSizeActivity.this);
-                    if(small.size()==0)
-                        Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_NoSuitableSize),Toast.LENGTH_SHORT).show();
-                    else
+                    if(small.size()==0) {
+                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        lly_small.setClickable(false);
+                    }else
                     {
                         Random random = new Random();
                         randomNum=random.nextInt(small.size())+1;
