@@ -21,16 +21,10 @@
         android:max="100"
         android:progress="0"
         android:visibility="invisible"/>
-    <TextView
-        android:layout_below="@id/progress_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:id="@+id/updateCabStatus"
-        android:background="#00000000"
-        android:textColor="#00000000" />
+
 
     <TextView
-        android:layout_below="@id/updateCabStatus"
+        android:layout_below="@id/toolbar"
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

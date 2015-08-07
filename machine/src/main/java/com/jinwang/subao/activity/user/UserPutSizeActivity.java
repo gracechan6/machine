@@ -1,15 +1,8 @@
 package com.jinwang.subao.activity.user;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,17 +10,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
-import com.jinwang.subao.activity.MainActivity;
+import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
-import com.jinwang.subao.activity.delivery.DeliveryPutGoodActivity;
-import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.yongbao.device.Device;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import java.util.HashMap;
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -38,8 +34,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
     private LinearLayout lly_large, lly_medium, lly_small;
     private TextView tv_large,tv_medium,tv_small;
 
-    //隐藏的文本框
-    private TextView updateCabStatus;
+
     private ProgressBar progress_horizontal;
 
     @Override
@@ -106,8 +101,6 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
 
             }
         });
-
-
     }
 
     /*size代表尺寸 2大 1中 0小 服务器端获取信息生成二维码，之后打印*/
@@ -189,31 +182,17 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         }
         if(i==randomNum) {
             if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
-                DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
+                DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
                 textView.setText(useable - 1);
+                //打印面单
+
                 //去服务器更新数据
                 updateServerData(bid, cid,size);
                 //finish();
             } else
                 Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
         }
-
-        //随机打开一个可用的箱格并打印面单
-        //提交服务端更新寄件信息
-        //结束该页面，显示提示界面
-
-        /*从服务器获取信息*/
-
-
-
-        /*打印*/
-
-
-        Intent intent = new Intent(UserPutSizeActivity.this, UserPutEndActivity.class);
-        intent.putExtra("size", size);
-        startActivity(intent);
     }
-
 
     /**
      * 服务端验证取件码，验证通过后打开取件  ->接口12快递寄件选完箱子点确定(也叫普通用户投件接口)
@@ -235,47 +214,37 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         param.put(SystemConfig.KEY_BoxUuid,getIntent().getStringExtra(UserPutGoodActivity.USER_PUT_CODE));
         param.put(SystemConfig.KEY_BoxType,size);
 
-        //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
-        param.put("TerminalMuuid", "A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
-        new SubaoHttpClient(url,param).connect(updateCabStatus,
-                progress_horizontal,
-                getString(R.string.server_link_fail),
-                "updateCabStatusUser");
+        param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
-    }
-
-    /*监控隐藏(TextView)的内容变化情况*/
-    protected class textChanges implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {// getString(R.string.error_noReturn)
-            if (updateCabStatus.getText().toString() == null || updateCabStatus.getText().toString().length() ==
-                    0) {
-                Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_noReturn),
-                        Toast.LENGTH_SHORT).show();
-                return;
+        AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
+        client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(getClass().getSimpleName(), "Response: " + response.toString());
+                try {
+                    boolean success = response.getBoolean("success");
+                    //成功，跳转至相应页面
+                    if (success)
+                    {
+                        Intent intent=new Intent(getApplicationContext(),UserPutEndActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getApplicationContext(),response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
+                }
             }
-            String[] result = updateCabStatus.getText().toString().trim().split(";");
-            String success[] = result[0].split(":");
-            if (success[0].equals("success") && success[1].equals("false")) {
-                String errMsg[] = result[1].split(":");
-                Toast.makeText(UserPutSizeActivity.this, errMsg[1], Toast.LENGTH_SHORT).show();
-            } else {
-                progress_horizontal.setProgress(progress_horizontal.getProgress() -
-                        progress_horizontal.getProgress());
-                progress_horizontal.setVisibility(View.INVISIBLE);
-                Toast.makeText(UserPutSizeActivity.this, getString(R.string.succ_operate), Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(UserPutSizeActivity.this,UserPutEndActivity.class);
-                startActivity(intent);
-                finish();
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
-        }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+        });
     }
 }

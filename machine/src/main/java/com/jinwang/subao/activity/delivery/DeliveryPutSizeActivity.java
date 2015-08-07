@@ -1,9 +1,9 @@
 package com.jinwang.subao.activity.delivery;
 
 
+
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -11,13 +11,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
-import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.yongbao.device.Device;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -41,8 +47,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         setContentView(R.layout.activity_put_size);
         initToolBar();
         this.setTitle(getString(R.string.delivery_put));
-        updateCabStatus= (TextView) findViewById(R.id.TD_code);
-        updateCabStatus.addTextChangedListener(new textChanges());
+
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
 
 
@@ -195,7 +200,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         }
         if(i==randomNum) {
             if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
-                DeviceUtil.updateGridState(this, bid, cid, 0);//更新箱格状态
+                DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
                 textView.setText(useable - 1);
                 //去服务器更新数据
                 updateServerData(bid, cid);
@@ -227,46 +232,35 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         param.put(SystemConfig.KEY_ReceivePhone,getIntent().getStringExtra(DeliveryPutGoodActivity.USER_TEL));
         param.put(SystemConfig.KEY_PackageNumber,getIntent().getStringExtra(DeliveryPutGoodActivity.GOOD_NUM));
 
-        //param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
-        //param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
-        new SubaoHttpClient(url,param).connect( updateCabStatus,
-                progress_horizontal,
-                getString(R.string.server_link_fail),
-                "updateCabStatus");
-
-    }
-
-    /*监控隐藏(TextView)的内容变化情况*/
-    protected class textChanges implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {// getString(R.string.error_noReturn)
-            if (updateCabStatus.getText().toString() == null || updateCabStatus.getText().toString().length() ==
-                    0) {
-                Toast.makeText(DeliveryPutSizeActivity.this,getString(R.string.error_noReturn),
-                        Toast.LENGTH_SHORT).show();
-                return;
+        AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
+        client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(getClass().getSimpleName(), "Response: " + response.toString());
+                try {
+                    boolean success = response.getBoolean("success");
+                    //成功，跳转至相应页面
+                    if (success){
+                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.succ_operate), Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
+                }
             }
-            String[] result = updateCabStatus.getText().toString().trim().split(";");
-            String success[] = result[0].split(":");
-            if (success[0].equals("success") && success[1].equals("false")) {
-                String errMsg[] = result[1].split(":");
-                Toast.makeText(DeliveryPutSizeActivity.this, errMsg[1], Toast.LENGTH_SHORT).show();
-            } else {
-                progress_horizontal.setProgress(progress_horizontal.getProgress() -
-                        progress_horizontal.getProgress());
-                progress_horizontal.setVisibility(View.INVISIBLE);
-                Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.succ_operate), Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-    }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+        });
+    }
 }

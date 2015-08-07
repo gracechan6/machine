@@ -54,6 +54,10 @@ public class SystemConfig {
     public static final String KEY_BoxType = "BoxType";
     public static final String KEY_SysVersion= "SysVersion";
     public static final String KEY_EquipmentMuuid = "EquipmentMuuid";
+    public static final String KEY_PackageUuid= "PackageUuid";
+    public static final String KEY_LastFour = "LastFour";
+//    public static final String KEY_ = "";
+//    public static final String KEY_ = "";
 
     public static  String VALUE_MuuidValue=null ;
 

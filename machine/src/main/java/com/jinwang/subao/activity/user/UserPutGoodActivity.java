@@ -1,37 +1,31 @@
 package com.jinwang.subao.activity.user;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
-import com.jinwang.subao.activity.delivery.DeliveryPutSizeActivity;
-import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
-import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
-import com.jinwang.yongbao.device.Device;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class UserPutGoodActivity extends SubaoBaseActivity {
@@ -40,18 +34,15 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
 
     //7/28/15 add by michael, 寄件码从扫描器读入
     private EditText inputArea;
-    //隐藏的文本框
-    private TextView td_code;
+
     private ProgressBar progress_horizontal;
-    private String code;
+    private String BoxUuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_put_good);
 
-        td_code= (TextView) findViewById(R.id.TD_code);
-        td_code.addTextChangedListener(new textChanges());
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
         //test
         TextView lly_outermost= (TextView) findViewById(R.id.tv_title);
@@ -150,59 +141,54 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
     private void verifyCode(String code)
     {
         //首先去服务端验证取件码，验证通过后打开选择选择箱格界面传递寄件码
-        // 然后打开对应的箱子--错误了 先去选择箱格界面
-        this.code=code;
+        this.BoxUuid=code;
         progress_horizontal.setVisibility(View.VISIBLE);
         String url= SystemConfig.URL_PUT_USERCABINET;
         RequestParams param = new RequestParams();
-        param.put("PackageUuid", code);
-        param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
-        //param.put("TerminalMuuid", "A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
-        new SubaoHttpClient(url,param).connect(td_code,
-                progress_horizontal,
-                getString(R.string.server_link_fail),
-                "PutMyPackage");
+        param.put(SystemConfig.KEY_PackageUuid, code);
+        param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
+        AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
+        client.post(url,param,new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(getClass().getSimpleName(), "Response: " + response.toString());
+                try {
+                    boolean success = response.getBoolean("success");
+                    if(success){
+                        int packStage=response.getInt("packStage");
+                        if(packStage==0){
+                            Intent intent = new Intent(getApplicationContext(), UserPutSizeActivity.class);
+                            intent.putExtra(USER_PUT_CODE,BoxUuid);
+                            startActivity(intent);
 
-        /*//打开选择箱格界面
-        Intent intent = new Intent(this, UserPutSizeActivity.class);
-        intent.putExtra(USER_PUT_CODE, code);
-        startActivity(intent);*/
-    }
-
-    /*监控隐藏(TextView)的内容变化情况*/
-    protected class textChanges implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {// getString(R.string.error_noReturn)
-            if (td_code.getText().toString() == null || td_code.getText().toString().length() == 0) {
-                Toast.makeText(UserPutGoodActivity.this, getString(R.string.error_noReturn), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String[] result = td_code.getText().toString().trim().split(";");
-            String success[] = result[0].split(":");
-            if (success[0].equals("success") && success[1].equals("false")) {
-                String errMsg[] = result[1].split(":");
-                Toast.makeText(UserPutGoodActivity.this, errMsg[1], Toast.LENGTH_SHORT).show();
-            } else {
-                progress_horizontal.setProgress(progress_horizontal.getProgress() - progress_horizontal.getProgress());
-                progress_horizontal.setVisibility(View.INVISIBLE);
-                String packStage[]=result[1].split(":");
-                if(Integer.parseInt(packStage[1])==0)
-                {
-                    //打开选择箱格界面
-                    Intent intent = new Intent(UserPutGoodActivity.this, UserPutSizeActivity.class);
-                    intent.putExtra(USER_PUT_CODE, code);
-                    startActivity(intent);
+                        }else {
+                            Toast.makeText(getApplicationContext(),getString(R.string.error_packStage), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+        });
     }
 }

@@ -1,7 +1,6 @@
 package com.jinwang.subao.activity.user;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,16 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
-import com.jinwang.subao.RecordVar;
 import com.jinwang.subao.SubaoApplication;
-import com.jinwang.subao.activity.MainActivity;
 import com.jinwang.subao.activity.SubaoBaseActivity;
-import com.jinwang.subao.activity.delivery.DeliveryGetGoodActivity;
-import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.thread.CheckSoftInputThread;
@@ -36,13 +30,9 @@ import org.json.JSONObject;
 
 public class UserGetGoodActivity extends SubaoBaseActivity {
 
-//    private Button get_good;
-//    private EditText edt_getGoodCode;
-
     //隐藏的输入框
     private EditText inputArea;
-    //隐藏的文本框
-    private TextView td_code;
+
     private ProgressBar progress_horizontal;
 
     @Override
@@ -52,13 +42,10 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         initToolBar();
         this.setTitle(getString(R.string.title_user_get));
 
-        td_code= (TextView) findViewById(R.id.TD_code);
-        td_code.addTextChangedListener(new textChanges());
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
 
         // 15/7/27 add by michael, 输入取件码（从扫码器读入，扫码器就是一个输入设备）
         inputArea = (EditText) findViewById(R.id.inputArea);
-
         inputArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,20 +78,6 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
             }
         });
         // add end
-
-        //--15/7/27 modified by michael，不使用广播
-        /*静态广播,针对直接扫描二维码从服务器获取取件信息*/
-        /*
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_EDIT);
-        sendBroadcast(intent);
-
-
-//        edt_getGoodCode= (EditText) findViewById(R.id.edt_getGoodCode);
-//        get_good= (Button) findViewById(R.id.get_good);
-//        get_good.setOnClickListener(new get_goodListener());
-*/
-        //--modify end
     }
 
     /**
@@ -118,13 +91,11 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         progress_horizontal.setVisibility(View.VISIBLE);
         String url= SystemConfig.URL_GET_USERCABINET;
         RequestParams param = new RequestParams();
-        param.put("PackageUuid",code);
-        param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
-        //param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
+        param.put(SystemConfig.KEY_PackageUuid,code);
+        param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
         // 8/7/15 add by michael, 处理搞乱了，这里有界面的处理
         AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
-
         client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             /**
              * Returns when request succeeds
@@ -157,9 +128,11 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                         if (0 == ret) {
                             //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
                             DeviceUtil.updateGridState(getApplicationContext(), boardID, cabinetNo, DeviceUtil.GRID_STATUS_USEABLE);
-                            finish();
+                            //进入扫码成功界面
+                            Intent intent=new Intent(getApplicationContext(),UserGetGoodByCodeOkActivity.class);
+                            startActivity(intent);
                         } else {
-                            Toast.makeText(getApplicationContext(), "系统错误", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
                         }
                     }
                     else
@@ -182,7 +155,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                Toast.makeText(getApplicationContext(), "系统错误", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -190,62 +163,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                 super.onFinish();
             }
         });
-
-        // add--
-
-//        new SubaoHttpClient(url,param).connect(td_code,
-//                progress_horizontal,
-//                getString(R.string.server_link_fail),
-//                "getMyPackageBytdcode");
-        //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
-
-        //最后关闭该页面，回到首页面
-//        Intent intent = new Intent(this, MainActivity.class);
-//
-//        startActivity(intent);
     }
-
-    /*监控隐藏(TextView)的内容变化情况*/
-    protected class textChanges implements TextWatcher{
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (td_code.getText().toString() == null || td_code.getText().toString().length() == 0) {
-                Toast.makeText(UserGetGoodActivity.this, getString(R.string.error_noReturn), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String[] result = td_code.getText().toString().trim().split(";");
-            String success[] = result[0].split(":");
-            if (success[0].equals("success") && success[1].equals("false")) {
-                String errMsg[] = result[1].split(":");
-                Toast.makeText(UserGetGoodActivity.this, errMsg[1], Toast.LENGTH_SHORT).show();
-            } else {
-                progress_horizontal.setProgress(progress_horizontal.getProgress() - progress_horizontal.getProgress());
-                progress_horizontal.setVisibility(View.INVISIBLE);
-                if (result.length > 3) {
-                    //打开用户箱格
-                    for(int i=1;i<result.length;i+=3) {
-                        String boardId[]=result[i].split(":");
-                        String cabintNo[]=result[i+1].split(":");
-                        int bid,cid;
-                        bid = Integer.parseInt(boardId[1]);
-                        cid = Integer.parseInt(cabintNo[1]);
-                        Device.openGrid(bid, cid, new int[10]);//打开对应箱格
-                        //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
-                        DeviceUtil.updateGridState(UserGetGoodActivity.this, bid, cid, 0);
-                    }
-                }
-            }
-        }
-    }
-
 
     // 15/7/27 add by michael, 启动禁用系统软件盘线程
     @Override
@@ -284,28 +202,4 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         startActivity(intent);
     }
     // add end
-
-
-    // 15/7/27 modified by michael，不再使用
-    class get_goodListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            String code=null;//edt_getGoodCode.getText().toString();
-            if(code==null || code.length()==0) {
-                Toast.makeText(UserGetGoodActivity.this, "请正确填写取件码", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            /*从服务器后台查找是否存在该取件码，存在则打开相应柜子，返回true
-                                            否则提示不存在该取件码。*/
-
-
-
-            /*成功之后操作跳转至成功页面*/
-            Intent intent = new Intent(UserGetGoodActivity.this, UserGetGoodByCodeOkActivity.class);
-            startActivity(intent);
-
-        }
-    }
-    // modified end
 }

@@ -80,6 +80,9 @@
     <string name="error_Nogood">暂无可取件</string>
     <string name="error_NoSuitableSize">暂无该尺寸箱格空余，请选其他尺寸</string>
     <string name="error_OpenCabinet">打开箱格失败</string>
+    <string name="error_System">系统错误</string>
+    <string name="error_packStage">该包裹已经寄出</string>
+    <string name="error_mexitUpdate">导航栏退出按钮更新失败</string>
 
     <!--toast出错提示-->
     <string name="succ_operate">操作成功</string>
@@ -88,10 +91,6 @@
 
     <!--链接服务器出错-->
     <string name="server_link_fail">服务器请求出错</string>
-
-
-
-
 
 
     <string name="hello_world">Hello world!</string>

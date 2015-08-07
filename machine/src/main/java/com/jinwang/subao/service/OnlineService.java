@@ -113,23 +113,6 @@ public class OnlineService extends Service {
 						if(new SubaoHttpClient(url,param).updateServerVersion())
 							Toast.makeText(OnlineService.this,"新版本信息已经更新至服务器",Toast.LENGTH_SHORT).show();
 					}
-
-                    JSONObject jsonObject = new JSONObject(str);
-                    int type = jsonObject.getInt("type");
-                    if (0 == type)
-                    {
-                        JSONObject update = jsonObject.getJSONObject("data");
-                        String url = update.getString("url");
-                        String version = update.getString("version");
-
-
-                        //download
-                        //update
-                        // 启动
-
-                        //更新版本
-                    }
-
 				}catch(Exception e){
 					str = Util.convert(message.getData(), 5, message.getContentLength());
 				}

@@ -24,13 +24,6 @@
         android:max="100"
         android:progress="0"
         android:visibility="invisible"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:id="@+id/TD_code"
-        android:background="#00000000"
-        android:textColor="#00000000" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,8 +96,6 @@
                     android:textSize="25dp"
                     android:clickable="true"
                     android:onClick="checkCode"/>
-
-
             </LinearLayout>
 
         </RelativeLayout>
