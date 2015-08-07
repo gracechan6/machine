@@ -3,6 +3,7 @@ package com.jinwang.subao.activity.user;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,13 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.asyncHttpClient.SubaoHttpClient;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.yongbao.device.Device;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserGetGoodByCode extends SubaoBaseActivity {
 
@@ -90,10 +98,84 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         param.put("PackageNumber",code);
         param.put("TerminalMuuid", SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
         //param.put("TerminalMuuid","A2AF397F-F35F-0392-4B7F-9DD1663B109C");//test
-        new SubaoHttpClient(url,param).connect( td_code,
-                                                progress_horizontal,
-                                                getString(R.string.server_link_fail),
-                                                "getMyPackageByTelCode");
+
+        // 8/7/15 add by michael, 处理搞乱了，这里有界面的处理
+        AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
+
+        client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET){
+            /**
+             * Returns when request succeeds
+             *
+             * @param statusCode http response status line
+             * @param headers    response headers if any
+             * @param response   parsed response if any
+             */
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(getClass().getSimpleName(), "Response: " + response.toString());
+                try {
+                    boolean success = response.getBoolean("success");
+                    //成功，打开箱格
+                    if (success)
+                    {
+                        JSONObject gridInfo = response.getJSONArray("returnData").getJSONObject(0);
+                        int boardID = gridInfo.getInt("boardId");
+                        int cabinetNo = gridInfo.getInt("cabinetNo");
+                        String packageEquipment = gridInfo.getString("packageEquipment");
+
+                        String terminalID = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID);
+
+                        if (!packageEquipment.equals(terminalID))
+                        {
+                            Log.e(getClass().getSimpleName(), "System return error data: terminal id: " + terminalID + ", but return: " + packageEquipment);
+                            return;
+                        }
+
+                        int ret = Device.openGrid(boardID, cabinetNo, new int[10]);//打开对应箱格
+
+                        if (0 == ret)
+                        {
+                            //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
+                            DeviceUtil.updateGridState(getApplicationContext(), boardID, cabinetNo, DeviceUtil.GRID_STATUS_USEABLE);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "系统错误", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
+                }
+            }
+
+            /**
+             * Returns when request failed
+             *
+             * @param statusCode    http response status line
+             * @param headers       response headers if any
+             * @param throwable     throwable describing the way request failed
+             * @param errorResponse parsed response if any
+             */
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                Toast.makeText(getApplicationContext(), "系统错误", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+        });
+
+        // add--
+
+//        new SubaoHttpClient(url,param).connect( td_code,
+//                                                progress_horizontal,
+//                                                getString(R.string.server_link_fail),
+//                                                "getMyPackageByTelCode");
+
         //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
 
         //最后关闭该页面，回到首页面
@@ -114,7 +196,7 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
 
         @Override
         public void afterTextChanged(Editable s) {// getString(R.string.error_noReturn)
-            if (td_code.getText().toString() == null || td_code.getText().toString().length() == 0) {
+            if (td_code.getText().toString().length() == 0) {
                 Toast.makeText(UserGetGoodByCode.this,getString(R.string.error_noReturn), Toast.LENGTH_SHORT).show();
                 return;
             }
