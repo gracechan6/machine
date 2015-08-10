@@ -35,6 +35,10 @@ public class MainActivity extends SubaoBaseActivity {
 
 
         inputArea = (EditText) findViewById(R.id.inputArea);
+
+        //始终不显示系统键盘
+        inputArea.setShowSoftInputOnFocus(false);
+
         inputArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -45,6 +45,10 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
 
         // 15/7/27 add by michael, 输入取件码（从扫码器读入，扫码器就是一个输入设备）
         inputArea = (EditText) findViewById(R.id.inputArea);
+
+        //键盘始终不显示
+        inputArea.setShowSoftInputOnFocus(false);
+
         inputArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,6 +96,9 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
         RequestParams param = new RequestParams();
         param.put(SystemConfig.KEY_PackageUuid,code);
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
+
+        //打印请求参数
+        Log.i(getClass().getSimpleName(), "Request params: " + param.toString());
 
         // 8/7/15 add by michael, 处理搞乱了，这里有界面的处理
         AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();

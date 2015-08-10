@@ -20,14 +20,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="速宝快递"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:launchMode="singleTask" />
 
         <!-- 用户主界面禁用软键盘 -->
         <activity
@@ -122,6 +115,11 @@
         <activity
             android:name=".activity.SplashActivity"
             android:label="@string/title_activity_splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

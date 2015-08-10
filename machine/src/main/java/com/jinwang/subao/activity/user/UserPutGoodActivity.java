@@ -57,6 +57,9 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
         //寄件码输入域
         inputArea = (EditText) findViewById(R.id.inputArea);
 
+        //始终不显示系统键盘
+        inputArea.setShowSoftInputOnFocus(false);
+
         inputArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,6 +76,12 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
                 String text = inputArea.getText().toString();
                 text = text.trim();
 
+                //字符太短直接返回
+                if (text.length() == 0)
+                {
+                    return;
+                }
+
                 //因为键盘输入无法知道录入何时完成，设置^为结束符，读到^认为结束
                 String lastOne = text.substring(text.length() - 1);
                 if (lastOne.equals(SysConfig.LAST_CHAR))
@@ -82,6 +91,9 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
                     Log.i(getClass().getSimpleName(), "End text: " + text);
                     //验证取件码
                     verifyCode(text);
+
+                    //删除已经输入的内容
+                    inputArea.setText("");
                 }
                 //          Log.i(getClass().getSimpleName(), "End text: " + inputArea.getText());
             }
@@ -125,6 +137,9 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
      */
     private void verifyCode(String code)
     {
+        // 8/10/15 add by michael, 显示处理进度框
+        mDialog.show();
+
         //首先去服务端验证取件码，验证通过后打开选择选择箱格界面传递寄件码
         this.BoxUuid=code;
         progress_horizontal.setVisibility(View.VISIBLE);
@@ -145,6 +160,9 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
                         if(packStage==0){
                             Intent intent = new Intent(getApplicationContext(), UserPutSizeActivity.class);
                             intent.putExtra(USER_PUT_CODE,BoxUuid);
+
+                            //关闭进度条
+                            mDialog.hide();
                             startActivity(intent);
 
                         }else {
@@ -173,6 +191,7 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
             @Override
             public void onFinish() {
                 super.onFinish();
+                mDialog.hide();
             }
         });
     }

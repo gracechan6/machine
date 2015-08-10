@@ -93,15 +93,15 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             tv_medium= (TextView) findViewById(R.id.tv_medium);
             tv_small= (TextView) findViewById(R.id.tv_small);
             if(large.size()>0){
-                tv_large.setText(large.size());
+                tv_large.setText("" + large.size());
                 lly_large.setClickable(true);
             }
-            if(large.size()>0){
-                tv_medium.setText(mid.size());
+            if(mid.size()>0){
+                tv_medium.setText("" + mid.size());
                 lly_medium.setClickable(true);
             }
-            if(large.size()>0){
-                tv_small.setText(small.size());
+            if(small.size()>0){
+                tv_small.setText("" + small.size());
                 lly_small.setClickable(true);
             }
             /*界面展示各个箱格目前可用情况end*/
@@ -111,6 +111,9 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             e.printStackTrace();
             //不会出现此异常
         }
+
+        ///测试更新服务端
+        updateServerData(1, 13, DeviceUtil.GRID_SIZE_MID);
     }
 
     /*size代表尺寸 2大 1中 0小 服务器端获取信息生成二维码，之后打印*/
@@ -196,7 +199,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         if(i==randomNum) {
             if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
                 DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
-                textView.setText(useable - 1);
+//                textView.setText(useable - 1);
                 //打印面单
 
                 //去服务器更新数据
@@ -215,7 +218,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
     {
         //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
         //服务端验证。。。
-        progress_horizontal.setVisibility(View.VISIBLE);
+//        progress_horizontal.setVisibility(View.VISIBLE);
         String url= SystemConfig.URL_PUT_USERCABSIZE;
         RequestParams param = new RequestParams();
         param.put(SystemConfig.KEY_EquipmentNo, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_ID));
@@ -224,7 +227,8 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         param.put(SystemConfig.KEY_BoardId,bid);
         param.put(SystemConfig.KEY_CabinetNo,cid);
 
-        param.put(SystemConfig.KEY_BoxUuid,getIntent().getStringExtra(UserPutGoodActivity.USER_PUT_CODE));
+        //测试UUID "FD3C0B8D-98B4-DC9E-4E15-758B8FDBDAC6"
+        param.put(SystemConfig.KEY_BoxUuid, getIntent().getStringExtra(UserPutGoodActivity.USER_PUT_CODE));
         param.put(SystemConfig.KEY_BoxType,size);
 
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));

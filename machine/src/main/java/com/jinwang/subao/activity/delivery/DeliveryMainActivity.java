@@ -47,6 +47,10 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         setContentView(R.layout.activity_delivery_main);
 
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
+
+        //始终不显示系统键盘
+        inputArea.setShowSoftInputOnFocus(false);
+
         inputArea = (EditText) findViewById(R.id.inputArea);
         inputArea.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,7 +92,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                 }
                 // add end
                 /*从服务端获取该快件柜属于操作快递员的所有快件柜编号,并打开相应的快件柜*/
-                SystemConfig.VALUE_MuuidValue=mUUID;
+                SystemConfig.VALUE_MuuidValue = mUUID;
                 getAllCabinets(mUUID);
             }
         });
@@ -186,7 +190,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         RequestParams param = new RequestParams();
         param.put(SystemConfig.KEY_Muuid, muuid);
 
-        AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
+        AsyncHttpClient client = ((SubaoApplication) getApplication()).getSharedHttpClient();
         client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -210,13 +214,13 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                                     if (s.toString().trim().equals(getString(R.string.app_exit))) {
                                         if (new RecordVar().isShowUnlogin()) {
                                             mUUID = null;
-                                            SystemConfig.VALUE_MuuidValue=mUUID;
+                                            SystemConfig.VALUE_MuuidValue = mUUID;
                                             new RecordVar().setShowUnlogin(false);
                                         }
                                     }
                                 }
                             });
-                        }else{
+                        } else {
                             Toast.makeText(getApplicationContext(), getString(R.string.error_mexitUpdate), Toast.LENGTH_LONG).show();
                         }
 

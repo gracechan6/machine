@@ -131,6 +131,9 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         param.put(SystemConfig.KEY_PackageNumber,code);
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
+        //打印请求参数
+        Log.i(getClass().getSimpleName(), "Request params: " + param.toString());
+
         // 8/7/15 add by michael, 处理搞乱了，这里有界面的处理
         AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
         client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET){

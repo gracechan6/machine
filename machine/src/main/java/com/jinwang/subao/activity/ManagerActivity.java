@@ -23,8 +23,10 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
+import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.entity.LockGrid;
 import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.yongbao.device.Device;
 
 import java.util.ArrayList;
@@ -63,6 +65,8 @@ public class ManagerActivity extends SubaoBaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(getClass().getSimpleName(), "On item selected: " + position);
+
+                boardCount = position;
 
                 if (0 == position)
                 {
@@ -291,6 +295,16 @@ public class ManagerActivity extends SubaoBaseActivity {
             DeviceUtil.setGridSize(this, grid.getBoardID(), grid.getGridID(), grid.getGridSize());
             DeviceUtil.updateGridState(this, grid.getBoardID(), grid.getGridID(), grid.getGridState());
         }
+
+            //如果板子数量为0，提示选择板子数
+            if (0 == boardCount)
+            {
+                Toast.makeText(this, "请选择板子数量", Toast.LENGTH_LONG).show();
+            }
+        else
+            {
+                SharedPreferenceUtil.saveData(this, SystemConfig.KEY_BOARD_COUNT, boardCount);
+            }
 
         finish();
     }

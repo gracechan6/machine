@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.yongbao.device.Device;
 
 import java.util.HashMap;
@@ -185,8 +186,8 @@ public class DeviceUtil {
     public static Map<Integer, Integer> getUnusedGridList(Context context, int gridSize) throws Exception
     {
         if (GRID_SIZE_LARGE != gridSize
-                || GRID_SIZE_MID != gridSize
-                || GRID_SIZE_SMALL != gridSize)
+                && GRID_SIZE_MID != gridSize
+                && GRID_SIZE_SMALL != gridSize)
         {
             throw new Exception("Unknown Grid Size");
         }
@@ -197,7 +198,7 @@ public class DeviceUtil {
         /**
          * 板子的配置信息在配置中读取， 这里只做测试
          */
-        int boardCount = 2;
+        int boardCount = SharedPreferenceUtil.getIntData(context, SystemConfig.KEY_BOARD_COUNT);
 
         for (int board = 1; board <= boardCount; board++)
         {

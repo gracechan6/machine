@@ -1,5 +1,6 @@
 package com.jinwang.subao.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,9 +29,17 @@ public class SubaoBaseActivity extends AppCompatActivity
     protected TextView mback;
     protected TextView mexit;
 
+    /**
+     * 条理进度对话框
+     */
+    protected ProgressDialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setCancelable(false);
 
         //不显示键盘
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

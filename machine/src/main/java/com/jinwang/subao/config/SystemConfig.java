@@ -30,6 +30,9 @@ public class SystemConfig {
     public static final String KEY_DEVICE_PASSWORD = "KEY_DEVICE_PASSWORD";
 
     public static final String KEY_DEVICE_MUUID = "KEY_DEVICE_MUUID";
+
+    //板子数量键值
+    public static final String KEY_BOARD_COUNT = "KEY_BOARD_COUNT";
     //================================
 
     //=================System Role config
