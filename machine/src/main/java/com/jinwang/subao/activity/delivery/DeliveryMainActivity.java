@@ -17,7 +17,6 @@ import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
-import com.jinwang.subao.thread.CheckSoftInputThread;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -254,21 +253,8 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         inputArea.requestFocus();
 
         super.onStart();
-
-        if (null == checkSoftInputThread){
-            checkSoftInputThread = new CheckSoftInputThread(this);
-        }
-
-        checkSoftInputThread.start();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        checkSoftInputThread.interrupt();
-        checkSoftInputThread = null;
-    }
     // add end
 
     /*提示用户登录*/

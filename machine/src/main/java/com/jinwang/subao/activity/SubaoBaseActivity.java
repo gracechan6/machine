@@ -4,19 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.RecordVar;
-import com.jinwang.subao.thread.CheckSoftInputThread;
 
 /**
  * Created by michael on 15/7/27.
@@ -28,7 +28,14 @@ public class SubaoBaseActivity extends AppCompatActivity
     protected TextView mback;
     protected TextView mexit;
 
-    protected CheckSoftInputThread checkSoftInputThread;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //不显示键盘
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
     /**
      * 隐藏软键盘
      * @param view

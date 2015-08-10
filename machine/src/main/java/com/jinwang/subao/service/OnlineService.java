@@ -110,7 +110,9 @@ public class OnlineService extends Service {
 
 							@Override
 							public void onSuccess(int statusCode, Header[] headers, File file) {
-								//安装版本  //重新启动新版本
+								//安装版本
+								//
+								// 重新启动新版本
 
 							}
 						});

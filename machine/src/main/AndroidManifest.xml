@@ -31,42 +31,36 @@
 
         <!-- 用户主界面禁用软键盘 -->
         <activity
-            android:name=".activity.user.UserMainActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:name=".activity.user.UserMainActivity" >
         </activity>
 
         <!-- 快递员主界面禁用软键盘 -->
         <activity
-            android:name=".activity.delivery.DeliveryMainActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:name=".activity.delivery.DeliveryMainActivity" >
         </activity>
 
         <!-- 用户寄件界面禁用软键盘 -->
         <activity
             android:name=".activity.user.UserPutGoodActivity"
-            android:label="@string/title_activity_user_put_good"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:label="@string/title_activity_user_put_good" >
         </activity>
 
         <!-- 用户选择箱格大小界面禁用软键盘 -->
         <activity
             android:name=".activity.user.UserPutSizeActivity"
-            android:label="@string/title_activity_user_put_size"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:label="@string/title_activity_user_put_size" >
         </activity>
 
         <!-- 用户寄件结束界面禁用软键盘 -->
         <activity
             android:name=".activity.user.UserPutEndActivity"
-            android:label="@string/title_activity_user_put_end"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:label="@string/title_activity_user_put_end" >
         </activity>
 
         <!-- 用户取件扫码界面禁用软键盘 -->
         <activity
             android:name=".activity.user.UserGetGoodActivity"
-            android:label="@string/title_activity_user_get_good"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" >
+            android:label="@string/title_activity_user_get_good" >
         </activity>
         <activity
             android:name=".activity.user.UserGetGoodByCodeOkActivity"
@@ -94,8 +88,7 @@
 
         <activity
             android:name=".activity.delivery.DeliveryLoginActivity"
-            android:label="@string/title_activity_delivery_login"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:label="@string/title_activity_delivery_login" >
         </activity>
         <activity
             android:name=".activity.user.UserGetGoodByCode"

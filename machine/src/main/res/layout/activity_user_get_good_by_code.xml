@@ -29,76 +29,88 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_main_white"
+            android:orientation="vertical"
+            android:padding="50dp"
+            android:layout_centerInParent="true"
+            android:layout_weight="2.0">
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_main_white"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="50dp"
-                android:layout_centerInParent="true">
+                android:gravity="center"
+                android:text="@string/input_get_good_detail"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="30sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/input_get_good_detail"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="30sp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:id="@+id/last4_tel"
+                android:layout_marginTop="50dp"
+                android:background="@color/bgtv_hint_lightblue"
+                android:hint="@string/input_tel_last4"
+                android:paddingLeft="20dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:textColor="@color/tv_hint_lightblue"
+                android:textColorHint="@color/tv_hint_lightblue"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:maxLength="4" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:id="@+id/last4_tel"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/bgtv_hint_lightblue"
-                    android:hint="@string/input_tel_last4"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:textColor="@color/tv_hint_lightblue"
-                    android:textColorHint="@color/tv_hint_lightblue"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            <EditText
+                android:id="@+id/code"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:background="@color/bgtv_hint_lightblue"
+                android:drawableLeft="@drawable/icon_message"
+                android:drawablePadding="20dp"
+                android:gravity="center|left"
+                android:hint="@string/input_code"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/tv_hint_lightblue"
+                android:textColorHint="@color/tv_hint_lightblue"
+                android:singleLine="true"
+                android:maxLength="6" />
 
-                <EditText
-                    android:id="@+id/code"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/bgtv_hint_lightblue"
-                    android:drawableLeft="@drawable/icon_message"
-                    android:drawablePadding="20dp"
-                    android:gravity="center|left"
-                    android:hint="@string/input_code"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/tv_hint_lightblue"
-                    android:textColorHint="@color/tv_hint_lightblue"
-                    android:singleLine="true"/>
+            <Button
+                android:id="@+id/get_good"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/btn_bg_blue340_42"
+                android:text="@string/getgood"
+                android:textSize="25dp"
+                android:clickable="true"
+                android:onClick="checkCode"/>
+        </LinearLayout>
 
-                <Button
-                    android:id="@+id/get_good"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    android:background="@drawable/btn_bg_blue340_42"
-                    android:text="@string/getgood"
-                    android:textSize="25dp"
-                    android:clickable="true"
-                    android:onClick="checkCode"/>
-            </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textView3"
+            android:layout_weight="1.0"
+            android:visibility="invisible" />
 
-        </RelativeLayout>
+        <GridView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/keyboard"
+            android:layout_gravity="center_vertical"
+            android:numColumns="3"
+            android:layout_weight="2.0" />
     </LinearLayout>
 
 </LinearLayout>

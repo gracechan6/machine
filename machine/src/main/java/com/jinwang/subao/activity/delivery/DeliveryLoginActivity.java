@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.R;
-import com.jinwang.subao.thread.CheckSoftInputThread;
 
 public class DeliveryLoginActivity extends SubaoBaseActivity {
 
@@ -27,25 +26,6 @@ public class DeliveryLoginActivity extends SubaoBaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_delivery_login, menu);
         return true;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (null == checkSoftInputThread){
-            checkSoftInputThread = new CheckSoftInputThread(this);
-        }
-
-        checkSoftInputThread.start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        checkSoftInputThread.interrupt();
-        checkSoftInputThread = null;
     }
 
 

@@ -32,7 +32,7 @@ public class SubaoApplication extends Application
         Log.i(getClass().getSimpleName(), "Init uart");
         Device.uartInit();
 
-        sendBroadcast(new Intent("com.android.action.hide_navigationbar"));
+        sendBroadcast(new Intent("com.android.action.display_navigationbar"));
     }
 
     @Override

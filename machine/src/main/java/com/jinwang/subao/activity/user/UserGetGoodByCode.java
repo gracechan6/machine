@@ -5,13 +5,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
+import com.jinwang.subao.adapters.NumberKeyboardAdapter;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
@@ -21,6 +24,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.ddpush.im.util.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +35,8 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
 
     private ProgressBar progress_horizontal;
 
+    private NumberKeyboardAdapter mAdatper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +46,51 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
         initToolBar();
         this.setTitle(getString(R.string.title_user_get));
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
+
+        // 10/8/15 add by michael, 添加自定议键盘
+
+        GridView keyBoard = (GridView) findViewById(R.id.keyboard);
+        mAdatper = new NumberKeyboardAdapter(this);
+        keyBoard.setAdapter(mAdatper);
+        keyBoard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EditText active = null;
+                if (last4Tel.isFocused())
+                {
+                    active = last4Tel;
+                }
+                else if (code.isFocused())
+                {
+                    active = code;
+                }
+                else
+                {
+                    active = last4Tel;
+                    last4Tel.requestFocus();
+                }
+
+                //删除键
+                if (11 == position)
+                {
+                    String text = active.getText().toString().trim();
+                    if (text.length() > 0) {
+                        active.getText().delete(active.getSelectionStart() - 1, active.getSelectionStart());
+                    }
+                }
+                else
+                {
+                    active.append(mAdatper.getItem(position).toString());
+                }
+            }
+        });
+
+        //不显示系统键盘
+        last4Tel.setShowSoftInputOnFocus(false);
+        code.setShowSoftInputOnFocus(false);
+        // add --
     }
+
 
     /**
      * 检查取件码，成功后打开箱柜取件

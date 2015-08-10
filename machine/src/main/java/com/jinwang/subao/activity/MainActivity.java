@@ -16,8 +16,6 @@ import com.jinwang.subao.activity.user.UserMainActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.service.OnlineService;
 import com.jinwang.subao.sysconf.SysConfig;
-import com.jinwang.subao.thread.CheckSoftInputThread;
-import com.jinwang.yongbao.device.Device;
 
 
 public class MainActivity extends SubaoBaseActivity {
@@ -180,21 +178,6 @@ public class MainActivity extends SubaoBaseActivity {
 
         //输入框请求焦点
         inputArea.requestFocus();
-
         super.onStart();
-
-        if (null == checkSoftInputThread){
-            checkSoftInputThread = new CheckSoftInputThread(this);
-        }
-
-        checkSoftInputThread.start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        checkSoftInputThread.interrupt();
-        checkSoftInputThread = null;
     }
 }
