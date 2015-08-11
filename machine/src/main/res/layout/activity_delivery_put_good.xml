@@ -28,8 +28,8 @@
             android:paddingTop="50dp">
 
             <EditText
-                android:layout_width="340dp"
-                android:layout_height="42dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="@string/input_expressSingle"
                 android:textColorHint="@color/tv_hint_lightblue"
@@ -39,10 +39,11 @@
                 android:drawablePadding="20dp"
                 android:textColor="@color/tv_hint_lightblue"
                 android:background="@color/bgtv_hint_lightblue"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:padding="10dp" />
 
             <TextView
-                android:layout_width="340dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/UCanScanExpressSingle"
@@ -50,8 +51,8 @@
                 android:textColor="@android:color/darker_gray"/>
 
             <EditText
-                android:layout_width="340dp"
-                android:layout_height="42dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:hint="@string/input_tel"
@@ -60,12 +61,11 @@
                 android:layout_gravity="center_horizontal"
                 android:drawableLeft="@drawable/icon_phone"
                 android:drawablePadding="20dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="5dp"
                 android:textColor="@color/tv_hint_lightblue"
                 android:background="@color/bgtv_hint_lightblue"
                 android:singleLine="true"
-                android:maxLength="11" />
+                android:maxLength="11"
+                android:padding="10dp" />
 
 
             <Button
@@ -89,7 +89,7 @@
             android:layout_weight="2.0"
             android:horizontalSpacing="1dp"
             android:verticalSpacing="1dp"
-            android:background="#128ce4"
+            android:background="#cbcbcb"
             android:listSelector="@drawable/key_board_selector" />
 
     </LinearLayout>

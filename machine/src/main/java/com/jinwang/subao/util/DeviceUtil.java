@@ -7,7 +7,9 @@ import android.util.Log;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.yongbao.device.Device;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -143,7 +145,7 @@ public class DeviceUtil {
      *
      * @throws Exception    未知箱格大小
      */
-    public static Map<Integer, Integer> getLargeUnusedGridsList(Context context) throws Exception
+    public static List<Map<Integer, Integer>> getLargeUnusedGridsList(Context context) throws Exception
     {
         return getUnusedGridList(context, GRID_SIZE_LARGE);
     }
@@ -156,7 +158,7 @@ public class DeviceUtil {
      *
      * @throws Exception    未知箱格大小
      */
-    public static Map<Integer, Integer> getMidUnusedGridsList(Context context) throws Exception
+    public static List<Map<Integer, Integer>> getMidUnusedGridsList(Context context) throws Exception
     {
         return getUnusedGridList(context, GRID_SIZE_MID);
     }
@@ -169,7 +171,7 @@ public class DeviceUtil {
      *
      * @throws Exception    未知箱格大小
      */
-    public static Map<Integer, Integer> getSmallUnusedGridsList(Context context) throws Exception
+    public static List<Map<Integer, Integer>> getSmallUnusedGridsList(Context context) throws Exception
     {
         return getUnusedGridList(context, GRID_SIZE_SMALL);
     }
@@ -183,7 +185,7 @@ public class DeviceUtil {
      *
      * @throws Exception    未知箱格大小
      */
-    public static Map<Integer, Integer> getUnusedGridList(Context context, int gridSize) throws Exception
+    public static List<Map<Integer, Integer>> getUnusedGridList(Context context, int gridSize) throws Exception
     {
         if (GRID_SIZE_LARGE != gridSize
                 && GRID_SIZE_MID != gridSize
@@ -192,7 +194,7 @@ public class DeviceUtil {
             throw new Exception("Unknown Grid Size");
         }
 
-        Map<Integer, Integer> result = new HashMap<>();
+        List<Map<Integer, Integer>> result = new ArrayList<>();
         //根据配置板子的多少，单个获取所有可用大箱格编号
 
         /**
@@ -223,7 +225,9 @@ public class DeviceUtil {
 
                 //如果箱格已经打开，可能出现问题
                 if (0 ==ret[3]) {
-                    result.put(board, grid);
+                    Map<Integer, Integer> item = new HashMap<>();
+                    item.put(board, grid);
+                    result.add(item);
                 }
             }
         }

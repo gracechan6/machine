@@ -19,7 +19,6 @@
         <!-- 主界面禁用软键盘 -->
         <activity
             android:name=".activity.MainActivity"
-            android:label="速宝快递"
             android:launchMode="singleTask" />
 
         <!-- 用户主界面禁用软键盘 -->
@@ -94,27 +93,23 @@
         <receiver android:name=".receiver.TickAlarmReceiver" >
         </receiver>
         <receiver
-            android:name=".receiver.ConnectivityAlarmReceiver"
-            android:label="@string/app_name" >
+            android:name=".receiver.ConnectivityAlarmReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.BootAlarmReceiver"
-            android:label="@string/app_name" >
+            android:name=".receiver.BootAlarmReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".activity.ManagerActivity"
-            android:label="@string/title_activity_manager" >
+            android:name=".activity.ManagerActivity" >
         </activity>
         <activity
-            android:name=".activity.SplashActivity"
-            android:label="@string/title_activity_splash" >
+            android:name=".activity.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -127,7 +127,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                         JSONObject gridInfo = response.getJSONArray("returnData").getJSONObject(0);
                         int boardID = gridInfo.getInt("boardId");
                         int cabinetNo = gridInfo.getInt("cabinetNo");
-                        String packageEquipment = gridInfo.getString("packageEquipment");
+                        String packageEquipment = gridInfo.getString("equipmentNo");
 
                         String terminalID = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID);
 
@@ -167,7 +167,9 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
              */
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                if (null != errorResponse) {
+                    Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                }
                 Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 

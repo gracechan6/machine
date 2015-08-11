@@ -21,11 +21,13 @@
 
     <LinearLayout
         style="@style/lly_outermost_style"
-        android:padding="50dp">
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1.0">
 
         <LinearLayout
             style="@style/lly_size_style"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/bg_main_white"
             android:onClick="showUserMainActivity">
@@ -46,7 +48,7 @@
         <LinearLayout
             style="@style/lly_size_style"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="70dp"
             android:background="@drawable/bg_main_white"
             android:clickable="true"
             android:onClick="showDeliveryMainActivity">
@@ -67,11 +69,22 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="箱格使用情况"
+        android:id="@+id/gridUseInfo"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="35dp"
+        android:gravity="center" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:id="@+id/inputArea"
         android:background="#00000000"
+        android:textCursorDrawable="@null"
         android:textColor="#00000000" />
 
 </LinearLayout>

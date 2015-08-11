@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -84,9 +85,9 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         // 获取箱格使用情况，然后显示有界面，有几个大的，几个小的，几个中的
 
         try {
-            Map<Integer, Integer> large = DeviceUtil.getLargeUnusedGridsList(this);
-            Map<Integer, Integer> mid = DeviceUtil.getMidUnusedGridsList(this);
-            Map<Integer, Integer> small = DeviceUtil.getSmallUnusedGridsList(this);
+            List<Map<Integer, Integer>> large = DeviceUtil.getLargeUnusedGridsList(this);
+            List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(this);
+            List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(this);
 
             /*界面展示各个箱格目前可用情况*/
             tv_large= (TextView) findViewById(R.id.tv_large);
@@ -119,7 +120,9 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
     /*size代表尺寸 2大 1中 0小 服务器端获取信息生成二维码，之后打印*/
     protected void getCodetoPrint(int size) {
         String code = getIntent().getStringExtra(UserPutGoodActivity.USER_PUT_CODE);
-        Iterator iter=null;
+
+        Map<Integer, Integer> item = null;
+
         int randomNum=-1;
         int useable=-1;
         TextView textView=null;
@@ -128,17 +131,13 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         {
             case DeviceUtil.GRID_SIZE_LARGE:{
                 try {
-                    Map<Integer, Integer> large = DeviceUtil.getLargeUnusedGridsList(UserPutSizeActivity.this);
+                    List<Map<Integer, Integer>> large = DeviceUtil.getLargeUnusedGridsList(UserPutSizeActivity.this);
                     if(large.size()==0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_large.setClickable(false);
                     }else
                     {
-                        Random random = new Random();
-                        randomNum=random.nextInt(large.size())+1;
-                        iter = large.entrySet().iterator();
-                        useable=large.size();
-                        textView=tv_large;
+                        item = large.get(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -146,17 +145,13 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
                 break;}
             case DeviceUtil.GRID_SIZE_MID:{
                 try {
-                    Map<Integer, Integer> mid = DeviceUtil.getMidUnusedGridsList(UserPutSizeActivity.this);
+                    List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(UserPutSizeActivity.this);
                     if(mid.size()==0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_medium.setClickable(false);
                     }else
                     {
-                        Random random = new Random();
-                        randomNum=random.nextInt(mid.size())+1;
-                        iter = mid.entrySet().iterator();
-                        useable=mid.size();
-                        textView=tv_medium;
+                        mid.get(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -164,17 +159,13 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
                 break;}
             case DeviceUtil.GRID_SIZE_SMALL:{
                 try {
-                    Map<Integer, Integer> small = DeviceUtil.getSmallUnusedGridsList(UserPutSizeActivity.this);
+                    List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(UserPutSizeActivity.this);
                     if(small.size()==0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_small.setClickable(false);
                     }else
                     {
-                        Random random = new Random();
-                        randomNum=random.nextInt(small.size())+1;
-                        iter = small.entrySet().iterator();
-                        useable=small.size();
-                        textView=tv_small;
+                        item = small.get(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -184,18 +175,10 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         /*打开柜子成功后，退出当前页面*/
         int bid=0,cid=0;
         int i=0;
-        if(iter!=null){
-            while (iter.hasNext()) {
-                i++;
-                Map.Entry entry = (Map.Entry) iter.next();
-                if(i==randomNum)
-                {
-                    bid=Integer.parseInt(String.valueOf(entry.getKey()));
-                    cid=Integer.parseInt(String.valueOf(entry.getValue()));
-                    break;
-                }
-            }
-        }
+
+        bid = item.keySet().iterator().next();
+        cid = item.get(bid);
+
         if(i==randomNum) {
             if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
                 DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态

@@ -9,5 +9,5 @@
 
     android:padding="35dp"
     android:scaleType="center"
-    android:src="@mipmap/delect_icon" />
+    android:src="@mipmap/delect_icon_1" />
 

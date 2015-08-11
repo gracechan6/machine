@@ -2,6 +2,7 @@ package com.jinwang.subao.activity;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jinwang.subao.R;
 import com.jinwang.subao.activity.delivery.DeliveryMainActivity;
@@ -16,6 +18,10 @@ import com.jinwang.subao.activity.user.UserMainActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.service.OnlineService;
 import com.jinwang.subao.sysconf.SysConfig;
+import com.jinwang.subao.util.DeviceUtil;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends SubaoBaseActivity {
@@ -25,6 +31,9 @@ public class MainActivity extends SubaoBaseActivity {
     //输入区域，不可见
     private EditText inputArea;
 
+    ///主页显示箱格使用情况
+    private TextView gridUseInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +41,9 @@ public class MainActivity extends SubaoBaseActivity {
         //初始化单片机
 //        Device.uartInit();
         setContentView(R.layout.activity_main);
+
+        ///Grid use info
+        gridUseInfo = (TextView) findViewById(R.id.gridUseInfo);
 
 
         inputArea = (EditText) findViewById(R.id.inputArea);
@@ -114,6 +126,59 @@ public class MainActivity extends SubaoBaseActivity {
 
         //启动在线服务
         startOnlienService();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateUseInfo();
+    }
+
+    /**
+     * 更新箱格使用情况
+     */
+    private void updateUseInfo()
+    {
+        new AsyncTask<String, Intent, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                String result = "";
+
+                try {
+                    List<Map<Integer, Integer>> large = DeviceUtil.getLargeUnusedGridsList(getApplicationContext());
+                    List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(getApplicationContext());
+                    List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(getApplicationContext());
+
+                    result = "大箱格可用：" + large.size() + ", 中箱格可用：" + mid.size() + ", 小箱格可用：" + small.size();
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                mDialog.setCancelable(false);
+                mDialog.show();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                gridUseInfo.setText(s);
+
+                mDialog.hide();
+                mDialog.setCancelable(false);
+            }
+        }.execute();
+
+
     }
 
     /**
