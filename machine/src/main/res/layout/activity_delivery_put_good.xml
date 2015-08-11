@@ -15,63 +15,86 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal">
 
-        <EditText
-            android:layout_width="340dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="90px"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="@string/input_expressSingle"
-            android:textColorHint="@color/tv_hint_lightblue"
-            android:id="@+id/edt_expId"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/icon_code"
-            android:drawablePadding="20dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:textColor="@color/tv_hint_lightblue"
-            android:background="@color/bgtv_hint_lightblue"
-            android:singleLine="true"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="2.0"
+            android:gravity="center_horizontal"
+            android:paddingLeft="90dp"
+            android:paddingRight="90dp"
+            android:paddingTop="50dp">
 
-        <TextView
-            android:layout_width="340dp"
+            <EditText
+                android:layout_width="340dp"
+                android:layout_height="42dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:hint="@string/input_expressSingle"
+                android:textColorHint="@color/tv_hint_lightblue"
+                android:id="@+id/edt_expId"
+                android:layout_gravity="center_horizontal"
+                android:drawableLeft="@drawable/icon_code"
+                android:drawablePadding="20dp"
+                android:textColor="@color/tv_hint_lightblue"
+                android:background="@color/bgtv_hint_lightblue"
+                android:singleLine="true"/>
+
+            <TextView
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/UCanScanExpressSingle"
+                android:textSize="20sp"
+                android:textColor="@android:color/darker_gray"/>
+
+            <EditText
+                android:layout_width="340dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="20px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:hint="@string/input_tel"
+                android:textColorHint="@color/tv_hint_lightblue"
+                android:id="@+id/edt_tel"
+                android:layout_gravity="center_horizontal"
+                android:drawableLeft="@drawable/icon_phone"
+                android:drawablePadding="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/tv_hint_lightblue"
+                android:background="@color/bgtv_hint_lightblue"
+                android:singleLine="true"
+                android:maxLength="11" />
+
+
+            <Button
+                android:layout_marginTop="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg_blue340_42"
+                android:id="@+id/btnPut_good"
+                android:text="@string/finish"
+                android:textSize="25dp"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
+        <GridView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/UCanScanExpressSingle"
-            android:textSize="20sp"
-            android:textColor="@android:color/darker_gray"/>
-
-        <EditText
-            android:layout_width="340dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="20px"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="@string/input_tel"
-            android:textColorHint="@color/tv_hint_lightblue"
-            android:id="@+id/edt_tel"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/icon_phone"
-            android:drawablePadding="20dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:textColor="@color/tv_hint_lightblue"
-            android:background="@color/bgtv_hint_lightblue"
-            android:singleLine="true"/>
-
-
-        <Button
-            android:layout_marginTop="100dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg_blue340_42"
-            android:id="@+id/btnPut_good"
-            android:text="@string/finish"
-            android:textSize="25dp"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/keyboard"
+            android:layout_gravity="center_vertical"
+            android:numColumns="3"
+            android:layout_weight="2.0"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp"
+            android:background="#128ce4"
+            android:listSelector="@drawable/key_board_selector" />
 
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

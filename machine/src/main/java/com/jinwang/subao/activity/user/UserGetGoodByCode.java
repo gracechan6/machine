@@ -181,7 +181,9 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                if (null != errorResponse) {
+                    Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
+                }
                 Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 

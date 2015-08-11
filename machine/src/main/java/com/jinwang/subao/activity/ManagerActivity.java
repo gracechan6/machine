@@ -51,6 +51,9 @@ public class ManagerActivity extends SubaoBaseActivity {
     //板子数量选择器
     private Spinner boardSpinner;
 
+    ///查看箱格状态任务
+    private AsyncTask scanTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +76,7 @@ public class ManagerActivity extends SubaoBaseActivity {
                     return;
                 }
 
-                new AsyncTask<Integer, Integer, Map<String, Integer>>() {
+                scanTask = new AsyncTask<Integer, Integer, Map<String, Integer>>() {
                     @Override
                     protected Map<String, Integer> doInBackground(Integer... params) {
                         return DeviceUtil.getAllGridState(params[0]);
@@ -279,6 +282,16 @@ public class ManagerActivity extends SubaoBaseActivity {
             return convertView;
         }
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (null != scanTask && !scanTask.isCancelled())
+        {
+            scanTask.cancel(true);
+        }
+    }
 
     /**
      * 提交箱格配置

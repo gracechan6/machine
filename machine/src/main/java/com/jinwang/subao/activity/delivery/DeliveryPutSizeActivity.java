@@ -97,15 +97,15 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             tv_small= (TextView) findViewById(R.id.tv_small);
 
             if(large.size()>0){
-                tv_large.setText(large.size());
+                tv_large.setText("" + large.size());
                 lly_large.setClickable(true);
             }
-            if(large.size()>0){
-                tv_medium.setText(mid.size());
+            if(mid.size()>0){
+                tv_medium.setText("" + mid.size());
                 lly_medium.setClickable(true);
             }
-            if(large.size()>0){
-                tv_small.setText(small.size());
+            if(small.size()>0){
+                tv_small.setText("" + small.size());
                 lly_small.setClickable(true);
             }
             /*界面展示各个箱格目前可用情况end*/
@@ -215,7 +215,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         if(i==randomNum) {
             if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
                 DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
-                textView.setText(useable - 1);
+//                textView.setText(useable - 1);
                 //去服务器更新数据
                 updateServerData(bid, cid);
                 //finish();
@@ -229,14 +229,25 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
      * 服务端验证取件码，验证通过后打开取件-->接口25
      * @param bid cid
      */
-    private void updateServerData(int bid,int cid)
+    private void updateServerData(final int bid,final int cid)
     {
         //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
         //服务端验证。。。
-        progress_horizontal.setVisibility(View.VISIBLE);
+//        progress_horizontal.setVisibility(View.VISIBLE);
         String url= SystemConfig.URL_PUT_DELIVERYCABINET;
         RequestParams param = new RequestParams();
-        param.put(SystemConfig.KEY_Muuid,SystemConfig.VALUE_MuuidValue);
+        ///UUID界面间传递
+        String uuid = getIntent().getStringExtra(SystemConfig.KEY_Muuid);
+        if (null == uuid)
+        {
+            Log.i(getClass().getSimpleName(), "mUUID is null, please check");
+
+            DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USEABLE);
+
+            return;
+        }
+
+        param.put(SystemConfig.KEY_Muuid, uuid);
         param.put(SystemConfig.KEY_EquipmentNo, SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_ID));
         param.put(SystemConfig.KEY_TerminalMuuid,SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
 
@@ -245,6 +256,9 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
         //手机+取件码
         param.put(SystemConfig.KEY_ReceivePhone,getIntent().getStringExtra(DeliveryPutGoodActivity.USER_TEL));
         param.put(SystemConfig.KEY_PackageNumber,getIntent().getStringExtra(DeliveryPutGoodActivity.GOOD_NUM));
+
+        ///打印请求参数
+        Log.i(getClass().getSimpleName(), "Request url: " + url + "\nRequest params: " + param.toString());
 
         AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
         client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
@@ -259,9 +273,11 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        DeviceUtil.updateGridState(getApplicationContext(), bid, cid, DeviceUtil.GRID_STATUS_USEABLE);
                     }
                 } catch (JSONException e) {
                     Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
+                    DeviceUtil.updateGridState(getApplicationContext(), bid, cid, DeviceUtil.GRID_STATUS_USEABLE);
                 }
             }
 
@@ -269,6 +285,8 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
                 Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+
+                DeviceUtil.updateGridState(getApplicationContext(), bid, cid, DeviceUtil.GRID_STATUS_USEABLE);
             }
 
             @Override

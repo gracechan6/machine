@@ -113,7 +113,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         }
 
         ///测试更新服务端
-        updateServerData(1, 13, DeviceUtil.GRID_SIZE_MID);
+//        updateServerData(1, 13, DeviceUtil.GRID_SIZE_MID);
     }
 
     /*size代表尺寸 2大 1中 0小 服务器端获取信息生成二维码，之后打印*/

@@ -63,6 +63,12 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = inputArea.getText().toString();
+
+                //没有输入，直接返回
+                if (text.length() == 0)
+                {
+                    return;
+                }
                 text = text.trim();
 
                 //因为键盘输入无法知道录入何时完成，设置^为结束符，读到^认为结束
@@ -75,6 +81,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
 
                     //验证取件码packageUuid=text
                     verifyCode(text);
+                    inputArea.setText("");
                 }
 
       //          Log.i(getClass().getSimpleName(), "End text: " + inputArea.getText());
@@ -91,14 +98,14 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
     {
         //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
         //服务端验证。。。
-        progress_horizontal.setVisibility(View.VISIBLE);
+//        progress_horizontal.setVisibility(View.VISIBLE);
         String url= SystemConfig.URL_GET_USERCABINET;
         RequestParams param = new RequestParams();
         param.put(SystemConfig.KEY_PackageUuid,code);
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
         //打印请求参数
-        Log.i(getClass().getSimpleName(), "Request params: " + param.toString());
+        Log.i(getClass().getSimpleName(), "Request url: " + url + "\nRequest params: " + param.toString());
 
         // 8/7/15 add by michael, 处理搞乱了，这里有界面的处理
         AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();

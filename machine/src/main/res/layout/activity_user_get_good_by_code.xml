@@ -31,20 +31,15 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:visibility="invisible"/>
-
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_main_white"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="50dp"
             android:layout_centerInParent="true"
-            android:layout_weight="2.0">
+            android:layout_weight="2.0"
+            android:paddingLeft="90dp"
+            android:paddingRight="90dp"
+            android:paddingTop="50dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -101,28 +96,17 @@
                 android:onClick="checkCode"/>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView3"
-            android:layout_weight="1.0"
-            android:visibility="invisible" />
-
         <GridView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/keyboard"
             android:layout_gravity="center_vertical"
             android:numColumns="3"
-            android:layout_weight="2.0" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:visibility="invisible"/>
+            android:layout_weight="2.0"
+            android:background="#128ce4"
+            android:listSelector="@drawable/key_board_selector"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp" />
 
     </LinearLayout>
 

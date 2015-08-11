@@ -11,6 +11,7 @@
     <color name="green_word">#138446</color>
     <color name="bgtv_hint_lightblue">#D3EFFB</color>
     <color name="tv_hint_lightblue">#65B4D7</color>
+    <color name="translate">#00000000</color>
 
 
 </resources>

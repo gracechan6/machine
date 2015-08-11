@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jinwang.subao.R;
@@ -76,13 +78,23 @@ public class NumberKeyboardAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (null == convertView) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             convertView = inflater.inflate(R.layout.number_keyboard_item, null);
         }
         TextView key = (TextView) convertView;//.findViewById(R.id.textView);
 
         key.setText(getItem(position).toString());
+
+        ///删除键
+        if (11 == position)
+        {
+            convertView = inflater.inflate(R.layout.delete_key_item, null);
+       //     key.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.delect_icon, 0);
+       //     key.setText("");
+       //     key.setCompoundDrawablePadding(0);
+        }
 
         return convertView;
     }

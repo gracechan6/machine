@@ -48,10 +48,11 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
 
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
 
+        inputArea = (EditText) findViewById(R.id.inputArea);
+
         //始终不显示系统键盘
         inputArea.setShowSoftInputOnFocus(false);
 
-        inputArea = (EditText) findViewById(R.id.inputArea);
         inputArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,6 +67,10 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = inputArea.getText().toString();
+                if (text.length() == 0)
+                {
+                    return;
+                }
                 text = text.trim();
                 String lastOne = text.substring(text.length() - 1);
                 if (lastOne.equals(SysConfig.LAST_CHAR))
@@ -74,6 +79,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                     Log.i(getClass().getSimpleName(), "End text: " + text);
                     //验证登陆码
                     verifyCode(mUUID);
+                    inputArea.setText("");
                 }
                 //Log.i(getClass().getSimpleName(), "End text: " + inputArea.getText());
             }
@@ -108,9 +114,20 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                 }
                 // add end
                 Intent intent = new Intent(DeliveryMainActivity.this, DeliveryPutGoodActivity.class);
+
+                //传递快递员登录UUID
+                intent.putExtra(SystemConfig.KEY_Muuid, mUUID);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //置mUUID为空
+        mUUID = null;
     }
 
     /* 服务端获取所有可揽件的箱格-->接口24*/
@@ -118,7 +135,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         //progress_horizontal.setVisibility(View.VISIBLE);
         String url= SystemConfig.URL_GET_ALLCABINETS;
         RequestParams param = new RequestParams();
-        param.put(SystemConfig.KEY_Muuid,mUUID);
+        param.put(SystemConfig.KEY_Muuid, mUUID);
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
 
         AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
@@ -130,28 +147,27 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                     boolean success = response.getBoolean("success");
                     //成功，打开箱格
                     if (success) {
-                        int sum=response.getJSONArray("returnData").length();
-                        String result="";
+                        int sum = response.getJSONArray("returnData").length();
+                        String result = "";
                         String terminalID = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID);
-                        for(int i=0;i<sum;i++) {
+                        for (int i = 0; i < sum; i++) {
                             JSONObject gridInfo = response.getJSONArray("returnData").getJSONObject(i);
                             String packageEquipment = gridInfo.getString("packageEquipment");
 
                             if (!packageEquipment.equals(terminalID)) {
-                                Log.e(getClass().getSimpleName(),i+ "System return error data: terminal id: " + terminalID + ", but return: " + packageEquipment);
-                            }
-                            else {
+                                Log.e(getClass().getSimpleName(), i + "System return error data: terminal id: " + terminalID + ", but return: " + packageEquipment);
+                            } else {
                                 result += "cabinetNo:" + gridInfo.getString("cabinetNo") + ";";
-                                result += "boardId:" + gridInfo.getString("boardId")+";";
+                                result += "boardId:" + gridInfo.getString("boardId") + ";";
                             }
                         }
-                        if(!(result.length()==0)) {
+                        if (!(result.length() == 0)) {
                             Intent intent = new Intent(DeliveryMainActivity.this, DeliveryGetGoodActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("result", result);
                             intent.putExtras(bundle);
                             startActivity(intent);
-                        }else{
+                        } else {
                             Toast.makeText(DeliveryMainActivity.this, getString(R.string.error_Nogood), Toast.LENGTH_SHORT).show();
                         }
                     } else {
@@ -199,6 +215,14 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                     boolean success = response.getBoolean("success");
                     //成功，打开箱格
                     if (success) {
+                        /// 8/11/15 add by michael, 是否为快递员账号
+                        //不是快递员，提示账号错误
+                        if (!response.getString("userRole").equals("Group0003"))
+                        {
+                            Toast.makeText(getApplicationContext(), "您没有权限进行此操作", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        // add --
                         if (BeCancelLogin()) {
                             mexit.addTextChangedListener(new TextWatcher() {
                                 @Override
@@ -242,6 +266,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
             @Override
             public void onFinish() {
                 super.onFinish();
+ //               mUUID = null;
             }
         });
     }

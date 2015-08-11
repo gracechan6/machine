@@ -65,6 +65,7 @@ public class MainActivity extends SubaoBaseActivity {
                 if (lastOne.equals(SysConfig.LAST_CHAR)) {
                     mUUID = text.substring(0, text.length() - 1);
                     Log.i(getClass().getSimpleName(), "End text: " + text);
+                    inputArea.setText("");
 
     //                mUUID = "root";
                     if (mUUID.equals(SystemConfig.SYSTEM_MANAGER_MUUID))
@@ -72,7 +73,6 @@ public class MainActivity extends SubaoBaseActivity {
                         /*如果扫描得到的muuid和管理员的muuid相等 则直接进入管理员界面*/
                         Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
                         startActivity(intent);
-                        inputArea.setText("");
                     }
 
                 }
@@ -150,23 +150,6 @@ public class MainActivity extends SubaoBaseActivity {
         Intent startSrv = new Intent(this, OnlineService.class);
         startSrv.putExtra("CMD", "RESET");
         this.startService(startSrv);
-    }
-
-    private StringBuffer loginUUID = new StringBuffer();
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK)
-        {
-            return super.onKeyDown(keyCode, event);
-        }
-
-        loginUUID.append((char) event.getNumber());
-
-        Log.i(getClass().getSimpleName(), "Character " + (char)event.getUnicodeChar());
-
-        return true;
     }
 
     @Override
