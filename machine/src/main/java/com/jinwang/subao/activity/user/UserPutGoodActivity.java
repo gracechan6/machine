@@ -162,7 +162,7 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
                             intent.putExtra(USER_PUT_CODE,BoxUuid);
 
                             //关闭进度条
-                            mDialog.hide();
+                            mDialog.dismiss();
                             startActivity(intent);
 
                         }else {
@@ -191,15 +191,8 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
             @Override
             public void onFinish() {
                 super.onFinish();
-                mDialog.hide();
+                mDialog.dismiss();
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        mDialog.hide();
     }
 }

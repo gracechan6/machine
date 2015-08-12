@@ -183,6 +183,6 @@ public class SubaoBaseActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
 
-        mDialog.hide();
+        mDialog.dismiss();
     }
 }

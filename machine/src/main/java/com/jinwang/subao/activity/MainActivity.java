@@ -173,7 +173,7 @@ public class MainActivity extends SubaoBaseActivity {
 
                 gridUseInfo.setText(s);
 
-                mDialog.hide();
+                mDialog.dismiss();
                 mDialog.setCancelable(false);
             }
         }.execute();

@@ -1,6 +1,7 @@
 package com.jinwang.subao.activity.user;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,8 +37,71 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
     private TextView tv_large, tv_medium, tv_small;
 
 
-    private ProgressBar progress_horizontal;
-    private int i = 0;
+    ///箱格的使用情况, 不再多次获取，一次获取，多次使用
+    List<Map<Integer, Integer>> large;
+    List<Map<Integer, Integer>> mid;
+    List<Map<Integer, Integer>> small;
+
+    ///12/8/15 add by michael, 使用异步线程获取数据
+    /**
+     * 获取箱格的使用情况
+     */
+    private void getGridUseInfo()
+    {
+        new AsyncTask<String, Intent, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                String result = "";
+
+                try {
+                    large = DeviceUtil.getLargeUnusedGridsList(getApplicationContext());
+                    mid = DeviceUtil.getMidUnusedGridsList(getApplicationContext());
+                    small = DeviceUtil.getSmallUnusedGridsList(getApplicationContext());
+
+                    result = "大箱格可用：" + large.size() + ", 中箱格可用：" + mid.size() + ", 小箱格可用：" + small.size();
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                mDialog.setCancelable(false);
+                mDialog.show();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                mDialog.dismiss();
+
+                /*界面展示各个箱格目前可用情况*/
+                tv_large= (TextView) findViewById(R.id.tv_large);
+                tv_medium= (TextView) findViewById(R.id.tv_medium);
+                tv_small= (TextView) findViewById(R.id.tv_small);
+
+                if(large.size()>0){
+                    tv_large.setText("" + large.size());
+                    lly_large.setClickable(true);
+                }
+                if(mid.size()>0){
+                    tv_medium.setText("" + mid.size());
+                    lly_medium.setClickable(true);
+                }
+                if(small.size()>0){
+                    tv_small.setText("" + small.size());
+                    lly_small.setClickable(true);
+                }
+            /*界面展示各个箱格目前可用情况end*/
+            }
+        }.execute();
+    }
+    //add --
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,37 +149,8 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         // 箱格使用信息同步到客户端，客户端可以直接获取箱格使用情况
         // 获取箱格使用情况，然后显示有界面，有几个大的，几个小的，几个中的
 
-        try {
-            List<Map<Integer, Integer>> large = DeviceUtil.getLargeUnusedGridsList(this);
-            List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(this);
-            List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(this);
-
-            /*界面展示各个箱格目前可用情况*/
-            tv_large = (TextView) findViewById(R.id.tv_large);
-            tv_medium = (TextView) findViewById(R.id.tv_medium);
-            tv_small = (TextView) findViewById(R.id.tv_small);
-            if (large.size() > 0) {
-                tv_large.setText("" + large.size());
-                lly_large.setClickable(true);
-            }
-            if (mid.size() > 0) {
-                tv_medium.setText("" + mid.size());
-                lly_medium.setClickable(true);
-            }
-            if (small.size() > 0) {
-                tv_small.setText("" + small.size());
-                lly_small.setClickable(true);
-            }
-            /*界面展示各个箱格目前可用情况end*/
-
-            //显示在界面使用情况
-        } catch (Exception e) {
-            e.printStackTrace();
-            //不会出现此异常
-        }
-
-        ///测试更新服务端
-//        updateServerData(1, 13, DeviceUtil.GRID_SIZE_MID);
+        ///使用异步线程获取箱格使用情况
+        getGridUseInfo();
     }
 
     /*size代表尺寸 2大 1中 0小 服务器端获取信息生成二维码，之后打印*/
@@ -131,7 +166,6 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         switch (size) {
             case DeviceUtil.GRID_SIZE_LARGE: {
                 try {
-                    List<Map<Integer, Integer>> large = DeviceUtil.getLargeUnusedGridsList(UserPutSizeActivity.this);
                     if (large.size() == 0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_large.setClickable(false);
@@ -145,7 +179,6 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             }
             case DeviceUtil.GRID_SIZE_MID: {
                 try {
-                    List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(UserPutSizeActivity.this);
                     if (mid.size() == 0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_medium.setClickable(false);
@@ -159,7 +192,6 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             }
             case DeviceUtil.GRID_SIZE_SMALL: {
                 try {
-                    List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(UserPutSizeActivity.this);
                     if (small.size() == 0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_small.setClickable(false);

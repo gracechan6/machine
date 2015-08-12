@@ -101,7 +101,7 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
                 Toast.makeText(DeliveryPutGoodActivity.this, getString(R.string.input_Right_expressSingle), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(tel==null || tel.length()==0) {
+            if(tel==null || tel.length()!=11) {
                 Toast.makeText(DeliveryPutGoodActivity.this, getString(R.string.input_Right_tel), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -115,6 +115,11 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
 
                 return;
             }
+
+            /// 8/12/15 add by michael, 清除输入内容
+            edt_expId.setText("");
+            edt_tel.setText("");
+            // add --
 
             //传递快件单号和电话号码给下一界面
             intent.putExtra(GOOD_NUM, expId);
