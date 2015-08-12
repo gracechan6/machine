@@ -195,4 +195,11 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mDialog.hide();
+    }
 }
