@@ -33,11 +33,12 @@ import java.util.Random;
 public class UserPutSizeActivity extends SubaoBaseActivity {
 
     private LinearLayout lly_large, lly_medium, lly_small;
-    private TextView tv_large,tv_medium,tv_small;
+    private TextView tv_large, tv_medium, tv_small;
 
 
     private ProgressBar progress_horizontal;
-    private int i=0;
+    private int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         this.setTitle(getString(R.string.title_user_put));
 
 
-        lly_large= (LinearLayout) findViewById(R.id.lly_large);
+        lly_large = (LinearLayout) findViewById(R.id.lly_large);
         lly_large.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +58,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         });
         lly_large.setClickable(false);
 
-        lly_medium= (LinearLayout) findViewById(R.id.lly_medium);
+        lly_medium = (LinearLayout) findViewById(R.id.lly_medium);
         lly_medium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +69,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
         });
         lly_medium.setClickable(false);
 
-        lly_small= (LinearLayout) findViewById(R.id.lly_small);
+        lly_small = (LinearLayout) findViewById(R.id.lly_small);
         lly_small.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,18 +91,18 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(this);
 
             /*界面展示各个箱格目前可用情况*/
-            tv_large= (TextView) findViewById(R.id.tv_large);
-            tv_medium= (TextView) findViewById(R.id.tv_medium);
-            tv_small= (TextView) findViewById(R.id.tv_small);
-            if(large.size()>0){
+            tv_large = (TextView) findViewById(R.id.tv_large);
+            tv_medium = (TextView) findViewById(R.id.tv_medium);
+            tv_small = (TextView) findViewById(R.id.tv_small);
+            if (large.size() > 0) {
                 tv_large.setText("" + large.size());
                 lly_large.setClickable(true);
             }
-            if(mid.size()>0){
+            if (mid.size() > 0) {
                 tv_medium.setText("" + mid.size());
                 lly_medium.setClickable(true);
             }
-            if(small.size()>0){
+            if (small.size() > 0) {
                 tv_small.setText("" + small.size());
                 lly_small.setClickable(true);
             }
@@ -123,118 +124,120 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
 
         Map<Integer, Integer> item = null;
 
-        int randomNum=-1;
-        int useable=-1;
-        TextView textView=null;
+        int randomNum = -1;
+        int useable = -1;
+        TextView textView = null;
 
-        switch(size)
-        {
-            case DeviceUtil.GRID_SIZE_LARGE:{
+        switch (size) {
+            case DeviceUtil.GRID_SIZE_LARGE: {
                 try {
                     List<Map<Integer, Integer>> large = DeviceUtil.getLargeUnusedGridsList(UserPutSizeActivity.this);
-                    if(large.size()==0) {
+                    if (large.size() == 0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_large.setClickable(false);
-                    }else
-                    {
+                    } else {
                         item = large.get(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;}
-            case DeviceUtil.GRID_SIZE_MID:{
+                break;
+            }
+            case DeviceUtil.GRID_SIZE_MID: {
                 try {
                     List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(UserPutSizeActivity.this);
-                    if(mid.size()==0) {
+                    if (mid.size() == 0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_medium.setClickable(false);
-                    }else
-                    {
-                        mid.get(0);
+                    } else {
+                        item = mid.get(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;}
-            case DeviceUtil.GRID_SIZE_SMALL:{
+                break;
+            }
+            case DeviceUtil.GRID_SIZE_SMALL: {
                 try {
                     List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(UserPutSizeActivity.this);
-                    if(small.size()==0) {
+                    if (small.size() == 0) {
                         Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_small.setClickable(false);
-                    }else
-                    {
+                    } else {
                         item = small.get(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;}
+                break;
+            }
         }
         /*打开柜子成功后，退出当前页面*/
-        int bid=0,cid=0;
-        int i=0;
+        int bid = 0, cid = 0;
+        int i = 0;
 
         bid = item.keySet().iterator().next();
         cid = item.get(bid);
 
-        if(i==randomNum) {
-            if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
-                DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
+        if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
+            DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
 //                textView.setText(useable - 1);
-                //打印面单
+            //打印面单
 
-                //去服务器更新数据
-                updateServerData(bid, cid,size);
-                //finish();
-            } else
-                Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
+            //去服务器更新数据
+            updateServerData(bid, cid, size);
+            //finish();
+        } else {
+            Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
+
+            ///打开箱格失败，退出当前界面
+            finish();
         }
+
     }
 
     /**
      * 服务端验证取件码，验证通过后打开取件  ->接口12快递寄件选完箱子点确定(也叫普通用户投件接口)
+     *
      * @param bid cid
      */
-    private void updateServerData(int bid,int cid,int size)
-    {
+    private void updateServerData(int bid, int cid, int size) {
         //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
         //服务端验证。。。
 //        progress_horizontal.setVisibility(View.VISIBLE);
-        String url= SystemConfig.URL_PUT_USERCABSIZE;
+        String url = SystemConfig.URL_PUT_USERCABSIZE;
         RequestParams param = new RequestParams();
         param.put(SystemConfig.KEY_EquipmentNo, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_ID));
-        param.put(SystemConfig.KEY_TerminalMuuid,SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
+        param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
-        param.put(SystemConfig.KEY_BoardId,bid);
-        param.put(SystemConfig.KEY_CabinetNo,cid);
+        param.put(SystemConfig.KEY_BoardId, bid);
+        param.put(SystemConfig.KEY_CabinetNo, cid);
 
         //测试UUID "FD3C0B8D-98B4-DC9E-4E15-758B8FDBDAC6"
         param.put(SystemConfig.KEY_BoxUuid, getIntent().getStringExtra(UserPutGoodActivity.USER_PUT_CODE));
-        param.put(SystemConfig.KEY_BoxType,size);
+        param.put(SystemConfig.KEY_BoxType, size);
 
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
-        AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
-        client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET){
+        AsyncHttpClient client = ((SubaoApplication) getApplication()).getSharedHttpClient();
+        client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i(getClass().getSimpleName(), "Response: " + response.toString());
                 try {
                     boolean success = response.getBoolean("success");
                     //成功，跳转至相应页面
-                    if (success)
-                    {
-                        Intent intent=new Intent(getApplicationContext(),UserPutEndActivity.class);
+                    if (success) {
+                        Intent intent = new Intent(getApplicationContext(), UserPutEndActivity.class);
                         startActivity(intent);
-                    }else{
-                        Toast.makeText(getApplicationContext(),response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
@@ -244,6 +247,9 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             @Override
             public void onFinish() {
                 super.onFinish();
+
+                ///退出当前界面
+                finish();
             }
         });
     }
