@@ -179,4 +179,10 @@ public class SubaoBaseActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mDialog.hide();
+    }
 }
