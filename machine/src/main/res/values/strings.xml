@@ -58,7 +58,7 @@
     <string name="login">登录</string>
 
     <!--快递员取件-->
-    <string name="delivery_get_good">在打开的快件柜中完成取件</string>
+    <string name="delivery_get_good">在打开的快件柜中取走快件</string>
 
     <!--快递员投件-->
     <string name="input_expressSingle">输入快件单号</string>
@@ -73,7 +73,7 @@
 
     <!--toast出错提示-->
     <string name="input_Right_expressSingle">请输入正确的快件单号</string>
-    <string name="input_Right_tel">请输入收件人手机号</string>
+    <string name="input_Right_tel">请输入正确的手机号码</string>
     <string name="error_noReturn">服务器端无数据返回</string>
     <string name="error_last4Tel">请准确输入手机号码后4位</string>
     <string name="error_rightPackageNo">请准确输入取件码</string>

@@ -11,14 +11,12 @@
         android:id="@+id/toolbar"/>
 
     <TextView
-        android:layout_below="@id/toolbar"
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
         android:text="@string/scanOk"
-        android:layout_centerHorizontal="true"
         android:textSize="40sp"
-        android:textColor="@color/poolblue"/>
+        android:textColor="@color/poolblue"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

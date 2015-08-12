@@ -233,6 +233,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
 //                textView.setText(useable - 1);
             //去服务器更新数据
+            mDialog.show();
             updateServerData(bid, cid);
             //finish();
         } else {
@@ -307,6 +308,8 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             @Override
             public void onFinish() {
                 super.onFinish();
+
+                mDialog.dismiss();
             }
         });
     }

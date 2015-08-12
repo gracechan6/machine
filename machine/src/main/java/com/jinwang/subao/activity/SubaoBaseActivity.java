@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -19,6 +21,9 @@ import android.widget.TextView;
 import com.jinwang.subao.R;
 import com.jinwang.subao.RecordVar;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by michael on 15/7/27.
  */
@@ -29,6 +34,9 @@ public class SubaoBaseActivity extends AppCompatActivity
     protected TextView mback;
     protected TextView mexit;
 
+    //Handler
+    protected Handler mHandler;
+
     /**
      * 条理进度对话框
      */
@@ -37,6 +45,8 @@ public class SubaoBaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mHandler = new Handler(Looper.getMainLooper());
 
         mDialog = new ProgressDialog(this);
         mDialog.setCancelable(false);
@@ -184,5 +194,44 @@ public class SubaoBaseActivity extends AppCompatActivity
         super.onDestroy();
 
         mDialog.dismiss();
+    }
+
+    ///8/12/15 add by michael, 添加定时器，时间到跳转到主界面
+
+    /**
+     * 有些界面经过一些时间没有操作后回到主界面
+     */
+    protected void startTick()
+    {
+        if (timer != null)
+        {
+            timer.cancel();
+            timer = null;
+        }
+        timer = new Timer("timer");
+
+        timer.schedule(timerTask, 60*1000);
+    }
+
+    Timer timer;
+
+    TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    gotoMainActivity();
+                }
+            });
+        }
+    };
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+     //   startTick();
     }
 }

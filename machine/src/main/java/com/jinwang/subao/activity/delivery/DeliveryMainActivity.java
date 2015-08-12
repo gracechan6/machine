@@ -138,6 +138,9 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         param.put(SystemConfig.KEY_Muuid, mUUID);
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this,SystemConfig.KEY_DEVICE_MUUID));
 
+        //打印请求参数
+        Log.i(getClass().getSimpleName(), "Request url: " + url + "\nRequest params: " + param.toString());
+
         AsyncHttpClient client = ((SubaoApplication)getApplication()).getSharedHttpClient();
         client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             @Override
@@ -222,6 +225,9 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                             Toast.makeText(getApplicationContext(), "您没有权限进行此操作", Toast.LENGTH_LONG).show();
                             return;
                         }
+
+                        //登陆成功提示
+                        Toast.makeText(getApplicationContext(), "登陆成功，可以进行其它操作", Toast.LENGTH_LONG).show();
                         // add --
                         if (BeCancelLogin()) {
                             mexit.addTextChangedListener(new TextWatcher() {

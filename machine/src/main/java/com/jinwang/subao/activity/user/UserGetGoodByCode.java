@@ -148,7 +148,7 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
                         JSONObject gridInfo = response.getJSONArray("returnData").getJSONObject(0);
                         int boardID = gridInfo.getInt("boardId");
                         int cabinetNo = gridInfo.getInt("cabinetNo");
-                        String packageEquipment = gridInfo.getString("packageEquipment");
+                        String packageEquipment = gridInfo.getString("equipmentNo");
 
                         String terminalID = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID);
 
