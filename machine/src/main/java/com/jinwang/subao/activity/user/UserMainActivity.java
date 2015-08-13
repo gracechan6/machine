@@ -5,14 +5,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import com.jinwang.subao.R;
+import com.jinwang.subao.activity.SubaoBaseActivity;
 
 
-public class UserMainActivity extends ActionBarActivity {
+public class UserMainActivity extends SubaoBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
+
+        initToolBar();
         this.setTitle(getString(R.string.app_name));
 
     }

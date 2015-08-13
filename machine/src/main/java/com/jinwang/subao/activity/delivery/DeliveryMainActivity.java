@@ -223,6 +223,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                         if (!response.getString("userRole").equals("Group0003"))
                         {
                             Toast.makeText(getApplicationContext(), "您没有权限进行此操作", Toast.LENGTH_LONG).show();
+                            mUUID = null;
                             return;
                         }
 
@@ -255,11 +256,14 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                         }
 
                     } else {
+                        mUUID = null;
                         Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
+                    mUUID = null;
                     Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
+                    Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_LONG).show();
                 }
             }
 

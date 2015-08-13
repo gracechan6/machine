@@ -185,8 +185,10 @@ public class SubaoBaseActivity extends AppCompatActivity
      */
     protected void gotoMainActivity()
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if (!(this instanceof MainActivity)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -210,28 +212,49 @@ public class SubaoBaseActivity extends AppCompatActivity
         }
         timer = new Timer("timer");
 
-        timer.schedule(timerTask, 60*1000);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        gotoMainActivity();
+                    }
+                });
+            }
+        };
+
+        timer.schedule(timerTask, 60 * 1000);
+    }
+
+    /**
+     * 停止记时
+     */
+    protected void stopTick()
+    {
+        if (null != timer)
+        {
+            timer.cancel();
+            timer = null;
+        }
     }
 
     Timer timer;
-
-    TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    gotoMainActivity();
-                }
-            });
-        }
-    };
 
 
     @Override
     protected void onStart() {
         super.onStart();
 
-     //   startTick();
+        if (!(this instanceof MainActivity)) {
+            startTick();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        stopTick();
     }
 }

@@ -41,7 +41,7 @@ import java.util.Map;
  * <p/>
  * 管理员界面，主要功能：配置箱格
  */
-public class ManagerActivity extends SubaoBaseActivity {
+public class ManagerActivity extends AppCompatActivity {
     //根布局
     private ViewGroup rootView;
     private View progressBar;
