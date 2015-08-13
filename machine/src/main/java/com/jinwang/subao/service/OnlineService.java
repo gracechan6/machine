@@ -197,7 +197,9 @@ public class OnlineService extends Service {
 			try{tcpClient.stop();}catch(Exception e){}
 		}
 		try{
-			tcpClient = new MyTcpClient(Util.md5Byte("abc"), 1, serverIp, serverPort);
+			String terminalID = SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_ID);
+
+			tcpClient = new MyTcpClient(Util.md5Byte(terminalID), 1, serverIp, serverPort);
 			tcpClient.setHeartbeatInterval(50);
 			tcpClient.start();
 
