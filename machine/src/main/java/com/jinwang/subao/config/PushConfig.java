@@ -1,12 +1,10 @@
 package com.jinwang.subao.config;
 
-import java.security.PublicKey;
-
 /**
  * Created by michael on 15/7/28.
  */
 public class PushConfig {
-    public static final String SERVER_IP = "115.28.78.145";
+    public static final String SERVER_IP = "121.40.250.221";
 
     public static final int PUSH_PORT = 9999;
 
