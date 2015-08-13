@@ -209,6 +209,8 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
         RequestParams param = new RequestParams();
         param.put(SystemConfig.KEY_Muuid, muuid);
 
+        Log.i(getClass().getSimpleName(), "Request url: " + url + "\nParams: " + param.toString());
+
         AsyncHttpClient client = ((SubaoApplication) getApplication()).getSharedHttpClient();
         client.post(url, param, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
             @Override
@@ -271,6 +273,11 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
                 Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.i(getClass().getSimpleName(), "Response code: " + statusCode + "\nResponse string: " + responseString);
             }
 
             @Override

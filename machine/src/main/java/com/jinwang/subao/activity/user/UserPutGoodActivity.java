@@ -148,6 +148,8 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
         param.put(SystemConfig.KEY_PackageUuid, code);
         param.put(SystemConfig.KEY_TerminalMuuid, SharedPreferenceUtil.getStringData(this, SystemConfig.KEY_DEVICE_MUUID));
 
+        Log.i(getClass().getSimpleName(), "Request url: " + url + "\nParams: " + param.toString());
+
         AsyncHttpClient client=((SubaoApplication)getApplication()).getSharedHttpClient();
         client.post(url,param,new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET){
             @Override

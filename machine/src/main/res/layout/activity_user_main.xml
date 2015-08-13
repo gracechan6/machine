@@ -10,14 +10,15 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/textview_item_style"
-        android:layout_height="?actionBarSize"
-        android:layout_gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@android:color/white"
-        android:textSize="40sp" />
+    <include layout="@layout/layout_toolbar" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_title"-->
+        <!--style="@style/textview_item_style"-->
+        <!--android:layout_height="?actionBarSize"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="@string/app_name"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="40sp" />-->
 
     <LinearLayout
         style="@style/lly_outermost_style"

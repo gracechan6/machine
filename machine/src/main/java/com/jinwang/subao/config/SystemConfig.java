@@ -6,7 +6,7 @@ package com.jinwang.subao.config;
 public class SystemConfig {
 
     //=======================URL config
-    public static final String SERVER_IP = "192.168.0.50";
+    public static final String SERVER_IP = "121.40.250.221";
     public static final String SERVER_PORT = "8080";
 
     public static final String URL_BASE = "http://" + SERVER_IP + ":" + SERVER_PORT;
