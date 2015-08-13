@@ -36,8 +36,8 @@ public class DeliveryGetGoodActivity extends SubaoBaseActivity {
         int count=result.length;
         int rate=100/count;
         for(i=0;i<result.length;i+=2) {
-            String boardId[]=result[i].split(":");
-            String cabintNo[]=result[i+1].split(":");
+            String cabintNo[]=result[i].split(":");
+            String boardId[]=result[i+1].split(":");
             int bid,cid;
             bid = Integer.parseInt(boardId[1]);
             cid = Integer.parseInt(cabintNo[1]);
