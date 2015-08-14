@@ -150,7 +150,14 @@ public class MainActivity extends SubaoBaseActivity {
                     List<Map<Integer, Integer>> mid = DeviceUtil.getMidUnusedGridsList(getApplicationContext());
                     List<Map<Integer, Integer>> small = DeviceUtil.getSmallUnusedGridsList(getApplicationContext());
 
-                    result = "大箱格可用：" + large.size() + ", 中箱格可用：" + mid.size() + ", 小箱格可用：" + small.size();
+                    ///如果没有箱格可用，显示无空箱格
+                    if (large.size() == 0 && mid.size() == 0 && small.size() == 0)
+                    {
+                        result = "箱子已满";
+                    }
+                    else {
+                        result = "大箱格可用：" + large.size() + ", 中箱格可用：" + mid.size() + ", 小箱格可用：" + small.size();
+                    }
 
 
                 } catch (Exception e) {

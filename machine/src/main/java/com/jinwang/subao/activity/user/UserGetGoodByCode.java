@@ -18,6 +18,7 @@ import com.jinwang.subao.adapters.NumberKeyboardAdapter;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -103,12 +104,12 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
 
         //其它判断
         if(phoneNum==null || phoneNum.length()==0 ||phoneNum.length()!=4){
-            Toast.makeText(this,getString(R.string.error_last4Tel),Toast.LENGTH_SHORT).show();
+            ToastUtil.showLargeToast(this, getString(R.string.error_last4Tel), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(codeS==null || codeS.length()==0){
-            Toast.makeText(this,getString(R.string.error_rightPackageNo),Toast.LENGTH_SHORT).show();
+            ToastUtil.showLargeToast(this, getString(R.string.error_rightPackageNo), Toast.LENGTH_SHORT).show();
             return;
         }
         //首先去服务端验证取件码，验证通过后得到对应的板子号和箱子编号，然后打开对应的箱子
@@ -168,10 +169,10 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(),getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                            ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
                         }
                     }else{
-                        Toast.makeText(getApplicationContext(),response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
@@ -184,7 +185,7 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
                 if (null != errorResponse) {
                     Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
                 }
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override

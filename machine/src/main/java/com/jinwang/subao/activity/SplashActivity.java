@@ -12,6 +12,7 @@ import com.jinwang.subao.R;
 import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -169,7 +170,7 @@ public class SplashActivity extends AppCompatActivity {
                         if (success){
                             Log.i(getClass().getSimpleName(), getString(R.string.succ_operate) );
                         } else {
-                            Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                            ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
@@ -179,7 +180,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                    Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                    ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
                 }
             });
         }

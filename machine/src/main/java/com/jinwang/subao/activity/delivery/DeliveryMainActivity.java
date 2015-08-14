@@ -18,6 +18,7 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -171,10 +172,10 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                             intent.putExtras(bundle);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(DeliveryMainActivity.this, getString(R.string.error_Nogood), Toast.LENGTH_SHORT).show();
+                            ToastUtil.showLargeToast(DeliveryMainActivity.this, getString(R.string.error_Nogood), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
@@ -185,7 +186,7 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -224,13 +225,13 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                         //不是快递员，提示账号错误
                         if (!response.getString("userRole").equals("Group0003"))
                         {
-                            Toast.makeText(getApplicationContext(), "您没有权限进行此操作", Toast.LENGTH_LONG).show();
+                            ToastUtil.showLargeToast(getApplicationContext(), "您没有权限进行此操作", Toast.LENGTH_LONG).show();
                             mUUID = null;
                             return;
                         }
 
                         //登陆成功提示
-                        Toast.makeText(getApplicationContext(), "登陆成功，可以进行其它操作", Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), "登陆成功，可以进行其它操作", Toast.LENGTH_LONG).show();
                         // add --
                         if (BeCancelLogin()) {
                             mexit.addTextChangedListener(new TextWatcher() {
@@ -254,25 +255,25 @@ public class DeliveryMainActivity extends SubaoBaseActivity {
                                 }
                             });
                         } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.error_mexitUpdate), Toast.LENGTH_LONG).show();
+                            ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_mexitUpdate), Toast.LENGTH_LONG).show();
                         }
 
                     } else {
                         mUUID = null;
-                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
                     mUUID = null;
                     Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
-                    Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_LONG).show();
+                    ToastUtil.showLargeToast(getApplicationContext(), "登陆失败", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -16,6 +16,7 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -167,7 +168,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_LARGE: {
                 try {
                     if (large.size() == 0) {
-                        Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_large.setClickable(false);
                     } else {
                         item = large.get(0);
@@ -180,7 +181,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_MID: {
                 try {
                     if (mid.size() == 0) {
-                        Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_medium.setClickable(false);
                     } else {
                         item = mid.get(0);
@@ -193,7 +194,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_SMALL: {
                 try {
                     if (small.size() == 0) {
-                        Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(UserPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_small.setClickable(false);
                     } else {
                         item = small.get(0);
@@ -220,7 +221,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             updateServerData(bid, cid, size);
             //finish();
         } else {
-            Toast.makeText(UserPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
+            ToastUtil.showLargeToast(UserPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
 
             ///打开箱格失败，退出当前界面
             finish();
@@ -263,7 +264,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
                         Intent intent = new Intent(getApplicationContext(), UserPutEndActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
@@ -273,7 +274,7 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override

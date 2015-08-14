@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jinwang.subao.R;
@@ -17,6 +18,7 @@ import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -145,12 +147,12 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                             Intent intent=new Intent(getApplicationContext(),UserGetGoodByCodeOkActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                            ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
                         }
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     Log.e(getClass().getSimpleName(), "Response error: " + e.getMessage());
@@ -170,7 +172,7 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                 if (null != errorResponse) {
                     Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
                 }
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override

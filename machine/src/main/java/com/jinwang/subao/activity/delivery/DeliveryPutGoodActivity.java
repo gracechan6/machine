@@ -14,6 +14,7 @@ import com.jinwang.subao.R;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.adapters.NumberKeyboardAdapter;
 import com.jinwang.subao.config.SystemConfig;
+import com.jinwang.subao.util.ToastUtil;
 
 
 public class DeliveryPutGoodActivity extends SubaoBaseActivity {
@@ -98,11 +99,11 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
             String tel=edt_tel.getText().toString();
 
             if(expId==null || expId.length()==0) {
-                Toast.makeText(DeliveryPutGoodActivity.this, getString(R.string.input_Right_expressSingle), Toast.LENGTH_SHORT).show();
+                ToastUtil.showLargeToast(DeliveryPutGoodActivity.this, getString(R.string.input_Right_expressSingle), Toast.LENGTH_SHORT).show();
                 return;
             }
             if(tel==null || tel.length()!=11) {
-                Toast.makeText(DeliveryPutGoodActivity.this, getString(R.string.input_Right_tel), Toast.LENGTH_SHORT).show();
+                ToastUtil.showLargeToast(DeliveryPutGoodActivity.this, getString(R.string.input_Right_tel), Toast.LENGTH_SHORT).show();
                 return;
             }
             Intent intent=new Intent(DeliveryPutGoodActivity.this,DeliveryPutSizeActivity.class);

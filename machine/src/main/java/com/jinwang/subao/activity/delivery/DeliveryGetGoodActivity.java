@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.jinwang.subao.R;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
 
 
@@ -45,7 +46,7 @@ public class DeliveryGetGoodActivity extends SubaoBaseActivity {
                 DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USEABLE);//更新箱格状态
             }
             else
-                Toast.makeText(DeliveryGetGoodActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
+                ToastUtil.showLargeToast(DeliveryGetGoodActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
 
             progress_horizontal.setProgress(progress_horizontal.getProgress() + rate);
         }

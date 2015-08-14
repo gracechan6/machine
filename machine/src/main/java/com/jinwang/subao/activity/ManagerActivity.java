@@ -27,6 +27,7 @@ import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.entity.LockGrid;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
 
 import java.util.ArrayList;
@@ -178,7 +179,7 @@ public class ManagerActivity extends AppCompatActivity {
         //如果板子数量为0，提示选择板子数
         if (0 == boardCount)
         {
-            Toast.makeText(this, "请选择板子数量", Toast.LENGTH_LONG).show();
+            ToastUtil.showLargeToast(this, "请选择板子数量", Toast.LENGTH_LONG);
         }
     }
 
@@ -312,7 +313,7 @@ public class ManagerActivity extends AppCompatActivity {
             //如果板子数量为0，提示选择板子数
             if (0 == boardCount)
             {
-                Toast.makeText(this, "请选择板子数量", Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(this, "请选择板子数量", Toast.LENGTH_LONG).show();
             }
         else
             {

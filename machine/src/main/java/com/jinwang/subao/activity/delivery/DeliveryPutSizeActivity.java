@@ -18,6 +18,7 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -186,7 +187,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_LARGE:{
                 try {
                     if(large.size()==0) {
-                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_large.setClickable(false);
                     }else
                     {
@@ -199,7 +200,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_MID:{
                 try {
                     if(mid.size()==0) {
-                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_medium.setClickable(false);
                     }else
                     {
@@ -212,7 +213,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             case DeviceUtil.GRID_SIZE_SMALL:{
                 try {
                     if(small.size()==0) {
-                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(DeliveryPutSizeActivity.this, getString(R.string.error_NoSuitableSize), Toast.LENGTH_SHORT).show();
                         lly_small.setClickable(false);
                     }else
                     {
@@ -237,7 +238,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             updateServerData(bid, cid);
             //finish();
         } else {
-            Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
+            ToastUtil.showLargeToast(DeliveryPutSizeActivity.this, getString(R.string.error_OpenCabinet), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -285,10 +286,10 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
                     boolean success = response.getBoolean("success");
                     //成功，跳转至相应页面
                     if (success){
-                        Toast.makeText(DeliveryPutSizeActivity.this, getString(R.string.succ_operate), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showLargeToast(DeliveryPutSizeActivity.this, getString(R.string.succ_operate), Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                         DeviceUtil.updateGridState(getApplicationContext(), bid, cid, DeviceUtil.GRID_STATUS_USEABLE);
                     }
                 } catch (JSONException e) {
@@ -300,7 +301,7 @@ public class DeliveryPutSizeActivity extends SubaoBaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
 
                 DeviceUtil.updateGridState(getApplicationContext(), bid, cid, DeviceUtil.GRID_STATUS_USEABLE);
             }

@@ -32,6 +32,7 @@ import com.jinwang.subao.config.PushConfig;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.receiver.TickAlarmReceiver;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.subao.util.Util;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -105,7 +106,7 @@ public class OnlineService extends Service {
 							@Override
 							public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
 								file.delete();
-								Toast.makeText(getApplicationContext(), getString(R.string.error_versionDown), Toast.LENGTH_LONG).show();
+								ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_versionDown), Toast.LENGTH_LONG).show();
 							}
 
 							@Override
@@ -168,7 +169,7 @@ public class OnlineService extends Service {
 		if(cmd.equals("TOAST")){
 			String text = param.getStringExtra("TEXT");
 			if(text != null && text.trim().length() != 0){
-				Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+				ToastUtil.showLargeToast(this, text, Toast.LENGTH_LONG).show();
 			}
 		}
 

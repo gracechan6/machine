@@ -17,7 +17,8 @@
         android:layout_gravity="center"
         android:text="@string/app_name"
         android:textColor="@android:color/white"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:visibility="gone" />
 
     <LinearLayout
         style="@style/lly_outermost_style"

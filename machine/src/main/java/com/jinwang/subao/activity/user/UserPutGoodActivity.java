@@ -18,6 +18,7 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.util.SharedPreferenceUtil;
+import com.jinwang.subao.util.ToastUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -168,11 +169,11 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
                             startActivity(intent);
 
                         }else {
-                            Toast.makeText(getApplicationContext(),getString(R.string.error_packStage), Toast.LENGTH_LONG).show();
+                            ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_packStage), Toast.LENGTH_LONG).show();
                         }
                     }
                     else{
-                        Toast.makeText(getApplicationContext(),response.getString("errMsg"), Toast.LENGTH_LONG).show();
+                        ToastUtil.showLargeToast(getApplicationContext(), response.getString("errMsg"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -182,7 +183,7 @@ public class UserPutGoodActivity extends SubaoBaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.i(getClass().getSimpleName(), "Response: " + errorResponse.toString());
-                Toast.makeText(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
+                ToastUtil.showLargeToast(getApplicationContext(), getString(R.string.error_System), Toast.LENGTH_LONG).show();
             }
 
             @Override
