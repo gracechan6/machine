@@ -1,10 +1,16 @@
 package com.jinwang.subao.activity.user;
 
+import android.app.Activity;
+import android.content.Context;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -17,6 +23,7 @@ import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.adapters.NumberKeyboardAdapter;
 import com.jinwang.subao.config.SystemConfig;
 import com.jinwang.subao.util.DeviceUtil;
+import com.jinwang.subao.util.KeyboardUtils;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.subao.util.ToastUtil;
 import com.jinwang.yongbao.device.Device;
@@ -29,6 +36,8 @@ import org.ddpush.im.util.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
+
 public class UserGetGoodByCode extends SubaoBaseActivity {
 
     private EditText last4Tel;//取件手机号码后四位
@@ -38,19 +47,25 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
 
     private NumberKeyboardAdapter mAdatper;
 
+    KeyboardUtils keyboardUtils;
+    private Context context;
+    private Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_get_good_by_code);
+        activity=this;
+        context=this;
+
         last4Tel = (EditText) findViewById(R.id.last4_tel);
         code = (EditText) findViewById(R.id.code);
         initToolBar();
         this.setTitle(getString(R.string.title_user_get));
         progress_horizontal= (ProgressBar) findViewById(R.id.progress_horizontal);
 
-        // 10/8/15 add by michael, 添加自定议键盘
+        // 10/8/15 add by michael, 添加自定义键盘
 
-        GridView keyBoard = (GridView) findViewById(R.id.keyboard);
+        /*GridView keyBoard = (GridView) findViewById(R.id.keyboard);
         mAdatper = new NumberKeyboardAdapter(this);
         keyBoard.setAdapter(mAdatper);
         keyBoard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,8 +103,50 @@ public class UserGetGoodByCode extends SubaoBaseActivity {
 
         //不显示系统键盘
         last4Tel.setShowSoftInputOnFocus(false);
-        code.setShowSoftInputOnFocus(false);
+        code.setShowSoftInputOnFocus(false);*/
         // add --
+
+        //自定义键盘 chenss  Modified
+        if (android.os.Build.VERSION.SDK_INT <= 10) {
+            last4Tel.setInputType(InputType.TYPE_NULL);
+            code.setInputType(InputType.TYPE_NULL);
+        } else {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            try {
+                Class<EditText> cls = EditText.class;
+                Method setShowSoftInputOnFocus;
+//	setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                setShowSoftInputOnFocus = cls.getMethod("setSoftInputShownOnFocus", boolean.class);
+
+//4.0的是setShowSoftInputOnFocus,4.2的是setSoftInputOnFocus
+                setShowSoftInputOnFocus.setAccessible(false);
+                setShowSoftInputOnFocus.invoke(last4Tel, false);
+                setShowSoftInputOnFocus.invoke(code, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        keyboardUtils=new KeyboardUtils(activity,context,last4Tel);
+        last4Tel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //keyboardUtils=new KeyboardUtils(activity,context,last4Tel);
+                keyboardUtils.turnEdit(last4Tel);
+                return false;
+            }
+        });
+
+        code.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //keyboardUtils=new KeyboardUtils(activity,context,code);
+                keyboardUtils.turnEdit(code);
+                return false;
+            }
+        });
+        //modified  end
     }
 
 

@@ -1,9 +1,14 @@
 package com.jinwang.subao.activity.delivery;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +19,10 @@ import com.jinwang.subao.R;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.adapters.NumberKeyboardAdapter;
 import com.jinwang.subao.config.SystemConfig;
+import com.jinwang.subao.util.KeyboardUtils;
 import com.jinwang.subao.util.ToastUtil;
+
+import java.lang.reflect.Method;
 
 
 public class DeliveryPutGoodActivity extends SubaoBaseActivity {
@@ -34,10 +42,17 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
     private NumberKeyboardAdapter mAdapter;
     //add --
 
+    //9/28/15 add by chenss
+    KeyboardUtils keyboardUtils;
+    private Context context;
+    private Activity activity;
+    //add end
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_put_good);
+        activity=this;
+        context=this;
 
         initToolBar();
         this.setTitle(getString(R.string.delivery_put));
@@ -50,7 +65,7 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
         //8/11/15 add by michael, 新增自定义键盘
 
         ///不显示键盘
-        edt_expId.setShowSoftInputOnFocus(false);
+        /*edt_expId.setShowSoftInputOnFocus(false);
         edt_tel.setShowSoftInputOnFocus(false);
 
         GridView keyBoard = (GridView) findViewById(R.id.keyboard);
@@ -87,8 +102,50 @@ public class DeliveryPutGoodActivity extends SubaoBaseActivity {
                     active.append(mAdapter.getItem(position).toString());
                 }
             }
-        });
+        });*/
         //add --
+
+        //自定义键盘 chenss  Modified
+        if (android.os.Build.VERSION.SDK_INT <= 10) {
+            edt_expId.setInputType(InputType.TYPE_NULL);
+            edt_tel.setInputType(InputType.TYPE_NULL);
+        } else {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            try {
+                Class<EditText> cls = EditText.class;
+                Method setShowSoftInputOnFocus;
+//	setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                setShowSoftInputOnFocus = cls.getMethod("setSoftInputShownOnFocus", boolean.class);
+
+//4.0的是setShowSoftInputOnFocus,4.2的是setSoftInputOnFocus
+                setShowSoftInputOnFocus.setAccessible(false);
+                setShowSoftInputOnFocus.invoke(edt_expId, false);
+                setShowSoftInputOnFocus.invoke(edt_tel, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        keyboardUtils=new KeyboardUtils(activity,context,edt_expId);
+        edt_expId.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //keyboardUtils=new KeyboardUtils(activity,context,last4Tel);
+                keyboardUtils.turnEdit(edt_expId);
+                return false;
+            }
+        });
+
+        edt_tel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //keyboardUtils=new KeyboardUtils(activity,context,code);
+                keyboardUtils.turnEdit(edt_tel);
+                return false;
+            }
+        });
+        //modified  end
     }
     /*输入完快递单号以及收件人手机号后点击完成产生的事件*/
     public class put_goodListener implements View.OnClickListener{
