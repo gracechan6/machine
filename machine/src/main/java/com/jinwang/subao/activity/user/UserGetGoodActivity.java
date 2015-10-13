@@ -15,6 +15,8 @@ import com.jinwang.subao.R;
 import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
+import com.jinwang.subao.db.CabinetGrid;
+import com.jinwang.subao.db.CabinetGridDB;
 import com.jinwang.subao.sysconf.SysConfig;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
@@ -27,6 +29,9 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserGetGoodActivity extends SubaoBaseActivity {
@@ -143,6 +148,13 @@ public class UserGetGoodActivity extends SubaoBaseActivity {
                         if (0 == ret) {
                             //箱子打开后，修改箱子状态为可用，如果有必要，去服务端更新箱子状态
                             DeviceUtil.updateGridState(getApplicationContext(), boardID, cabinetNo, DeviceUtil.GRID_STATUS_USEABLE);
+
+                            CabinetGridDB cabinetGridDB=CabinetGridDB.getInstance();
+                            List<CabinetGrid> cabinetGrids=new ArrayList<>();
+                            cabinetGrids.add(new CabinetGrid(boardID, cabinetNo, 0, 0));
+                            cabinetGridDB.updateCG(cabinetGrids);
+                            //cabinetGridDB.upLoadLocalData();
+
                             //进入扫码成功界面
                             Intent intent=new Intent(getApplicationContext(),UserGetGoodByCodeOkActivity.class);
                             startActivity(intent);

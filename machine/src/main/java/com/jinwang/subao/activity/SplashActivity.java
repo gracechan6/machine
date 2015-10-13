@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.jinwang.subao.R;
 import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.config.SystemConfig;
+import com.jinwang.subao.db.CabinetGrid;
+import com.jinwang.subao.db.CabinetGridDB;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.subao.util.ToastUtil;
 import com.loopj.android.http.AsyncHttpClient;
@@ -21,7 +23,9 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
@@ -33,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
     //终端密码
     private static final String DEVICE_PASSWORD = "pwd";
 
-
+    private static CabinetGridDB cabinetGridDB =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,14 @@ public class SplashActivity extends AppCompatActivity {
 
         if (SharedPreferenceUtil.getBooleanData(this, FIRST_RUN_FLAG))
         {
-            Log.i(getClass().getSimpleName(), "Terminal MUUID: " + SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID));
+            cabinetGridDB=CabinetGridDB.getInstance();
+            List<CabinetGrid> cabinetGrids=cabinetGridDB.FailUpload();
+            if (cabinetGrids!=null && cabinetGrids.size()>0) {
+                //cabinetGridDB.upLoadLocalData(cabinetGrids);//上传本地数据至服务器
 
+            }
+
+            Log.i(getClass().getSimpleName(), "Terminal MUUID: " + SharedPreferenceUtil.getStringData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID));
             startMainActivity();
 
             return;
@@ -68,9 +78,6 @@ public class SplashActivity extends AppCompatActivity {
 
             return;
         }
-
-
-
         //首次启动服务端注册该设备
         //获取设备编号
         client.post(SystemConfig.URL_GET_CLIENT_ACOUNT, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
@@ -112,7 +119,8 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    public void login(AsyncHttpClient client, RequestParams params)
+
+    public void login(final AsyncHttpClient client, final RequestParams params)
     {
         //登录
         client.post(SystemConfig.URL_LOGIN, params, new JsonHttpResponseHandler(SystemConfig.SERVER_CHAR_SET) {
@@ -122,11 +130,25 @@ public class SplashActivity extends AppCompatActivity {
                 Log.i(getClass().getSimpleName(), "Response: " + response.toString());
 
                 try {
-                    if (response.getBoolean("success"))
-                    {
+                    if (response.getBoolean("success")) {
                         //保存登录UUID
                         JSONObject jsonObject = response.getJSONArray("returnData").getJSONObject(0);
                         SharedPreferenceUtil.saveData(getApplicationContext(), SystemConfig.KEY_DEVICE_MUUID, jsonObject.getString("mUuid"));
+
+                        /*chenss  added
+                            首次登陆设备，从服务器端获取箱格信息，同步到本地数据库
+                            */
+                        //创建本地数据库
+                        cabinetGridDB = CabinetGridDB.getInstance();
+                        //从服务器端获取数据同步到本地数据库
+                        Map<String, String> params = new HashMap<>();
+                        params.put(SystemConfig.KEY_TerminalMuuid,
+                                SharedPreferenceUtil.getStringData(getApplicationContext(),
+                                        SystemConfig.KEY_TerminalMuuid));
+                        Log.d("DBTest", "init db");
+                        cabinetGridDB.syncLocalDBData(client, new RequestParams(params));//从服务器获取数据更新
+                        //add  end
+
                         //保存首次运行标志
                         SharedPreferenceUtil.saveData(getApplicationContext(), FIRST_RUN_FLAG, true);
 

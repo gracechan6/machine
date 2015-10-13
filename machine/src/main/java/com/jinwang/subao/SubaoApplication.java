@@ -1,6 +1,7 @@
 package com.jinwang.subao;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -17,6 +18,18 @@ public class SubaoApplication extends Application
      */
     private AsyncHttpClient sharedHttpClient;
 
+    private static Context context;
+
+    private static Application application;
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static Application getApplication() {
+        return application;
+    }
+
     public AsyncHttpClient getSharedHttpClient()
     {
         return sharedHttpClient;
@@ -25,12 +38,14 @@ public class SubaoApplication extends Application
     @Override
     public void onCreate() {
         super.onCreate();
+        context=getApplicationContext();
+        application=getApplication();
 
         sharedHttpClient = new AsyncHttpClient();
 
         //初始化单片机
         Log.i(getClass().getSimpleName(), "Init uart");
-        Device.uartInit();
+        //Device.uartInit();
 
         sendBroadcast(new Intent("com.android.action.display_navigationbar"));
     }
@@ -43,4 +58,5 @@ public class SubaoApplication extends Application
         Log.i(getClass().getSimpleName(), "Destroy uart");
         Device.uartDestroy();
     }
+
 }

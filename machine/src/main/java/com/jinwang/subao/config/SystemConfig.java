@@ -22,7 +22,8 @@ public class SystemConfig {
     public static final String URL_PUT_DELIVERYCABINET = URL_BASE + "/ybpt/web/ybmobile/ExpressPerson_courierDelivery.action";//接口二十五: 快递员投递快件
     public static final String URL_PUT_USERCABSIZE = URL_BASE + "/ybpt/web/ybmobile/MobilePackageInfo_setPackageState.action";//接口二十六—->接口十二：快递寄件选完箱子点确定(也叫普通用户投件接口)
     public static final String URL_UPDATE_TERMINALVERSION = URL_BASE + "/ybpt/web/ybmobile/EquipmentAndrod_updateSysVersion.action";//接口二十九: 更新设备终端版本
-
+    public static final String URL_SYNC_LOCALDATA = URL_BASE + "";//服务器端获取数据 同步本地数据
+    public static final String URL_SYNC_SERVERDATA = URL_BASE + "";//将本地数据更新至服务器
     //================================
 
     //=================Constant config

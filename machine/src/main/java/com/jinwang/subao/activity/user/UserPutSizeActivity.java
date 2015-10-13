@@ -14,6 +14,8 @@ import com.jinwang.subao.R;
 import com.jinwang.subao.SubaoApplication;
 import com.jinwang.subao.activity.SubaoBaseActivity;
 import com.jinwang.subao.config.SystemConfig;
+import com.jinwang.subao.db.CabinetGrid;
+import com.jinwang.subao.db.CabinetGridDB;
 import com.jinwang.subao.util.DeviceUtil;
 import com.jinwang.subao.util.SharedPreferenceUtil;
 import com.jinwang.subao.util.ToastUtil;
@@ -26,6 +28,7 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -214,6 +217,13 @@ public class UserPutSizeActivity extends SubaoBaseActivity {
 
         if (Device.openGrid(bid, cid, new int[10]) == 0) {//如果成功打开箱格
             DeviceUtil.updateGridState(this, bid, cid, DeviceUtil.GRID_STATUS_USED);//更新箱格状态
+
+            CabinetGridDB cabinetGridDB=CabinetGridDB.getInstance();
+            List<CabinetGrid> cabinetGrids=new ArrayList<>();
+            cabinetGrids.add(new CabinetGrid(bid, cid, 1, 0));
+            cabinetGridDB.updateCG(cabinetGrids);
+            //cabinetGridDB.upLoadLocalData();
+
 //                textView.setText(useable - 1);
             //打印面单
 
